@@ -1,5 +1,5 @@
 import React from "react";
-import AppBar from "./AppBar";
+import AppBar from "./layout/AppBar";
 
 class App extends React.Component {
   render() {
