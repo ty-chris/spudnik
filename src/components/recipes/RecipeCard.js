@@ -7,33 +7,35 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 const RecipeCard = ({ recipe }) => {
-    // console.log("current", recipe)
-  return (
-    <div>
-      {recipe ? (
-        <Card style={{height: 'auto'}}>
-          <CardMedia
-            style={{ height: 0, paddingTop: "56.25%" }}
-            image={recipe.image}
-            title={recipe.name}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h4" component="h2">
-              {recipe.name}
-            </Typography>
-            <Typography component="p">
-                {recipe.details}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small" color="primary" href="localhost:3000">
-              Go to Recipe
-            </Button>
-          </CardActions>
-        </Card>
-      ) : null}
-    </div>
-  );
+    console.log("current", recipe);
+    return (
+        <div>
+            {recipe ? (
+                <Card style={{ height: "auto" }}>
+                    <CardMedia
+                        style={{ height: 0, paddingTop: "56.25%" }}
+                        image={recipe.image}
+                        title={recipe.name}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h4" component="h2">
+                            {recipe.name}
+                        </Typography>
+                        <Typography component="p">{recipe.details}</Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button
+                            size="small"
+                            color="primary"
+                            href="localhost:3000"
+                        >
+                            Go to Recipe
+                        </Button>
+                    </CardActions>
+                </Card>
+            ) : null}
+        </div>
+    );
 };
 
 export default RecipeCard;
