@@ -11,15 +11,13 @@ class RecipeList extends React.Component {
   };
 
   componentDidMount() {
-
-    // async call to load recipes
     this.getRecipes().then((recipes) => this.setState({ recipes }));
   }
 
   getRecipes = async () => {
+    // TODO get recipelist from backend - async, await
     const tempRecipes = [];
 
-    // pull recipe data from firestore
     await db
       .collection("recipes")
       .get()
@@ -46,7 +44,7 @@ class RecipeList extends React.Component {
   };
 
   render() {
-    // console.log("recipes", this.state.recipes);
+    console.log("recipes", this.state.recipes);
     return (
       <div>
         {this.state.recipes ? (
@@ -58,10 +56,10 @@ class RecipeList extends React.Component {
               margin="normal"
               onChange={this.searchInputChange}
             />
-            <Grid container spacing={2} style={{ padding: 24, height:"100%" }} >
+            <Grid container spacing={24} style={{ padding: 24 }}>
               {this.state.recipes.map((currentRecipe) => (
                 <Grid
-                  key={currentRecipe.id}
+                  key={currentRecipe.title}
                   item
                   xs={12}
                   sm={6}
