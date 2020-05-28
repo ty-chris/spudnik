@@ -3,7 +3,7 @@ const config = require("../util/config");
 const firebase = require("firebase");
 firebase.initializeApp(config);
 
-const { validateSignUpData } = require("../util/validators");
+const { validateSignUpData, validateLoginData } = require("../util/validators");
 
 exports.signup = (req, res) => {
     const newUser = {
@@ -72,5 +72,34 @@ exports.signup = (req, res) => {
                     general: "Something went wrong, please try again",
                 });
             }
+        });
+};
+
+exports.login = (req, res) => {
+    const user = {
+        email: req.body.email,
+        password: req.body.password,
+    };
+
+    const { errors, valid } = validateLoginData(user);
+
+    if (!valid) {
+        return res.status(400).json(errors);
+    }
+
+    firebase
+        .auth()
+        .signInWithEmailAndPassword(user.email, user.password)
+        .then((data) => {
+            return data.user.getIdToken();
+        })
+        .then((token) => {
+            return res.json({ token });
+        })
+        .catch((err) => {
+            console.error(err);
+            return res
+                .status(403)
+                .json({ general: "Wrong credentials, please try again" });
         });
 };

@@ -38,6 +38,21 @@ exports.validateSignUpData = (data) => {
 
     return {
         errors,
-        valid: Object.keys(errors).length === 0 ? true : false,
+        valid: Object.keys(errors).length === 0,
+    };
+};
+
+exports.validateLoginData = (data) => {
+    let errors = {};
+
+    if (isEmpty(data.email)) {
+        errors.email = "Please input email address";
+    } else if (isEmpty(data.password)) {
+        errors.password = "Please input password";
+    }
+
+    return {
+        errors,
+        valid: Object.keys(errors).length === 0,
     };
 };
