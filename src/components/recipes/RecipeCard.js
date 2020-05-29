@@ -1,4 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+// Theme
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 const RecipeCard = ({ recipe }) => {
     console.log("current", recipe);
     return (
+        // todo make cards same height/overflow description to 2 lines
         <div>
             {recipe ? (
                 <Card style={{ height: "auto" }}>
@@ -24,12 +28,10 @@ const RecipeCard = ({ recipe }) => {
                         <Typography component="p">{recipe.details}</Typography>
                     </CardContent>
                     <CardActions>
-                        <Button
-                            size="small"
-                            color="primary"
-                            href="localhost:3000"
-                        >
-                            Go to Recipe
+                        <Button size="small" color="primary">
+                            <Link to="/" className="item">
+                                Go to Recipe
+                            </Link>
                         </Button>
                     </CardActions>
                 </Card>

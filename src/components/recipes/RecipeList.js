@@ -1,10 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
+import { getRecipesThunk } from "../actions/recipeActions";
+
+//Theme
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { connect } from "react-redux";
 
 import RecipeCard from "./RecipeCard";
-import { getRecipesThunk } from "../actions/recipeActions";
 
 class RecipeList extends React.Component {
     /*onSearchInputChange = (event) => {
@@ -24,7 +26,7 @@ class RecipeList extends React.Component {
         console.log("recipes", this.props.recipes);
         return (
             <div>
-                {this.props.recipes && this.props.recipes.length > 0 ? (
+                {(this.props.recipes && this.props.recipes.length) > 0 ? (
                     <div>
                         <TextField
                             style={{ padding: 24 }}
@@ -61,7 +63,7 @@ class RecipeList extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("state", state);
+    //console.log("state", state);
     return {
         recipes: state.recipes,
     };
