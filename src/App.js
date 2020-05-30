@@ -6,6 +6,8 @@ import RecipeList from "./components/recipes/RecipeList";
 import About from "./components/About";
 import RecipeDetails from "./components/recipes/RecipeDetails";
 import Footer from "./components/layout/Footer";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 
 // Theme
 import { createMuiTheme } from "@material-ui/core/styles";
@@ -33,6 +35,8 @@ class App extends React.Component {
                         <Route path="/recipes" component={RecipeList} />
                         <Route path="/recipes/:id" component={RecipeDetails} />
                         <Route path="/about" component={About} />
+                        <Route path="/login" component={Login} />
+                        <Route path="/signup" component={SignUp} />
                     </Switch>
                 </div>
                 <div>
