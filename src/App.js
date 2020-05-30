@@ -29,15 +29,18 @@ class App extends React.Component {
                 <div className="App">
                     <MuiThemeProvider theme={theme}>
                         <AppBar />
+                        <Switch>
+                            <Route path="/" exact component={RecipeList} />
+                            <Route path="/recipes" component={RecipeList} />
+                            <Route
+                                path="/recipes/:id"
+                                component={RecipeDetails}
+                            />
+                            <Route path="/about" component={About} />
+                            <Route path="/login" component={Login} />
+                            <Route path="/signup" component={SignUp} />
+                        </Switch>
                     </MuiThemeProvider>
-                    <Switch>
-                        <Route path="/" exact component={RecipeList} />
-                        <Route path="/recipes" component={RecipeList} />
-                        <Route path="/recipes/:id" component={RecipeDetails} />
-                        <Route path="/about" component={About} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/signup" component={SignUp} />
-                    </Switch>
                 </div>
                 <div>
                     <Footer />
