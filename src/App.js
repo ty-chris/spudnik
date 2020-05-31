@@ -18,6 +18,13 @@ const theme = createMuiTheme({
     palette: {
         primary: {
             main: "#00bcd4",
+            light: "#88ffff",
+            dark: "#009faf",
+        },
+        secondary: {
+            main: "#ec407a",
+            light: "#ff77a9",
+            dark: "#b4004e",
         },
     },
 });
@@ -31,9 +38,14 @@ class App extends React.Component {
                         <AppBar />
                         <Switch>
                             <Route path="/" exact component={RecipeList} />
-                            <Route path="/recipes" component={RecipeList} />
+                            <Route
+                                path="/recipes"
+                                exact
+                                component={RecipeList}
+                            />
                             <Route
                                 path="/recipes/:id"
+                                exact
                                 component={RecipeDetails}
                             />
                             <Route path="/about" component={About} />

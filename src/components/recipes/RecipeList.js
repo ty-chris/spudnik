@@ -5,7 +5,7 @@ import { getRecipesThunk } from "../actions/recipeActions";
 //Theme
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-
+import LinearProgress from "@material-ui/core/LinearProgress";
 import RecipeCard from "./RecipeCard";
 
 class RecipeList extends React.Component {
@@ -23,7 +23,7 @@ class RecipeList extends React.Component {
     }
 
     render() {
-        console.log("recipes", this.props.recipes);
+        //console.log("recipes", this.props.recipes);
         return (
             <div>
                 {(this.props.recipes && this.props.recipes.length) > 0 ? (
@@ -55,7 +55,7 @@ class RecipeList extends React.Component {
                         </Grid>
                     </div>
                 ) : (
-                    "No recipes found"
+                    <LinearProgress color="secondary" />
                 )}
             </div>
         );
@@ -63,16 +63,15 @@ class RecipeList extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    //console.log("state", state);
+    console.log("state from list", state);
     return {
         recipes: state.recipes,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    dispatch(getRecipesThunk());
     return {
-        getRecipesThunk: getRecipesThunk,
+        getRecipesThunk: () => dispatch(getRecipesThunk()),
     };
 };
 

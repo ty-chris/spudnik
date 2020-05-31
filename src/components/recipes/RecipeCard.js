@@ -1,5 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
+import { connect } from "react-redux";
+
+import RecipeDetails from "./RecipeDetails";
+import { selectRecipe } from "../actions";
 
 // Theme
 import Card from "@material-ui/core/Card";
@@ -29,15 +33,24 @@ const RecipeCard = ({ recipe }) => {
                     </CardContent>
                     <CardActions>
                         <Button size="small" color="primary">
-                            <Link to="/" className="item">
+                            <Link to={`/recipes/${recipe.id}`} className="item">
                                 Go to Recipe
                             </Link>
                         </Button>
                     </CardActions>
                 </Card>
             ) : null}
+
+            <Route path={`/recipes/:recipeId`} component={RecipeDetails} />
         </div>
     );
 };
 
-export default RecipeCard;
+const mapStateToProps = (state) => {
+    console.log("state from card", state);
+    return {
+        recipes: state.recipes,
+    };
+};
+
+export default connect(mapStateToProps, { selectRecipe })(RecipeCard);

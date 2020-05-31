@@ -7,12 +7,10 @@ export const recipesReducer = (state = [], action) => {
     return state;
 };
 
-export const selectedRecipeReducer = (selectedRecipe = null, action) => {
-    if (action.type === "RECIPE_SELECTED") {
+export const getSpecificRecipeReducer = (specificRecipe = null, action) => {
+    if (action.type === "GET_RECIPE") {
         return action.payload;
     }
 
-    return selectedRecipe;
+    return specificRecipe;
 };
-
-export default recipesReducer;
