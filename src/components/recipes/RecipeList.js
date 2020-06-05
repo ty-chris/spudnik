@@ -9,14 +9,14 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import RecipeCard from "./RecipeCard";
 
 class RecipeList extends React.Component {
-    /*onSearchInputChange = (event) => {
-    if (event.target.value) {
-      this.setState({ searchString: event.target.value });
-    } else {
-      this.setState({ setString: "" });
-    }
-    this.getRecipes();
-  };*/
+    onSearchInputChange = (event) => {
+        if (event.target.value) {
+            this.setState({ searchString: event.target.value });
+        } else {
+            this.setState({ setString: "" });
+        }
+        this.getRecipes();
+    };
 
     componentDidMount() {
         this.props.getRecipesThunk();
@@ -33,7 +33,7 @@ class RecipeList extends React.Component {
                             id="searchInput"
                             placeholder="Search for Recipes"
                             margin="normal"
-                            onChange={this.searchInputChange}
+                            onChange={this.onSearchInputChange}
                         />
                         <Grid
                             container
