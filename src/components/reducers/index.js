@@ -5,10 +5,12 @@ import { firebaseReducer } from "react-redux-firebase";
 import { firestoreReducer } from "redux-firestore"; // <- needed if using firestore
 
 import { recipesReducer, getSpecificRecipeReducer } from "./recipeReducer";
+import userReducer from "./userReducer";
 
 export default combineReducers({
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     recipes: recipesReducer,
     specificRecipe: getSpecificRecipeReducer,
+    user: userReducer
 });

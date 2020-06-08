@@ -9,32 +9,33 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 
 import Drawer from "./Drawer";
+import SignOut from "../user/SignOut";
 
 const useStyles = makeStyles((theme) => ({
     grow: {
-        flexGrow: 1,
+        flexGrow: 1
     },
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: theme.spacing(2)
     },
     title: {
         display: "none",
         [theme.breakpoints.up("sm")]: {
-            display: "block",
-        },
+            display: "block"
+        }
     },
     sectionDesktop: {
         display: "none",
         [theme.breakpoints.up("md")]: {
-            display: "flex",
-        },
+            display: "flex"
+        }
     },
     sectionMobile: {
         display: "flex",
         [theme.breakpoints.up("md")]: {
-            display: "none",
-        },
-    },
+            display: "none"
+        }
+    }
 }));
 
 export default function PrimarySearchAppBar() {
@@ -134,6 +135,9 @@ export default function PrimarySearchAppBar() {
                         >
                             <MoreIcon />
                         </IconButton>
+                    </div>
+                    <div>
+                        <SignOut />
                     </div>
                 </Toolbar>
             </AppBar>
