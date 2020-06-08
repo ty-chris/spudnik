@@ -9,7 +9,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 
 import Drawer from "./Drawer";
-import SignOut from "../user/SignOut";
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -135,9 +134,6 @@ export default function PrimarySearchAppBar() {
                         >
                             <MoreIcon />
                         </IconButton>
-                    </div>
-                    <div>
-                        <SignOut />
                     </div>
                 </Toolbar>
             </AppBar>

@@ -8,6 +8,7 @@ import RecipeDetails from "./components/recipes/RecipeDetails";
 import Footer from "./components/layout/Footer";
 import Login from "./components/user/Login";
 import SignUp from "./components/user/SignUp";
+import TempAppBar from "./components/layout/TempAppBar";
 
 // Theme
 import { createMuiTheme } from "@material-ui/core/styles";
@@ -35,7 +36,7 @@ class App extends React.Component {
             <BrowserRouter>
                 <div className="App">
                     <MuiThemeProvider theme={theme}>
-                        <AppBar />
+                        <TempAppBar />
                         <Switch>
                             <Route path="/" exact component={RecipeList} />
                             <Route
