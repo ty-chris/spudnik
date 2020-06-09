@@ -21,7 +21,7 @@ import { getRecipesThunk } from "../actions/recipeActions";
 
 const useStyles = (theme) => ({
     root: {
-        width: "80%",
+        width: "100vw",
         height: "auto",
         display: "flex",
         align: "center",
@@ -31,7 +31,13 @@ const useStyles = (theme) => ({
         position: "justify",
         padding: "20px",
     },
-    table: {},
+    table: {
+        display: "flex",
+        margin: "auto",
+    },
+    card: {
+        margin: "auto",
+    },
 });
 
 class RecipeDetails extends React.Component {
@@ -50,12 +56,14 @@ class RecipeDetails extends React.Component {
         const { classes } = this.props;
         return (
             <div className={classes.root}>
-                <Card className="recipe-details-card">
+                <Card className={classes.card}>
                     <CardMedia
+                        className={classes.media}
                         component="img"
                         alt={this.props.recipe.name}
                         image={this.props.recipe.image}
                         title={this.props.recipe.name}
+                        height="600"
                     />
                     <CardContent>
                         <Typography
@@ -70,10 +78,7 @@ class RecipeDetails extends React.Component {
                             <p>Serves: {this.props.recipe.serves}</p>
                         </Typography>
                         <Box className="classes.table">
-                            <TableContainer
-                                component={Paper}
-                                style={{ width: 600 }}
-                            >
+                            <TableContainer component={Paper}>
                                 <Table>
                                     <TableHead>
                                         <TableRow>

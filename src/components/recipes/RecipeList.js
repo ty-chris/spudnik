@@ -9,21 +9,35 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import RecipeCard from "./RecipeCard";
 
 class RecipeList extends React.Component {
-    onSearchInputChange = (event) => {
-        if (event.target.value) {
-            this.setState({ searchString: event.target.value });
-        } else {
-            this.setState({ setString: "" });
-        }
-        this.getRecipes();
+    state = {
+        searchString: "",
     };
 
     componentDidMount() {
         this.props.getRecipesThunk();
     }
 
+    onSearchInputChange = (event) => {
+        this.setState({
+            searchString: event.target.value,
+        });
+    };
+
     render() {
-        //console.log("recipes", this.props.recipes);
+        console.log("recipes", this.props.recipes);
+        console.log("search", this.state.currentDisplay);
+
+        let currentList = this.props.recipes;
+
+        if (this.state.searchString !== "") {
+            currentList = currentList.filter((recipe) => {
+                const name = recipe.name.toLowerCase();
+                const filter = this.state.searchString.toLowerCase();
+
+                return name.includes(filter);
+            });
+        }
+
         return (
             <div>
                 {(this.props.recipes && this.props.recipes.length) > 0 ? (
@@ -40,7 +54,7 @@ class RecipeList extends React.Component {
                             spacing={2}
                             style={{ padding: 24, height: "100%" }}
                         >
-                            {this.props.recipes.map((currentRecipe) => (
+                            {currentList.map((currentRecipe) => (
                                 <Grid
                                     key={currentRecipe.id}
                                     item

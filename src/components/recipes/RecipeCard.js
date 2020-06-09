@@ -12,6 +12,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const RecipeCard = ({ recipe }) => {
     //console.log("current", recipe);
@@ -20,11 +21,16 @@ const RecipeCard = ({ recipe }) => {
         <div>
             {recipe ? (
                 <Card style={{ height: "auto" }}>
-                    <CardMedia
-                        style={{ height: 0, paddingTop: "56.25%" }}
-                        image={recipe.image}
-                        title={recipe.name}
-                    />
+                    {recipe.image ? (
+                        <CardMedia
+                            style={{ height: 0, paddingTop: "56.25%" }}
+                            image={recipe.image}
+                            title={recipe.name}
+                        />
+                    ) : (
+                        <LinearProgress color="secondary" />
+                    )}
+
                     <CardContent>
                         <Typography gutterBottom variant="h4" component="h2">
                             {recipe.name}

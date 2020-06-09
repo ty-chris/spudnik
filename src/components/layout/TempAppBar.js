@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 // Theme
 import { makeStyles } from "@material-ui/core/styles";
@@ -45,7 +46,13 @@ function TempAppBar(props) {
                 <Toolbar>
                     <Drawer />
                     <Typography className={classes.title} variant="h6" noWrap>
-                        TheMunchingChef
+                        <Link
+                            to={`/`}
+                            className="item"
+                            style={{ textDecoration: "none", color: "inherit" }}
+                        >
+                            TheMunchingChef
+                        </Link>
                     </Typography>
                     {links}
                 </Toolbar>
