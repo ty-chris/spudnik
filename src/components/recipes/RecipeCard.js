@@ -14,7 +14,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 const RecipeCard = ({ recipe }) => {
-    console.log("current", recipe);
+    //console.log("current", recipe);
     return (
         // todo make cards same height/overflow description to 2 lines
         <div>
@@ -47,9 +47,9 @@ const RecipeCard = ({ recipe }) => {
 };
 
 const mapStateToProps = (state) => {
-    console.log("state from card", state);
+    //console.log("state from card", state);
     return {
-        recipes: state.recipes
+        recipes: state.recipes,
     };
 };
 

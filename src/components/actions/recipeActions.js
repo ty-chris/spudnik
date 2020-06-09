@@ -36,6 +36,6 @@ export const getSpecificRecipeThunk = (specificID) => async (dispatch) => {
             recipe = querySnapshot.docs;
         });
 
-    console.log("payload", recipe);
+    //console.log("payload", recipe);
     dispatch({ type: "GET_RECIPE", payload: recipe });
 };

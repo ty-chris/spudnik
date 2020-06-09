@@ -63,7 +63,7 @@ class RecipeList extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("state from list", state);
+    //console.log("state from list", state);
     return {
         recipes: state.recipes,
     };

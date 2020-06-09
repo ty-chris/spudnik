@@ -1,11 +1,10 @@
 import React from "react";
 
 // Components
-import AppBar from "./components/layout/AppBar";
 import RecipeList from "./components/recipes/RecipeList";
 import About from "./components/About";
 import RecipeDetails from "./components/recipes/RecipeDetails";
-import Footer from "./components/layout/Footer";
+import StickyFooter from "./components/layout/StickyFooter";
 import Login from "./components/user/Login";
 import SignUp from "./components/user/SignUp";
 import TempAppBar from "./components/layout/TempAppBar";
@@ -20,14 +19,14 @@ const theme = createMuiTheme({
         primary: {
             main: "#00bcd4",
             light: "#88ffff",
-            dark: "#009faf"
+            dark: "#009faf",
         },
         secondary: {
             main: "#ec407a",
             light: "#ff77a9",
-            dark: "#b4004e"
-        }
-    }
+            dark: "#b4004e",
+        },
+    },
 });
 
 class App extends React.Component {
@@ -56,7 +55,7 @@ class App extends React.Component {
                     </MuiThemeProvider>
                 </div>
                 <div>
-                    <Footer />
+                    <StickyFooter />
                 </div>
             </BrowserRouter>
         );

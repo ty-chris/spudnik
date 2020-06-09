@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 
 // Components
 import Drawer from "./Drawer";
@@ -13,11 +14,20 @@ import SignedOutLinks from "./SignedOutLinks";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1
+        flexGrow: 1,
+    },
+    title: {
+        flexGrow: 1,
+        textAlign: "center",
+        display: "none",
+        [theme.breakpoints.up("sm")]: {
+            display: "block",
+        },
+        margin: "auto",
     },
     adminOptions: {
-        marginLeft: theme.spacing(1)
-    }
+        marginLeft: theme.spacing(1),
+    },
 }));
 
 function TempAppBar(props) {
@@ -34,6 +44,9 @@ function TempAppBar(props) {
             <AppBar position="static">
                 <Toolbar>
                     <Drawer />
+                    <Typography className={classes.title} variant="h6" noWrap>
+                        TheMunchingChef
+                    </Typography>
                     {links}
                 </Toolbar>
             </AppBar>
@@ -43,7 +56,7 @@ function TempAppBar(props) {
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
     };
 };
 

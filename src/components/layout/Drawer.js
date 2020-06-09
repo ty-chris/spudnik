@@ -17,25 +17,11 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
-const drawerWidth = 180;
+const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
-    },
-    appBar: {
-        transition: theme.transitions.create(["margin", "width"], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-    },
-    appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-        transition: theme.transitions.create(["margin", "width"], {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -102,9 +88,6 @@ export default function PersistentDrawerLeft() {
                 >
                     <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" noWrap>
-                    TheMunchingChef
-                </Typography>
             </Toolbar>
             <Drawer
                 className={classes.drawer}
