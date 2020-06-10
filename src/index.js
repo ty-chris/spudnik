@@ -18,9 +18,9 @@ const enhancers = composeEnhancers(
 const store = createStore(reducer, enhancers);
 
 const rrfConfig = {
-    // userProfile: 'users',
-    // useFirestoreForProfile: true,
-    // attachAuthIsReady: true
+    userProfile: "users",
+    useFirestoreForProfile: true,
+    attachAuthIsReady: true
 };
 const rrfProps = {
     firebase,

@@ -41,3 +41,44 @@ export const signUp = (newUser) => (dispatch, getState, getFirebase) => {
             dispatch({ type: "SIGNUP_FAILED", payload: err });
         });
 };
+
+export const fetchComments = (recipeId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const comments = [];
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("recipes")
+        .doc(recipeId)
+        .collection("comments")
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs.forEach((doc) => {
+                comments.push({ ...doc.data(), id: doc.id });
+            });
+            dispatch({ type: "FETCH_COMMENTS", payload: comments });
+        });
+};
+
+export const postComment = (comment, recipeId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("recipes")
+        .doc(recipeId)
+        .collection("comments")
+        .add({
+            body: comment.body,
+            commentAuthor: comment.commentAuthor,
+            uid: comment.uid,
+            createdAt: new Date()
+        })
+        .then(() => {
+            dispatch({ type: "COMMENT_POSTED" });
+        });
+};

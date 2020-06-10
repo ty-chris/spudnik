@@ -1,5 +1,6 @@
 const INIT_STATE = {
-    error: null
+    error: null,
+    comments: []
 };
 
 export default (state = INIT_STATE, action) => {
@@ -31,6 +32,16 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 error: action.payload.message
             };
+        case "FETCH_COMMENTS":
+            console.log("fetched comments");
+            return {
+                ...state,
+                error: null,
+                comments: action.payload
+            };
+        case "COMMENT_POSTED":
+            console.log("comment posted");
+            return state;
         default:
             return state;
     }
