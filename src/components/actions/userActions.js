@@ -90,3 +90,7 @@ export const postComment = (comment, recipeId) => (
                 });
         });
 };
+
+export const clearComments = () => {
+    return { type: "CLEAR_COMMENTS", payload: [] };
+};

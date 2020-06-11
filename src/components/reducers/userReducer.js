@@ -42,6 +42,12 @@ export default (state = INIT_STATE, action) => {
         case "COMMENT_POSTED":
             console.log("comment posted");
             return state;
+        case "CLEAR_COMMENTS":
+            console.log("comments cleared");
+            return {
+                ...state,
+                comments: action.payload
+            };
         default:
             return state;
     }
