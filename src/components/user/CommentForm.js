@@ -20,17 +20,20 @@ class CommentForm extends React.Component {
         event.preventDefault();
         const comment = {
             body: this.state.body,
-            commentAuthor: this.props.profile.username,
+            createdBy: this.props.profile.username,
             uid: this.props.auth.uid
         };
-        // to be removed
-        const recipeId = "4";
-        this.props.postComment(comment, recipeId);
+        this.props.postComment(comment, this.props.recipeId);
         this.props.onSubmit();
         this.setState({ body: "" });
     };
 
     render() {
+        const { auth } = this.props;
+        if (!auth.uid) {
+            return null;
+        }
+
         return (
             <div>
                 <Grid container spacing={1} alignItems="flex-end">

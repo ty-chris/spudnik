@@ -51,14 +51,18 @@ export const fetchComments = (recipeId) => (
     const firestore = getFirebase().firestore();
     firestore
         .collection("recipes")
-        .doc(recipeId)
-        .collection("comments")
+        .where("id", "==", recipeId)
         .get()
         .then((querySnapshot) => {
-            querySnapshot.docs.forEach((doc) => {
-                comments.push({ ...doc.data(), id: doc.id });
-            });
-            dispatch({ type: "FETCH_COMMENTS", payload: comments });
+            querySnapshot.docs[0].ref
+                .collection("comments")
+                .get()
+                .then((qSnapshot) => {
+                    qSnapshot.docs.forEach((doc) => {
+                        comments.push({ ...doc.data(), id: doc.id });
+                    });
+                    dispatch({ type: "FETCH_COMMENTS", payload: comments });
+                });
         });
 };
 
@@ -70,15 +74,19 @@ export const postComment = (comment, recipeId) => (
     const firestore = getFirebase().firestore();
     firestore
         .collection("recipes")
-        .doc(recipeId)
-        .collection("comments")
-        .add({
-            body: comment.body,
-            commentAuthor: comment.commentAuthor,
-            uid: comment.uid,
-            createdAt: new Date()
-        })
-        .then(() => {
-            dispatch({ type: "COMMENT_POSTED" });
+        .where("id", "==", recipeId)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs[0].ref
+                .collection("comments")
+                .add({
+                    body: comment.body,
+                    createdBy: comment.createdBy,
+                    uid: comment.uid,
+                    createdAt: new Date()
+                })
+                .then(() => {
+                    dispatch({ type: "COMMENT_POSTED" });
+                });
         });
 };

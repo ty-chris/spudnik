@@ -19,25 +19,27 @@ import Box from "@material-ui/core/Box";
 
 import { getRecipesThunk } from "../actions/recipeActions";
 
+import CommentList from "../user/CommentList";
+
 const useStyles = (theme) => ({
     root: {
         width: "100vw",
         height: "auto",
         display: "flex",
         align: "center",
-        margin: "auto",
+        margin: "auto"
     },
     directions: {
         position: "justify",
-        padding: "20px",
+        padding: "20px"
     },
     table: {
         display: "flex",
-        margin: "auto",
+        margin: "auto"
     },
     card: {
-        margin: "auto",
-    },
+        margin: "auto"
+    }
 });
 
 class RecipeDetails extends React.Component {
@@ -141,6 +143,9 @@ class RecipeDetails extends React.Component {
                             Favourite
                         </Button>
                     </CardActions>
+                    <CardContent>
+                        <CommentList recipeId={this.props.recipe.id} />
+                    </CardContent>
                 </Card>
             </div>
         );
@@ -157,13 +162,13 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         recipes: recipes,
-        recipe: recipe,
+        recipe: recipe
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getRecipesThunk: () => dispatch(getRecipesThunk()),
+        getRecipesThunk: () => dispatch(getRecipesThunk())
     };
 };
 

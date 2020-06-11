@@ -9,7 +9,7 @@ const CommentDetails = (props) => {
         <ListItem alignItems="flex-start">
             <ListItemText
                 primary={comment.body}
-                secondary={comment.commentAuthor}
+                secondary={comment.createdBy}
             />
         </ListItem>
     );

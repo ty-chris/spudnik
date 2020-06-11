@@ -9,9 +9,6 @@ import Login from "./components/user/Login";
 import SignUp from "./components/user/SignUp";
 import TempAppBar from "./components/layout/TempAppBar";
 
-// to be removed
-import CommentList from "./components/user/CommentList";
-
 // Theme
 import { createMuiTheme } from "@material-ui/core/styles";
 import { MuiThemeProvider } from "@material-ui/core/styles";
@@ -54,7 +51,6 @@ class App extends React.Component {
                             <Route path="/about" component={About} />
                             <Route path="/login" component={Login} />
                             <Route path="/signup" component={SignUp} />
-                            <Route path="/comments" component={CommentList} />
                         </Switch>
                     </MuiThemeProvider>
                 </div>

@@ -14,15 +14,11 @@ import { fetchComments } from "../actions/userActions";
 
 class CommentList extends React.Component {
     componentDidMount() {
-        // to be removed
-        const recipeId = "4";
-        this.props.fetchComments(recipeId);
+        this.props.fetchComments(this.props.recipeId);
     }
 
     handleSubmit = () => {
-        // to be removed
-        const recipeId = "4";
-        this.props.fetchComments(recipeId);
+        this.props.fetchComments(this.props.recipeId);
     };
 
     renderList() {
@@ -43,7 +39,10 @@ class CommentList extends React.Component {
                     <Typography>Comments</Typography>
                     {this.renderList()}
                 </List>
-                <CommentForm onSubmit={this.handleSubmit} />
+                <CommentForm
+                    onSubmit={this.handleSubmit}
+                    recipeId={this.props.recipeId}
+                />
             </Container>
         );
     }
