@@ -24,8 +24,8 @@ class RecipeList extends React.Component {
     };
 
     render() {
-        console.log("recipes", this.props.recipes);
-        console.log("search", this.state.currentDisplay);
+        //console.log("recipes", this.props.recipes);
+        //console.log("search", this.state.currentDisplay);
 
         let currentList = this.props.recipes;
 

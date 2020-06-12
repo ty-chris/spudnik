@@ -16,6 +16,11 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
+import NativeSelect from "@material-ui/core/NativeSelect";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Grid from "@material-ui/core/Grid";
 
 import { getRecipesThunk } from "../actions/recipeActions";
 
@@ -27,35 +32,74 @@ const useStyles = (theme) => ({
         height: "auto",
         display: "flex",
         align: "center",
-        margin: "auto"
+        margin: "auto",
     },
     directions: {
         position: "justify",
-        padding: "20px"
+        padding: "20px",
     },
     table: {
         display: "flex",
-        margin: "auto"
+        margin: "auto",
     },
     card: {
-        margin: "auto"
-    }
+        margin: "auto",
+    },
+    formControl: {
+        position: "flex",
+        minWidth: 100,
+    },
 });
 
 class RecipeDetails extends React.Component {
+    state = {
+        numServes: "",
+    };
+
     componentDidMount() {
         if (!this.props.recipe) {
             this.props.getRecipesThunk();
         }
     }
 
+    handleChangeServe = (event) => {
+        this.setState({
+            numServes: event.target.value,
+        });
+    };
+
     render() {
-        console.log("details prop", this.props);
+        const { classes } = this.props;
+
         if (!this.props.recipe) {
             return null;
         }
 
-        const { classes } = this.props;
+        let currAmount = this.props.recipe.amount;
+
+        if (
+            this.state.numServes !== "" &&
+            this.state.numServes !== this.props.recipe.serves
+        ) {
+            currAmount = currAmount.map((amount) => {
+                var split = amount.split(" ");
+
+                if (!isNaN(split[0]) && split[0] !== "") {
+                    var newAmount =
+                        (split[0] / this.props.recipe.serves) *
+                        this.state.numServes;
+                } else {
+                    return amount;
+                }
+
+                if (split.length > 1) {
+                    return Math.round(newAmount * 100) / 100 + " " + split[1];
+                } else {
+                    return Math.round(newAmount * 100) / 100;
+                }
+            });
+        }
+
         return (
             <div className={classes.root}>
                 <Card className={classes.card}>
@@ -77,8 +121,34 @@ class RecipeDetails extends React.Component {
                             <p>
                                 Cook Time: {this.props.recipe.duration} Minutes
                             </p>
-                            <p>Serves: {this.props.recipe.serves}</p>
                         </Typography>
+                        <Grid container justify="center">
+                            <FormControl className={classes.formControl}>
+                                <InputLabel htmlFor="number-serves">
+                                    Servings
+                                </InputLabel>
+                                <NativeSelect
+                                    defaultValue={this.props.recipe.serves}
+                                    inputProps={{
+                                        name: "serves",
+                                        id: "number-serves",
+                                    }}
+                                    onChange={this.handleChangeServe}
+                                >
+                                    <option value={1}>1</option>
+                                    <option value={2}>2</option>
+                                    <option value={3}>3</option>
+                                    <option value={4}>4</option>
+                                    <option value={5}>5</option>
+                                    <option value={6}>6</option>
+                                    <option value={7}>7</option>
+                                    <option value={8}>8</option>
+                                </NativeSelect>
+                                <FormHelperText>
+                                    Input number of servings
+                                </FormHelperText>
+                            </FormControl>
+                        </Grid>
                         <Box className="classes.table">
                             <TableContainer component={Paper}>
                                 <Table>
@@ -103,10 +173,7 @@ class RecipeDetails extends React.Component {
                                                         {ingredient}
                                                     </TableCell>
                                                     <TableCell>
-                                                        {
-                                                            this.props.recipe
-                                                                .amount[index]
-                                                        }
+                                                        {currAmount[index]}
                                                     </TableCell>
                                                 </TableRow>
                                             )
@@ -120,7 +187,6 @@ class RecipeDetails extends React.Component {
                                 gutterBottom
                                 align="left"
                                 variant="body1"
-                                classes
                                 color="textSecondary"
                                 component="span"
                             >
@@ -158,17 +224,17 @@ const mapStateToProps = (state, ownProps) => {
     const recipes = state.recipes;
     const recipe = recipes.find(({ id }) => id === ownProps.match.params.id);
 
-    console.log("detailed recipe", recipe);
+    //console.log("detailed recipe", recipe);
 
     return {
         recipes: recipes,
-        recipe: recipe
+        recipe: recipe,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getRecipesThunk: () => dispatch(getRecipesThunk())
+        getRecipesThunk: () => dispatch(getRecipesThunk()),
     };
 };
 

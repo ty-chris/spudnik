@@ -20,7 +20,7 @@ const RecipeCard = ({ recipe }) => {
         // todo make cards same height/overflow description to 2 lines
         <div>
             {recipe ? (
-                <Card style={{ height: "auto" }}>
+                <Card style={{ height: "42vh" }}>
                     {recipe.image ? (
                         <CardMedia
                             style={{ height: 0, paddingTop: "56.25%" }}
@@ -32,7 +32,12 @@ const RecipeCard = ({ recipe }) => {
                     )}
 
                     <CardContent>
-                        <Typography gutterBottom variant="h4" component="h2">
+                        <Typography
+                            gutterBottom
+                            variant="h4"
+                            component="h2"
+                            noWrap
+                        >
                             {recipe.name}
                         </Typography>
                         <Typography component="p">{recipe.details}</Typography>
