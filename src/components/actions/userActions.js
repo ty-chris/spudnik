@@ -94,3 +94,73 @@ export const postComment = (comment, recipeId) => (
 export const clearComments = () => {
     return { type: "CLEAR_COMMENTS", payload: [] };
 };
+
+export const likeRecipe = (user, recipeId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("recipes")
+        .where("id", "==", recipeId)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs[0].ref
+                .collection("likes")
+                .doc(`${user.uid}`)
+                .set({
+                    createdBy: user.username,
+                    createdAt: new Date()
+                })
+                .then(() => {
+                    dispatch({ type: "RECIPE_LIKED" });
+                });
+        });
+};
+
+export const hasLikedRecipe = (userId, recipeId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("recipes")
+        .where("id", "==", recipeId)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs[0].ref
+                .collection("likes")
+                .doc(`${userId}`)
+                .get()
+                .then((documentSnapshot) => {
+                    if (documentSnapshot.exists) {
+                        dispatch({ type: "HAS_LIKED_RECIPE" });
+                    } else {
+                        dispatch({ type: "HAS_NOT_LIKED_RECIPE" });
+                    }
+                });
+        });
+};
+
+export const unlikeRecipe = (userId, recipeId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("recipes")
+        .where("id", "==", recipeId)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs[0].ref
+                .collection("likes")
+                .doc(`${userId}`)
+                .delete()
+                .then(() => {
+                    dispatch({ type: "RECIPE_UNLIKED" });
+                });
+        });
+};

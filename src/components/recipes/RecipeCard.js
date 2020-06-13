@@ -20,7 +20,7 @@ const RecipeCard = ({ recipe }) => {
         // todo make cards same height/overflow description to 2 lines
         <div>
             {recipe ? (
-                <Card style={{ height: "42vh" }}>
+                <Card style={{ height: "auto" }}>
                     {recipe.image ? (
                         <CardMedia
                             style={{ height: 0, paddingTop: "56.25%" }}
@@ -60,7 +60,7 @@ const RecipeCard = ({ recipe }) => {
 const mapStateToProps = (state) => {
     //console.log("state from card", state);
     return {
-        recipes: state.recipes,
+        recipes: state.recipes
     };
 };
 

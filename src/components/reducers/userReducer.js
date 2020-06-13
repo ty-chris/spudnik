@@ -1,6 +1,7 @@
 const INIT_STATE = {
     error: null,
-    comments: []
+    comments: [],
+    hasLikedRecipe: null
 };
 
 export default (state = INIT_STATE, action) => {
@@ -47,6 +48,30 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 comments: action.payload
+            };
+        case "RECIPE_LIKED":
+            console.log("recipe liked");
+            return {
+                ...state,
+                hasLikedRecipe: true
+            };
+        case "HAS_LIKED_RECIPE":
+            console.log("user has liked recipe");
+            return {
+                ...state,
+                hasLikedRecipe: true
+            };
+        case "HAS_NOT_LIKED_RECIPE":
+            console.log("user has not liked recipe");
+            return {
+                ...state,
+                hasLikedRecipe: false
+            };
+        case "RECIPE_UNLIKED":
+            console.log("recipe unliked");
+            return {
+                ...state,
+                hasLikedRecipe: false
             };
         default:
             return state;
