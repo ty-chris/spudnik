@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -10,7 +11,9 @@ import { fetchFav } from "../actions/userActions";
 
 class Favourites extends React.Component {
     componentDidMount() {
-        this.props.fetchFav(this.props.uid);
+        if (this.props.uid) {
+            this.props.fetchFav(this.props.uid);
+        }
     }
 
     renderFav() {
@@ -25,6 +28,9 @@ class Favourites extends React.Component {
     }
 
     render() {
+        if (!this.props.uid) {
+            return <Redirect to="/login" />;
+        }
         return (
             <List>
                 <Typography>Favourites</Typography>
