@@ -1,4 +1,5 @@
 import React from "react";
+import ReactPlayer from "react-player/youtube";
 import { connect } from "react-redux";
 
 import Card from "@material-ui/core/Card";
@@ -111,6 +112,22 @@ class RecipeDetails extends React.Component {
                         title={this.props.recipe.name}
                         height="600"
                     />
+                    {this.props.recipe.video ? (
+                        <ReactPlayer
+                            url={this.props.recipe.video}
+                            height="540px"
+                            width="960px"
+                            config={{
+                                youtube: {
+                                    playerVars: { controls: 1 },
+                                },
+                            }}
+                            style={{
+                                margin: "auto",
+                                paddingTop: "20px",
+                            }}
+                        />
+                    ) : null}
                     <CardContent>
                         <Typography
                             variant="h6"
