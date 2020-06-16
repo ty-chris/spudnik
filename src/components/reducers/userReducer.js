@@ -1,7 +1,10 @@
 const INIT_STATE = {
+    isLoggedIn: null,
     error: null,
     comments: [],
-    hasLikedRecipe: null
+    hasLikedRecipe: null,
+    hasFavouritedRecipe: null,
+    favouritedRecipes: []
 };
 
 export default (state = INIT_STATE, action) => {
@@ -10,44 +13,52 @@ export default (state = INIT_STATE, action) => {
             console.log("login success");
             return {
                 ...state,
+                isLoggedIn: true,
                 error: null
             };
         case "LOGIN_FAILED":
             console.log("login failed");
             return {
                 ...state,
+                isLoggedIn: false,
                 error: action.payload.message
             };
         case "SIGNOUT_SUCCESS":
             console.log("signout success");
-            return state;
+            return {
+                ...state,
+                isLoggedIn: false
+            };
         case "SIGNUP_SUCCESS":
             console.log("signup success");
             return {
                 ...state,
+                isLoggedIn: true,
                 error: null
             };
         case "SIGNUP_FAILED":
             console.log("signup failed");
             return {
                 ...state,
+                isLoggedIn: false,
                 error: action.payload.message
             };
         case "FETCH_COMMENTS":
             console.log("fetched comments");
             return {
                 ...state,
-                error: null,
                 comments: action.payload
             };
         case "COMMENT_POSTED":
             console.log("comment posted");
             return state;
-        case "CLEAR_COMMENTS":
-            console.log("comments cleared");
+        case "CLEAR_FEEDBACK":
+            console.log("feedback cleared");
             return {
                 ...state,
-                comments: action.payload
+                comments: [],
+                hasLikedRecipe: false,
+                hasFavouritedRecipe: false
             };
         case "RECIPE_LIKED":
             console.log("recipe liked");
@@ -72,6 +83,36 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 hasLikedRecipe: false
+            };
+        case "RECIPE_FAVOURITED":
+            console.log("recipe favourited");
+            return {
+                ...state,
+                hasFavouritedRecipe: true
+            };
+        case "RECIPE_UNFAVOURITED":
+            console.log("recipe unfavourited");
+            return {
+                ...state,
+                hasFavouritedRecipe: false
+            };
+        case "FETCH_FAVOURITES":
+            console.log("fetched favourites");
+            return {
+                ...state,
+                favouritedRecipes: action.payload
+            };
+        case "HAS_FAVOURITED_RECIPE":
+            console.log("user has favourited recipe");
+            return {
+                ...state,
+                hasFavouritedRecipe: true
+            };
+        case "HAS_NOT_FAVOURITED_RECIPE":
+            console.log("user has not favourited recipe");
+            return {
+                ...state,
+                hasFavouritedRecipe: false
             };
         default:
             return state;

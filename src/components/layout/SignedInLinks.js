@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 // theme
 //import { makeStyles } from "@material-ui/core/styles";
@@ -26,7 +27,7 @@ const SignedInLinks = (props) => {
         setAnchorEl(null);
     };
 
-    const handleClick = () => {
+    const handleSignOutClick = () => {
         props.signOut();
     };
 
@@ -46,17 +47,24 @@ const SignedInLinks = (props) => {
                 anchorEl={anchorEl}
                 anchorOrigin={{
                     vertical: "top",
-                    horizontal: "right",
+                    horizontal: "right"
                 }}
                 keepMounted
                 transformOrigin={{
                     vertical: "top",
-                    horizontal: "right",
+                    horizontal: "right"
                 }}
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClick}>Sign Out</MenuItem>
+                <MenuItem
+                    component={Link}
+                    to="/favourites"
+                    onClick={handleClose}
+                >
+                    View Favourites
+                </MenuItem>
+                <MenuItem onClick={handleSignOutClick}>Sign Out</MenuItem>
             </Menu>
         </div>
     );

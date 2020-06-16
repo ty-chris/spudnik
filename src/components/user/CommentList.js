@@ -10,15 +10,11 @@ import Container from "@material-ui/core/Container";
 // Components
 import CommentDetails from "./CommentDetails";
 import CommentForm from "./CommentForm";
-import { fetchComments, clearComments } from "../actions/userActions";
+import { fetchComments } from "../actions/userActions";
 
 class CommentList extends React.Component {
     componentDidMount() {
         this.props.fetchComments(this.props.recipeId);
-    }
-
-    componentWillUnmount() {
-        this.props.clearComments();
     }
 
     handleSubmit = () => {
@@ -56,6 +52,4 @@ const mapStateToProps = (state) => {
     return { comments: state.user.comments };
 };
 
-export default connect(mapStateToProps, { fetchComments, clearComments })(
-    CommentList
-);
+export default connect(mapStateToProps, { fetchComments })(CommentList);
