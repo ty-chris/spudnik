@@ -60,7 +60,7 @@ const RecipeCard = ({ recipe }) => {
 const mapStateToProps = (state) => {
     //console.log("state from card", state);
     return {
-        recipes: state.recipes,
+        recipes: state.recipes
     };
 };
 

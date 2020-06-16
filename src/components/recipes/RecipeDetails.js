@@ -24,6 +24,11 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Grid from "@material-ui/core/Grid";
 
 import { getRecipesThunk } from "../actions/recipeActions";
+import {
+    likeRecipe,
+    hasLikedRecipe,
+    unlikeRecipe
+} from "../actions/userActions";
 
 import CommentList from "../user/CommentList";
 
@@ -33,41 +38,77 @@ const useStyles = (theme) => ({
         height: "auto",
         display: "flex",
         align: "center",
-        margin: "auto",
+        margin: "auto"
     },
     directions: {
         position: "justify",
-        padding: "20px",
+        padding: "20px"
     },
     table: {
         display: "flex",
-        margin: "auto",
+        margin: "auto"
     },
     card: {
-        margin: "auto",
+        margin: "auto"
     },
     formControl: {
         position: "flex",
-        minWidth: 100,
-    },
+        minWidth: 100
+    }
 });
 
 class RecipeDetails extends React.Component {
     state = {
-        numServes: "",
+        numServes: ""
     };
 
     componentDidMount() {
         if (!this.props.recipe) {
             this.props.getRecipesThunk();
         }
+        if (this.props.uid) {
+            this.props.hasLikedRecipe(this.props.uid, this.props.recipe.id);
+        }
     }
 
     handleChangeServe = (event) => {
         this.setState({
-            numServes: event.target.value,
+            numServes: event.target.value
         });
     };
+
+    handleLike = () => {
+        if (this.props.uid) {
+            const user = {
+                uid: this.props.uid,
+                username: this.props.profile.username
+            };
+            this.props.likeRecipe(user, this.props.recipe.id);
+        }
+    };
+
+    handleUnlike = () => {
+        this.props.unlikeRecipe(this.props.uid, this.props.recipe.id);
+    };
+
+    renderLikeButton() {
+        if (this.props.liked) {
+            return (
+                <Button
+                    size="small"
+                    color="primary"
+                    onClick={this.handleUnlike}
+                >
+                    Unlike
+                </Button>
+            );
+        }
+        return (
+            <Button size="small" color="primary" onClick={this.handleLike}>
+                Like
+            </Button>
+        );
+    }
 
     render() {
         const { classes } = this.props;
@@ -148,7 +189,7 @@ class RecipeDetails extends React.Component {
                                     defaultValue={this.props.recipe.serves}
                                     inputProps={{
                                         name: "serves",
-                                        id: "number-serves",
+                                        id: "number-serves"
                                     }}
                                     onChange={this.handleChangeServe}
                                 >
@@ -219,9 +260,7 @@ class RecipeDetails extends React.Component {
                         </Box>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" color="primary">
-                            Like
-                        </Button>
+                        {this.renderLikeButton()}
                         <Button size="small" color="primary">
                             Favourite
                         </Button>
@@ -246,12 +285,20 @@ const mapStateToProps = (state, ownProps) => {
     return {
         recipes: recipes,
         recipe: recipe,
+        uid: state.firebase.auth.uid,
+        profile: state.firebase.profile,
+        liked: state.user.hasLikedRecipe
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getRecipesThunk: () => dispatch(getRecipesThunk()),
+        likeRecipe: (user, recipeId) => dispatch(likeRecipe(user, recipeId)),
+        hasLikedRecipe: (userId, recipeId) =>
+            dispatch(hasLikedRecipe(userId, recipeId)),
+        unlikeRecipe: (userId, recipeId) =>
+            dispatch(unlikeRecipe(userId, recipeId))
     };
 };
 
