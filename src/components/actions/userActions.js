@@ -91,8 +91,8 @@ export const postComment = (comment, recipeId) => (
         });
 };
 
-export const clearComments = () => {
-    return { type: "CLEAR_COMMENTS", payload: [] };
+export const clearFeedback = () => {
+    return { type: "CLEAR_FEEDBACK" };
 };
 
 export const likeRecipe = (user, recipeId) => (
@@ -162,5 +162,79 @@ export const unlikeRecipe = (userId, recipeId) => (
                 .then(() => {
                     dispatch({ type: "RECIPE_UNLIKED" });
                 });
+        });
+};
+
+export const favARecipe = (userId, recipeId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("users")
+        .doc(`${userId}`)
+        .collection("favourites")
+        .doc(recipeId)
+        .set({
+            id: recipeId,
+            createdAt: new Date()
+        })
+        .then(() => {
+            dispatch({ type: "RECIPE_FAVOURITED" });
+        });
+};
+
+export const unfavARecipe = (userId, recipeId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("users")
+        .doc(`${userId}`)
+        .collection("favourites")
+        .where("id", "==", recipeId)
+        .delete()
+        .then(() => {
+            dispatch({ type: "RECIPE_UNFAVOURITED" });
+        });
+};
+
+export const fetchFav = (userId) => (dispatch, getState, getFirebase) => {
+    const recipeIds = [];
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("users")
+        .doc(`${userId}`)
+        .collection("favourites")
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs.forEach((doc) => {
+                recipeIds.push(doc.get("id"));
+            });
+            dispatch({ type: "FETCH_FAVOURITES", payload: recipeIds });
+        });
+};
+
+export const hasFavRecipe = (userId, recipeId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("users")
+        .doc(`${userId}`)
+        .collection("favourites")
+        .doc(recipeId)
+        .get()
+        .then((documentSnapshot) => {
+            if (documentSnapshot.exists) {
+                dispatch({ type: "HAS_FAVOURITED_RECIPE" });
+            } else {
+                dispatch({ type: "HAS_NOT_FAVOURITED_RECIPE" });
+            }
         });
 };

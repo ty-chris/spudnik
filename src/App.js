@@ -8,6 +8,7 @@ import StickyFooter from "./components/layout/StickyFooter";
 import Login from "./components/user/Login";
 import SignUp from "./components/user/SignUp";
 import TempAppBar from "./components/layout/TempAppBar";
+import Favourites from "./components/user/Favourites";
 
 // Theme
 import { createMuiTheme } from "@material-ui/core/styles";
@@ -51,6 +52,7 @@ class App extends React.Component {
                             <Route path="/about" component={About} />
                             <Route path="/login" component={Login} />
                             <Route path="/signup" component={SignUp} />
+                            <Route path="/favourites" component={Favourites} />
                         </Switch>
                     </MuiThemeProvider>
                 </div>
