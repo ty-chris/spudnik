@@ -3,14 +3,15 @@ import "firebase/auth";
 import "firebase/firestore"; // <- needed if using firestore
 import { firebaseReducer } from "react-redux-firebase";
 import { firestoreReducer } from "redux-firestore"; // <- needed if using firestore
+import { reducer as formReducer } from "redux-form";
 
-import { recipesReducer, getSpecificRecipeReducer } from "./recipeReducer";
+import { recipesReducer } from "./recipeReducer";
 import userReducer from "./userReducer";
 
 export default combineReducers({
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     recipes: recipesReducer,
-    specificRecipe: getSpecificRecipeReducer,
-    user: userReducer
+    user: userReducer,
+    form: formReducer,
 });

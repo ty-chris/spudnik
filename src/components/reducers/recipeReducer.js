@@ -6,11 +6,3 @@ export const recipesReducer = (state = [], action) => {
 
     return state;
 };
-
-export const getSpecificRecipeReducer = (specificRecipe = null, action) => {
-    if (action.type === "GET_RECIPE") {
-        return action.payload;
-    }
-
-    return specificRecipe;
-};

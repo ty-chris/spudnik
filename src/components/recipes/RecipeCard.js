@@ -3,7 +3,6 @@ import { Link, Route } from "react-router-dom";
 import { connect } from "react-redux";
 
 import RecipeDetails from "./RecipeDetails";
-import { getSpecificRecipeThunk } from "../actions/recipeActions";
 
 // Theme
 import Card from "@material-ui/core/Card";
@@ -60,8 +59,8 @@ const RecipeCard = ({ recipe }) => {
 const mapStateToProps = (state) => {
     //console.log("state from card", state);
     return {
-        recipes: state.recipes
+        recipes: state.recipes,
     };
 };
 
-export default connect(mapStateToProps, { getSpecificRecipeThunk })(RecipeCard);
+export default connect(mapStateToProps)(RecipeCard);
