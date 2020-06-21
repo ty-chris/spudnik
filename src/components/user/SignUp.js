@@ -1,123 +1,145 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { Field, reduxForm } from "redux-form";
+
+// Action creator
 import { signUp } from "../actions/userActions";
 
 // Theme
-import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Avatar from "@material-ui/core/Avatar";
+import FasfoodTwoToneIcon from "@material-ui/icons/FastfoodTwoTone";
 
-const styles = {
-    form: {
-        textAlign: "center"
-    },
-    pageTitle: {
-        margin: 20
-    },
-    textField: {
-        margin: 5
-    },
-    button: {
-        margin: 20
-    }
+const required = (value) => (value ? undefined : "Required");
+
+const email = (value) =>
+    value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
+        ? "Invalid email address"
+        : undefined;
+
+const passwordsMatch = (value, allValues) =>
+    value !== allValues.password ? "Passwords do not match" : undefined;
+
+const renderField = ({ input, label, type, meta: { touched, error } }) => {
+    return (
+        <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label={label}
+            type={type}
+            {...input}
+            error={touched && error}
+            helperText={error}
+        />
+    );
 };
 
-class SignUp extends Component {
-    state = {
-        email: "",
-        username: "",
-        password: "",
-        confirmPassword: ""
-    };
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        this.props.signUp(this.state);
-    };
-
-    handleChange = (event) => {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
-    };
-
-    render() {
-        const { classes, auth, error } = this.props;
-        if (auth.uid) {
-            return <Redirect to="/" />;
-        }
-        return (
-            <Grid container className={classes.form}>
-                <Grid item sm />
-                <Grid item sm>
-                    <Typography variant="h4" className={classes.pageTitle}>
-                        Welcome!
-                    </Typography>
-                    <form noValidate onSubmit={this.handleSubmit}>
-                        <TextField
-                            id="email"
-                            name="email"
-                            type="email"
-                            label="Email"
-                            className={classes.textField}
-                            value={this.state.email}
-                            onChange={this.handleChange}
-                            fullWidth
-                        />
-                        <TextField
-                            id="username"
-                            name="username"
-                            type="text"
-                            label="Username"
-                            className={classes.textField}
-                            value={this.state.username}
-                            onChange={this.handleChange}
-                            fullWidth
-                        />
-                        <TextField
-                            id="password"
-                            name="password"
-                            type="password"
-                            label="Password"
-                            className={classes.textField}
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                            fullWidth
-                        />
-                        <TextField
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            type="password"
-                            label="Confirm Password"
-                            className={classes.textField}
-                            value={this.state.confirmPassword}
-                            onChange={this.handleChange}
-                            fullWidth
-                        />
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                            className={classes.button}
-                        >
-                            Sign Up
-                        </Button>
-                        {error ? <p>{error}</p> : null}
-                        <br />
-                        <small>
-                            Already have an account? Login{" "}
-                            <Link to="/login">here</Link>
-                        </small>
-                    </form>
-                </Grid>
-                <Grid item sm />
-            </Grid>
-        );
+const useStyles = makeStyles((theme) => ({
+    paper: {
+        marginTop: theme.spacing(8),
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main
+    },
+    form: {
+        width: "100%",
+        backgroundColor: theme.palette.secondary.main
+    },
+    button: {
+        margin: theme.spacing(3, 0, 2)
     }
-}
+}));
+
+const SignUp = (props) => {
+    const classes = useStyles();
+    const { handleSubmit, auth, error, signUp } = props;
+
+    if (auth.uid) {
+        return <Redirect to="/" />;
+    }
+
+    return (
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                    <FasfoodTwoToneIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign Up
+                </Typography>
+                <form
+                    onSubmit={handleSubmit((data) => {
+                        signUp(data);
+                    })}
+                >
+                    <Field
+                        name="email"
+                        type="email"
+                        component={renderField}
+                        label="Email"
+                        validate={[required, email]}
+                    />
+                    <Field
+                        name="username"
+                        type="text"
+                        component={renderField}
+                        label="Username"
+                        validate={[required]}
+                    />
+                    <Field
+                        name="password"
+                        type="password"
+                        component={renderField}
+                        label="Password"
+                        validate={[required]}
+                    />
+                    <Field
+                        name="confirmPassword"
+                        type="password"
+                        component={renderField}
+                        label="Confirm Password"
+                        validate={[required, passwordsMatch]}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                    >
+                        Sign Up
+                    </Button>
+                    {error ? (
+                        <Typography color="error" align="center">
+                            {error}
+                        </Typography>
+                    ) : null}
+                    <Grid container justify="center">
+                        <Grid item>
+                            <Link to="/login">
+                                Already have an account? Login here.
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
+        </Container>
+    );
+};
 
 const mapStateToProps = (state) => {
     return {
@@ -126,4 +148,6 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { signUp })(withStyles(styles)(SignUp));
+export default reduxForm({
+    form: "signup"
+})(connect(mapStateToProps, { signUp })(SignUp));
