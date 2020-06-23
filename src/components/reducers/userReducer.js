@@ -12,7 +12,11 @@ export default (state = INIT_STATE, action) => {
             console.log("login success");
             return {
                 ...state,
-                error: null
+                error: null,
+                comments: [],
+                hasLikedRecipe: null,
+                hasFavouritedRecipe: null,
+                favouritedRecipes: []
             };
         case "LOGIN_FAILED":
             console.log("login failed");
@@ -22,12 +26,23 @@ export default (state = INIT_STATE, action) => {
             };
         case "SIGNOUT_SUCCESS":
             console.log("signout success");
-            return state;
+            return {
+                ...state,
+                error: null,
+                comments: [],
+                hasLikedRecipe: null,
+                hasFavouritedRecipe: null,
+                favouritedRecipes: []
+            };
         case "SIGNUP_SUCCESS":
             console.log("signup success");
             return {
                 ...state,
-                error: null
+                error: null,
+                comments: [],
+                hasLikedRecipe: null,
+                hasFavouritedRecipe: null,
+                favouritedRecipes: []
             };
         case "SIGNUP_FAILED":
             console.log("signup failed");
@@ -44,14 +59,12 @@ export default (state = INIT_STATE, action) => {
         case "COMMENT_POSTED":
             console.log("comment posted");
             return state;
-        case "CLEAR_FEEDBACK":
-            console.log("feedback cleared");
-            return {
-                ...state,
-                comments: [],
-                hasLikedRecipe: false,
-                hasFavouritedRecipe: false
-            };
+        case "COMMENT_EDITED":
+            console.log("comment edited");
+            return state;
+        case "COMMENT_DELETED":
+            console.log("comment deleted");
+            return state;
         case "RECIPE_LIKED":
             console.log("recipe liked");
             return {
@@ -105,6 +118,16 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 hasFavouritedRecipe: false
+            };
+        case "RESET_STATE":
+            console.log("state reset");
+            return {
+                ...state,
+                error: null,
+                comments: [],
+                hasLikedRecipe: null,
+                hasFavouritedRecipe: null,
+                favouritedRecipes: []
             };
         default:
             return state;

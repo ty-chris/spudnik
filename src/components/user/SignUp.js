@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 
 // Action creator
-import { signUp } from "../actions/userActions";
+import { signUp, resetState } from "../actions/userActions";
 
 // Theme
 import Grid from "@material-ui/core/Grid";
@@ -71,6 +71,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUp = (props) => {
+    // hooks equivalent of componentDidMount
+    useEffect(() => {
+        props.resetState();
+    }, []);
+
     const classes = useStyles();
     const { handleSubmit, auth, error, signUp } = props;
 
@@ -157,4 +162,4 @@ const mapStateToProps = (state) => {
 
 export default reduxForm({
     form: "signup"
-})(connect(mapStateToProps, { signUp })(SignUp));
+})(connect(mapStateToProps, { signUp, resetState })(SignUp));

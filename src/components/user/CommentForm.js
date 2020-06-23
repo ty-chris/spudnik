@@ -36,7 +36,7 @@ class CommentForm extends React.Component {
 
         return (
             <div>
-                <Grid container spacing={1} alignItems="flex-end">
+                <Grid container spacing={1} alighItems="flex-end">
                     <Grid item>
                         <AccountCircle />
                     </Grid>

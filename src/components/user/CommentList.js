@@ -25,7 +25,10 @@ class CommentList extends React.Component {
         return this.props.comments.map((comment) => {
             return (
                 <React.Fragment key={comment.id}>
-                    <CommentDetails comment={comment} />
+                    <CommentDetails
+                        comment={comment}
+                        onUserAction={this.handleSubmit}
+                    />
                     <Divider variant="inset" component="li" />
                 </React.Fragment>
             );

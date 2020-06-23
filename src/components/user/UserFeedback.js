@@ -17,8 +17,8 @@ import {
     unlikeRecipe,
     favARecipe,
     unfavARecipe,
-    clearFeedback,
-    hasFavRecipe
+    hasFavRecipe,
+    resetState
 } from "../actions/userActions";
 
 import CommentList from "./CommentList";
@@ -29,7 +29,7 @@ class UserFeedback extends React.Component {
         this.props.hasFavRecipe(this.props.uid, this.props.recipeId);
     }
     componentWillUnmount() {
-        this.props.clearFeedback();
+        this.props.resetState();
     }
 
     handleLike = () => {
@@ -145,6 +145,6 @@ export default connect(mapStateToProps, {
     unlikeRecipe,
     favARecipe,
     unfavARecipe,
-    clearFeedback,
-    hasFavRecipe
+    hasFavRecipe,
+    resetState
 })(UserFeedback);

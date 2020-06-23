@@ -4,13 +4,13 @@ import React from "react";
 import RecipeList from "./components/recipes/RecipeList";
 import RecipeDetails from "./components/recipes/RecipeDetails";
 import RecipeCreate from "./components/recipes/RecipeCreate";
-
 import StickyFooter from "./components/layout/StickyFooter";
 import Login from "./components/user/Login";
 import SignUp from "./components/user/SignUp";
 import TempAppBar from "./components/layout/TempAppBar";
 import Favourites from "./components/user/Favourites";
 import About from "./components/About";
+import ScrollToTop from "./components/layout/ScrollToTop";
 
 // Theme
 import { createMuiTheme } from "@material-ui/core/styles";
@@ -22,20 +22,21 @@ const theme = createMuiTheme({
         primary: {
             main: "#00bcd4",
             light: "#88ffff",
-            dark: "#009faf",
+            dark: "#009faf"
         },
         secondary: {
             main: "#ec407a",
             light: "#ff77a9",
-            dark: "#b4004e",
-        },
-    },
+            dark: "#b4004e"
+        }
+    }
 });
 
 class App extends React.Component {
     render() {
         return (
             <BrowserRouter>
+                <ScrollToTop />
                 <div className="App">
                     <MuiThemeProvider theme={theme}>
                         <TempAppBar />
