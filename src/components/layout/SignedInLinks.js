@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 // theme
-//import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
@@ -12,10 +11,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 // actions
 import { signOut } from "../actions/userActions";
 
-//const useStyles = makeStyles((theme) => {});
-
 const SignedInLinks = (props) => {
-    //const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -57,6 +53,7 @@ const SignedInLinks = (props) => {
                 open={open}
                 onClose={handleClose}
             >
+                <MenuItem onClick={handleClose}>{props.username}</MenuItem>
                 <MenuItem
                     component={Link}
                     to="/favourites"
@@ -70,4 +67,10 @@ const SignedInLinks = (props) => {
     );
 };
 
-export default connect(null, { signOut })(SignedInLinks);
+const mapStateToProps = (state) => {
+    return {
+        username: state.firebase.profile.username
+    };
+};
+
+export default connect(mapStateToProps, { signOut })(SignedInLinks);

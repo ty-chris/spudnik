@@ -1,5 +1,4 @@
 const INIT_STATE = {
-    isLoggedIn: null,
     error: null,
     comments: [],
     hasLikedRecipe: null,
@@ -13,34 +12,27 @@ export default (state = INIT_STATE, action) => {
             console.log("login success");
             return {
                 ...state,
-                isLoggedIn: true,
                 error: null
             };
         case "LOGIN_FAILED":
             console.log("login failed");
             return {
                 ...state,
-                isLoggedIn: false,
                 error: action.payload.message
             };
         case "SIGNOUT_SUCCESS":
             console.log("signout success");
-            return {
-                ...state,
-                isLoggedIn: false
-            };
+            return state;
         case "SIGNUP_SUCCESS":
             console.log("signup success");
             return {
                 ...state,
-                isLoggedIn: true,
                 error: null
             };
         case "SIGNUP_FAILED":
             console.log("signup failed");
             return {
                 ...state,
-                isLoggedIn: false,
                 error: action.payload.message
             };
         case "FETCH_COMMENTS":

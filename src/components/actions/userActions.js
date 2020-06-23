@@ -21,30 +21,30 @@ export const signOut = () => (dispatch, getState, getFirebase) => {
         });
 };
 
-export const signUp = (newUser) => (dispatch, getState, getFirebase) => {
+export const signUp = (newUser) => async (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
     const firestore = firebase.firestore();
-    firebase
+    var uid;
+    await firebase
         .auth()
         .createUserWithEmailAndPassword(newUser.email, newUser.password)
-        .then((res) => {
-            firestore
-                .collection("users")
-                .doc(res.user.uid)
-                .set({
-                    username: newUser.username,
-                    email: newUser.email,
-                    createdAt: new Date()
-                })
-                .then(() => {
-                    dispatch({ type: "SIGNUP_SUCCESS" });
-                })
-                .catch((err) => {
-                    dispatch({ type: "SIGNUP_FAILED", payload: err });
-                });
+        .then((userCredential) => {
+            uid = userCredential.user.uid;
         })
         .catch((err) => {
             dispatch({ type: "SIGNUP_FAILED", payload: err });
+        });
+
+    firestore
+        .collection("users")
+        .doc(uid)
+        .set({
+            username: newUser.username,
+            email: newUser.email,
+            createdAt: new Date()
+        })
+        .then(() => {
+            dispatch({ type: "SIGNUP_SUCCESS" });
         });
 };
 
