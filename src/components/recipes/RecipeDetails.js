@@ -31,28 +31,33 @@ const useStyles = (theme) => ({
         height: "auto",
         display: "flex",
         align: "center",
-        margin: "auto",
+        margin: "auto"
     },
     directions: {
         position: "justify",
-        padding: "20px",
+        padding: "20px"
     },
     table: {
         display: "flex",
-        margin: "auto",
+        margin: "auto"
     },
     card: {
-        margin: "auto",
+        margin: "auto"
     },
     formControl: {
         position: "flex",
-        minWidth: 100,
+        minWidth: 100
     },
+    userFeedback: {
+        position: "justify",
+        margin: "auto",
+        padding: "10px"
+    }
 });
 
 class RecipeDetails extends React.Component {
     state = {
-        numServes: "",
+        numServes: ""
     };
 
     componentDidMount() {
@@ -63,7 +68,7 @@ class RecipeDetails extends React.Component {
 
     handleChangeServe = (event) => {
         this.setState({
-            numServes: event.target.value,
+            numServes: event.target.value
         });
     };
 
@@ -117,12 +122,12 @@ class RecipeDetails extends React.Component {
                             width="960px"
                             config={{
                                 youtube: {
-                                    playerVars: { controls: 1 },
-                                },
+                                    playerVars: { controls: 1 }
+                                }
                             }}
                             style={{
                                 margin: "auto",
-                                paddingTop: "20px",
+                                paddingTop: "20px"
                             }}
                         />
                     ) : null}
@@ -146,7 +151,7 @@ class RecipeDetails extends React.Component {
                                     defaultValue={this.props.recipe.serves}
                                     inputProps={{
                                         name: "serves",
-                                        id: "number-serves",
+                                        id: "number-serves"
                                     }}
                                     onChange={this.handleChangeServe}
                                 >
@@ -216,7 +221,10 @@ class RecipeDetails extends React.Component {
                             </Typography>
                         </Box>
                     </CardContent>
-                    <UserFeedback recipeId={this.props.recipe.id} />
+                    <UserFeedback
+                        recipeId={this.props.recipe.id}
+                        className={classes.userFeedback}
+                    />
                 </Card>
             </div>
         );
@@ -231,13 +239,13 @@ const mapStateToProps = (state, ownProps) => {
 
     return {
         recipes: recipes,
-        recipe: recipe,
+        recipe: recipe
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getRecipesThunk: () => dispatch(getRecipesThunk()),
+        getRecipesThunk: () => dispatch(getRecipesThunk())
     };
 };
 

@@ -1,10 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
+import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
+import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
+import StarBorderRoundedIcon from "@material-ui/icons/StarBorderRounded";
+import StarRoundedIcon from "@material-ui/icons/StarRounded";
 
 import {
     likeRecipe,
@@ -56,13 +61,19 @@ class UserFeedback extends React.Component {
                     size="small"
                     color="primary"
                     onClick={this.handleUnlike}
+                    startIcon={<StarRoundedIcon />}
                 >
                     Unlike
                 </Button>
             );
         }
         return (
-            <Button size="small" color="primary" onClick={this.handleLike}>
+            <Button
+                size="small"
+                color="primary"
+                onClick={this.handleLike}
+                startIcon={<StarBorderRoundedIcon />}
+            >
                 Like
             </Button>
         );
@@ -71,13 +82,23 @@ class UserFeedback extends React.Component {
     renderFavouriteButton() {
         if (this.props.user.hasFavouritedRecipe) {
             return (
-                <Button size="small" color="primary" onClick={this.handleUnfav}>
+                <Button
+                    size="small"
+                    color="primary"
+                    onClick={this.handleUnfav}
+                    startIcon={<FavoriteRoundedIcon />}
+                >
                     Unfavourite
                 </Button>
             );
         }
         return (
-            <Button size="small" color="primary" onClick={this.handleFav}>
+            <Button
+                size="small"
+                color="primary"
+                onClick={this.handleFav}
+                startIcon={<FavoriteBorderRoundedIcon />}
+            >
                 Favourite
             </Button>
         );
@@ -100,7 +121,9 @@ class UserFeedback extends React.Component {
             return (
                 <div>
                     <Typography>
-                        Log in to like and comment on recipe!
+                        <Link to="/login">
+                            Log in to like and comment on recipe!
+                        </Link>
                     </Typography>
                 </div>
             );

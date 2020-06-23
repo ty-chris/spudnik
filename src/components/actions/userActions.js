@@ -28,14 +28,20 @@ export const signUp = (newUser) => (dispatch, getState, getFirebase) => {
         .auth()
         .createUserWithEmailAndPassword(newUser.email, newUser.password)
         .then((res) => {
-            return firestore.collection("users").doc(res.user.uid).set({
-                username: newUser.username,
-                email: newUser.email,
-                createdAt: new Date()
-            });
-        })
-        .then(() => {
-            dispatch({ type: "SIGNUP_SUCCESS" });
+            firestore
+                .collection("users")
+                .doc(res.user.uid)
+                .set({
+                    username: newUser.username,
+                    email: newUser.email,
+                    createdAt: new Date()
+                })
+                .then(() => {
+                    dispatch({ type: "SIGNUP_SUCCESS" });
+                })
+                .catch((err) => {
+                    dispatch({ type: "SIGNUP_FAILED", payload: err });
+                });
         })
         .catch((err) => {
             dispatch({ type: "SIGNUP_FAILED", payload: err });
@@ -196,9 +202,11 @@ export const unfavARecipe = (userId, recipeId) => (
         .doc(`${userId}`)
         .collection("favourites")
         .where("id", "==", recipeId)
-        .delete()
-        .then(() => {
-            dispatch({ type: "RECIPE_UNFAVOURITED" });
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs[0].ref.delete().then(() => {
+                dispatch({ type: "RECIPE_UNFAVOURITED" });
+            });
         });
 };
 
