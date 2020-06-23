@@ -27,6 +27,13 @@ const email = (value) =>
 const passwordsMatch = (value, allValues) =>
     value !== allValues.password ? "Passwords do not match" : undefined;
 
+const minLength = (len) => (value) =>
+    value && value.length < len
+        ? `Password must be ${len} characters or more`
+        : undefined;
+
+const minLength6 = minLength(6);
+
 const renderField = ({ input, label, type, meta: { touched, error } }) => {
     return (
         <TextField
@@ -105,7 +112,7 @@ const SignUp = (props) => {
                         type="password"
                         component={renderField}
                         label="Password"
-                        validate={[required]}
+                        validate={[required, minLength6]}
                     />
                     <Field
                         name="confirmPassword"

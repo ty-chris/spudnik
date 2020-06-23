@@ -25,6 +25,7 @@ export const signUp = (newUser) => async (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
     const firestore = firebase.firestore();
     var uid;
+    var error;
     await firebase
         .auth()
         .createUserWithEmailAndPassword(newUser.email, newUser.password)
@@ -32,20 +33,23 @@ export const signUp = (newUser) => async (dispatch, getState, getFirebase) => {
             uid = userCredential.user.uid;
         })
         .catch((err) => {
+            error = err;
             dispatch({ type: "SIGNUP_FAILED", payload: err });
         });
 
-    firestore
-        .collection("users")
-        .doc(uid)
-        .set({
-            username: newUser.username,
-            email: newUser.email,
-            createdAt: new Date()
-        })
-        .then(() => {
-            dispatch({ type: "SIGNUP_SUCCESS" });
-        });
+    if (!error) {
+        firestore
+            .collection("users")
+            .doc(uid)
+            .set({
+                username: newUser.username,
+                email: newUser.email,
+                createdAt: new Date()
+            })
+            .then(() => {
+                dispatch({ type: "SIGNUP_SUCCESS" });
+            });
+    }
 };
 
 export const fetchComments = (recipeId) => (
