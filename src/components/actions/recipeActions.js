@@ -23,3 +23,23 @@ export const getRecipesThunk = () => async (dispatch) => {
     //console.log("payload", recipes);
     dispatch({ type: "GET_RECIPES", payload: recipes });
 };
+
+export const createRecipe = (newRecipe) => (dispatch) => {
+    // async call to database
+    firebase
+        .firestore()
+        .collection("submittedRecipes")
+        .add({
+            ...newRecipe,
+        })
+        .then(() => {
+            console.log("submitted recipe successfully!");
+            dispatch({ type: "CREATE_RECIPE", newRecipe });
+        })
+        .catch((err) => {
+            dispatch({ type: "CREATE_RECIPE_ERROR" }, err);
+        });
+    /*.catch((error) => {
+            console.log("something bad happened....", error);
+        });*/
+};

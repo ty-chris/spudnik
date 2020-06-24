@@ -1,8 +1,14 @@
 export const recipesReducer = (state = [], action) => {
     // todo recipe management eg. delete edit
-    if (action.type === "GET_RECIPES") {
-        return action.payload;
+    switch (action.type) {
+        case "GET_RECIPES":
+            return action.payload;
+        case "CREATE_RECIPE":
+            return action.payload;
+        case "CREATE_RECIPE_ERROR":
+            console.log("create recipe error", action.err);
+            return state;
+        default:
+            return state;
     }
-
-    return state;
 };

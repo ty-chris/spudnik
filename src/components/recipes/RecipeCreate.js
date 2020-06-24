@@ -1,5 +1,7 @@
 import React from "react";
 import { Field, FieldArray, reduxForm } from "redux-form";
+import { connect } from "react-redux";
+import { compose } from "redux";
 
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -18,6 +20,8 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 
 import { withStyles } from "@material-ui/core/styles";
 
+import { createRecipe } from "../actions/recipeActions";
+
 const useStyles = (theme) => ({
     root: {
         "& .MuiTextField-root": {
@@ -28,6 +32,19 @@ const useStyles = (theme) => ({
     card: { margin: "auto" },
     button: { margin: "auto" },
 });
+
+const number = (value) =>
+    isNaN(Number(value)) ? "Must be a number" : undefined;
+const required = (value) => (value ? undefined : "Required");
+const minValue = (min) => (value) =>
+    value && value < min ? `Must be at least ${min}` : undefined;
+const maxLength = (max) => (value) =>
+    value && value.length > max
+        ? `Must be ${max} characters or less`
+        : undefined;
+const maxLength30 = maxLength(30);
+
+const minValue1 = minValue(1);
 
 class RecipeCreate extends React.Component {
     renderInput = ({
@@ -96,19 +113,25 @@ class RecipeCreate extends React.Component {
                 </List>
                 {fields.map((ingredient, index) => (
                     <List key={index}>
-                        <ListItem alignItems="center">
-                            <Field
-                                name={`${ingredient}.ingredient`}
-                                type="text"
-                                component={this.renderInput}
-                                label={`Ingredient #${index + 1}`}
-                            />
-                            <Field
-                                name={`${ingredient}.amount`}
-                                type="text"
-                                component={this.renderInput}
-                                label={`Amount of Ingredient #${index + 1}`}
-                            />
+                        <ListItem alignItems="flex-start">
+                            <div>
+                                <Field
+                                    name={`${ingredient}.ingredient`}
+                                    type="text"
+                                    component={this.renderInput}
+                                    label={`Ingredient #${index + 1}`}
+                                    validate={[required]}
+                                />
+                            </div>
+                            <div>
+                                <Field
+                                    name={`${ingredient}.amount`}
+                                    type="text"
+                                    component={this.renderInput}
+                                    label={`Amount of Ingredient #${index + 1}`}
+                                    validate={[required]}
+                                />
+                            </div>
                             <ListItemSecondaryAction>
                                 <IconButton
                                     onClick={() => fields.remove(index)}
@@ -140,13 +163,14 @@ class RecipeCreate extends React.Component {
                     </Button>
                 </List>
                 {fields.map((direction, index) => (
-                    <List key={index}>
-                        <ListItem alignItems="center">
+                    <List key={index} disablePadding>
+                        <ListItem alignItems="flex-start" width={1}>
                             <Field
                                 name={direction}
                                 type="text"
                                 component={this.renderInput}
                                 label={`Direction #${index + 1}`}
+                                validate={[required]}
                             />
                             <ListItemSecondaryAction>
                                 <IconButton
@@ -165,12 +189,12 @@ class RecipeCreate extends React.Component {
         );
     };
 
-    greaterThan = (otherField) => (value, previousValue, allValues) =>
-        value > allValues[otherField] ? value : previousValue;
-
-    onSubmit(formValues) {
+    onSubmit = (formValues) => {
         console.log(formValues);
-    }
+        if (window.confirm("Are you sure?")) {
+            this.props.createRecipe(formValues);
+        }
+    };
 
     render() {
         const { classes } = this.props;
@@ -192,6 +216,7 @@ class RecipeCreate extends React.Component {
                                 name="name"
                                 component={this.renderInput}
                                 label="Enter name of Recipe"
+                                validate={[required, maxLength30]}
                             />
                         </div>
                         <div>
@@ -200,6 +225,7 @@ class RecipeCreate extends React.Component {
                                 component={this.renderInput}
                                 label="Enter time required"
                                 type="number"
+                                validate={[number, minValue1]}
                             />
                         </div>
                         <div>
@@ -208,6 +234,7 @@ class RecipeCreate extends React.Component {
                                 component={this.renderInput}
                                 label="Enter number of Servings"
                                 type="number"
+                                validate={[number, minValue1]}
                             />
                         </div>
                         <div>
@@ -238,6 +265,16 @@ class RecipeCreate extends React.Component {
     }
 }
 
-export default reduxForm({
-    form: "recipeCreate",
-})(withStyles(useStyles)(RecipeCreate));
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createRecipe: (newRecipe) => dispatch(createRecipe(newRecipe)),
+    };
+};
+
+export default compose(
+    reduxForm({
+        form: "recipeCreate",
+    }),
+    withStyles(useStyles),
+    connect(null, mapDispatchToProps)
+)(RecipeCreate);
