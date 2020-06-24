@@ -9,7 +9,6 @@ import Container from "@material-ui/core/Container";
 
 // Components
 import CommentDetails from "./CommentDetails";
-import CommentForm from "./CommentForm";
 import { fetchComments } from "../actions/userActions";
 
 class CommentList extends React.Component {
@@ -25,7 +24,10 @@ class CommentList extends React.Component {
         return this.props.comments.map((comment) => {
             return (
                 <React.Fragment key={comment.id}>
-                    <CommentDetails comment={comment} />
+                    <CommentDetails
+                        comment={comment}
+                        onUserAction={this.handleSubmit}
+                    />
                     <Divider variant="inset" component="li" />
                 </React.Fragment>
             );
@@ -37,12 +39,14 @@ class CommentList extends React.Component {
             <Container fixed>
                 <List>
                     <Typography>Comments</Typography>
-                    {this.renderList()}
+                    {this.props.comments.length > 0 ? (
+                        this.renderList()
+                    ) : (
+                        <Typography color="textSecondary" variant="body2">
+                            Be the first to comment!
+                        </Typography>
+                    )}
                 </List>
-                <CommentForm
-                    onSubmit={this.handleSubmit}
-                    recipeId={this.props.recipeId}
-                />
             </Container>
         );
     }

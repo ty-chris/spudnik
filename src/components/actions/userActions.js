@@ -1,3 +1,4 @@
+// >>> user auth <<<
 export const signIn = (credentials) => (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
     firebase
@@ -52,6 +53,7 @@ export const signUp = (newUser) => async (dispatch, getState, getFirebase) => {
     }
 };
 
+// >>> comments <<<
 export const fetchComments = (recipeId) => (
     dispatch,
     getState,
@@ -66,6 +68,7 @@ export const fetchComments = (recipeId) => (
         .then((querySnapshot) => {
             querySnapshot.docs[0].ref
                 .collection("comments")
+                .orderBy("createdAt", "desc")
                 .get()
                 .then((qSnapshot) => {
                     qSnapshot.docs.forEach((doc) => {
@@ -93,7 +96,9 @@ export const postComment = (comment, recipeId) => (
                     body: comment.body,
                     createdBy: comment.createdBy,
                     uid: comment.uid,
-                    createdAt: new Date()
+                    createdAt: new Date(),
+                    edited: false,
+                    recipeId: recipeId
                 })
                 .then(() => {
                     dispatch({ type: "COMMENT_POSTED" });
@@ -101,11 +106,54 @@ export const postComment = (comment, recipeId) => (
         });
 };
 
-export const clearFeedback = () => {
-    return { type: "CLEAR_FEEDBACK" };
+export const editComment = (recipeId, commentId, newBody) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("recipes")
+        .where("id", "==", recipeId)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs[0].ref
+                .collection("comments")
+                .doc(commentId)
+                .update({
+                    body: newBody,
+                    edited: true,
+                    createdAt: new Date()
+                })
+                .then(() => {
+                    dispatch({ type: "COMMENT_EDITED" });
+                });
+        });
 };
 
-export const likeRecipe = (user, recipeId) => (
+export const deleteComment = (recipeId, commentId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("recipes")
+        .where("id", "==", recipeId)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs[0].ref
+                .collection("comments")
+                .doc(commentId)
+                .delete()
+                .then(() => {
+                    dispatch({ type: "COMMENT_DELETED" });
+                });
+        });
+};
+
+// >>> likes <<<
+export const likeRecipe = (user, recipeId, likeCount) => (
     dispatch,
     getState,
     getFirebase
@@ -122,10 +170,13 @@ export const likeRecipe = (user, recipeId) => (
                 .set({
                     createdBy: user.username,
                     createdAt: new Date()
-                })
-                .then(() => {
-                    dispatch({ type: "RECIPE_LIKED" });
                 });
+
+            querySnapshot.forEach((doc) => {
+                doc.ref.update("likeCount", likeCount + 1).then(() => {
+                    dispatch({ type: "RECIPE_LIKED", payload: likeCount + 1 });
+                });
+            });
         });
 };
 
@@ -154,7 +205,7 @@ export const hasLikedRecipe = (userId, recipeId) => (
         });
 };
 
-export const unlikeRecipe = (userId, recipeId) => (
+export const unlikeRecipe = (userId, recipeId, likeCount) => (
     dispatch,
     getState,
     getFirebase
@@ -168,13 +219,39 @@ export const unlikeRecipe = (userId, recipeId) => (
             querySnapshot.docs[0].ref
                 .collection("likes")
                 .doc(`${userId}`)
-                .delete()
-                .then(() => {
-                    dispatch({ type: "RECIPE_UNLIKED" });
+                .delete();
+
+            querySnapshot.forEach((doc) => {
+                doc.ref.update("likeCount", likeCount - 1).then(() => {
+                    dispatch({
+                        type: "RECIPE_UNLIKED",
+                        payload: likeCount - 1
+                    });
                 });
+            });
         });
 };
 
+export const fetchLikeCount = (recipeId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    var likeCount;
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("recipes")
+        .where("id", "==", recipeId)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                likeCount = doc.data().likeCount;
+            });
+            dispatch({ type: "FETCH_LIKE_COUNT", payload: likeCount });
+        });
+};
+
+// >>> favourites <<<
 export const favARecipe = (userId, recipeId) => (
     dispatch,
     getState,
@@ -249,4 +326,11 @@ export const hasFavRecipe = (userId, recipeId) => (
                 dispatch({ type: "HAS_NOT_FAVOURITED_RECIPE" });
             }
         });
+};
+
+// >>> others <<<
+export const resetState = () => {
+    return {
+        type: "RESET_STATE"
+    };
 };

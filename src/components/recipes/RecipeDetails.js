@@ -48,11 +48,6 @@ const useStyles = (theme) => ({
         position: "flex",
         minWidth: 100,
     },
-    userFeedback: {
-        position: "justify",
-        margin: "auto",
-        padding: "10px",
-    },
 });
 
 class RecipeDetails extends React.Component {
