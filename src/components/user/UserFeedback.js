@@ -69,6 +69,7 @@ class UserFeedback extends React.Component {
         const likeCount = !this.props.user.likeCount
             ? 0
             : this.props.user.likeCount;
+        const likes = likeCount > 1 ? "likes" : "like";
         if (this.props.user.hasLikedRecipe) {
             return (
                 <Button
@@ -77,7 +78,7 @@ class UserFeedback extends React.Component {
                     onClick={this.handleUnlike}
                     startIcon={<StarRoundedIcon />}
                 >
-                    {`${likeCount} likes`}
+                    {`${likeCount} ${likes}`}
                 </Button>
             );
         }
@@ -88,7 +89,7 @@ class UserFeedback extends React.Component {
                 onClick={this.handleLike}
                 startIcon={<StarBorderRoundedIcon />}
             >
-                {likeCount == 0 ? "Like" : `${likeCount} likes`}
+                {likeCount == 0 ? "Like" : `${likeCount} ${likes}`}
             </Button>
         );
     }
