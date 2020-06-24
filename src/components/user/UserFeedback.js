@@ -5,16 +5,17 @@ import { Link } from "react-router-dom";
 import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
 import FavoriteBorderRoundedIcon from "@material-ui/icons/FavoriteBorderRounded";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import StarBorderRoundedIcon from "@material-ui/icons/StarBorderRounded";
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
+import LockOpenRoundedIcon from "@material-ui/icons/LockOpenRounded";
 
 import {
     likeRecipe,
     hasLikedRecipe,
     unlikeRecipe,
+    fetchLikeCount,
     favARecipe,
     unfavARecipe,
     hasFavRecipe,
@@ -22,11 +23,13 @@ import {
 } from "../actions/userActions";
 
 import CommentList from "./CommentList";
+import CommentPostDialog from "./CommentPostDialog";
 
 class UserFeedback extends React.Component {
     componentDidMount() {
         this.props.hasLikedRecipe(this.props.uid, this.props.recipeId);
         this.props.hasFavRecipe(this.props.uid, this.props.recipeId);
+        this.props.fetchLikeCount(this.props.recipeId);
     }
     componentWillUnmount() {
         this.props.resetState();
@@ -38,12 +41,20 @@ class UserFeedback extends React.Component {
                 uid: this.props.uid,
                 username: this.props.profile.username
             };
-            this.props.likeRecipe(user, this.props.recipeId);
+            this.props.likeRecipe(
+                user,
+                this.props.recipeId,
+                this.props.user.likeCount
+            );
         }
     };
 
     handleUnlike = () => {
-        this.props.unlikeRecipe(this.props.uid, this.props.recipeId);
+        this.props.unlikeRecipe(
+            this.props.uid,
+            this.props.recipeId,
+            this.props.user.likeCount
+        );
     };
 
     handleFav = () => {
@@ -55,6 +66,9 @@ class UserFeedback extends React.Component {
     };
 
     renderLikeButton() {
+        const likeCount = !this.props.user.likeCount
+            ? 0
+            : this.props.user.likeCount;
         if (this.props.user.hasLikedRecipe) {
             return (
                 <Button
@@ -63,7 +77,7 @@ class UserFeedback extends React.Component {
                     onClick={this.handleUnlike}
                     startIcon={<StarRoundedIcon />}
                 >
-                    Unlike
+                    {`${likeCount} likes`}
                 </Button>
             );
         }
@@ -74,7 +88,7 @@ class UserFeedback extends React.Component {
                 onClick={this.handleLike}
                 startIcon={<StarBorderRoundedIcon />}
             >
-                Like
+                {likeCount == 0 ? "Like" : `${likeCount} likes`}
             </Button>
         );
     }
@@ -104,30 +118,47 @@ class UserFeedback extends React.Component {
         );
     }
 
+    renderCommentButton() {
+        return (
+            <CommentPostDialog
+                recipeId={this.props.recipeId}
+                uid={this.props.uid}
+                username={this.props.profile.username}
+            />
+        );
+    }
+
+    renderLoginButton() {
+        return (
+            <Link to="/login" style={{ textDecoration: "none" }}>
+                <Button
+                    size="small"
+                    color="primary"
+                    startIcon={<LockOpenRoundedIcon />}
+                >
+                    Login to like, favourite and comment on recipe!
+                </Button>
+            </Link>
+        );
+    }
+
     render() {
-        if (this.props.uid) {
-            return (
-                <React.Fragment>
+        return (
+            <React.Fragment>
+                {this.props.uid ? (
                     <CardActions>
                         {this.renderLikeButton()}
                         {this.renderFavouriteButton()}
+                        {this.renderCommentButton()}
                     </CardActions>
-                    <CardContent>
-                        <CommentList recipeId={this.props.recipeId} />
-                    </CardContent>
-                </React.Fragment>
-            );
-        } else {
-            return (
-                <div>
-                    <Typography>
-                        <Link to="/login">
-                            Log in to like and comment on recipe!
-                        </Link>
-                    </Typography>
-                </div>
-            );
-        }
+                ) : (
+                    <CardActions>{this.renderLoginButton()}</CardActions>
+                )}
+                <CardContent>
+                    <CommentList recipeId={this.props.recipeId} />
+                </CardContent>
+            </React.Fragment>
+        );
     }
 }
 
@@ -143,6 +174,7 @@ export default connect(mapStateToProps, {
     likeRecipe,
     hasLikedRecipe,
     unlikeRecipe,
+    fetchLikeCount,
     favARecipe,
     unfavARecipe,
     hasFavRecipe,

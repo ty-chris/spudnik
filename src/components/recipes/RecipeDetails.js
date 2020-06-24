@@ -47,11 +47,6 @@ const useStyles = (theme) => ({
     formControl: {
         position: "flex",
         minWidth: 100
-    },
-    userFeedback: {
-        position: "justify",
-        margin: "auto",
-        padding: "10px"
     }
 });
 

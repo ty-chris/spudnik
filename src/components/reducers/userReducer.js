@@ -3,7 +3,8 @@ const INIT_STATE = {
     comments: [],
     hasLikedRecipe: null,
     hasFavouritedRecipe: null,
-    favouritedRecipes: []
+    favouritedRecipes: [],
+    likeCount: null
 };
 
 export default (state = INIT_STATE, action) => {
@@ -16,7 +17,8 @@ export default (state = INIT_STATE, action) => {
                 comments: [],
                 hasLikedRecipe: null,
                 hasFavouritedRecipe: null,
-                favouritedRecipes: []
+                favouritedRecipes: [],
+                likeCount: null
             };
         case "LOGIN_FAILED":
             console.log("login failed");
@@ -32,7 +34,8 @@ export default (state = INIT_STATE, action) => {
                 comments: [],
                 hasLikedRecipe: null,
                 hasFavouritedRecipe: null,
-                favouritedRecipes: []
+                favouritedRecipes: [],
+                likeCount: null
             };
         case "SIGNUP_SUCCESS":
             console.log("signup success");
@@ -42,7 +45,8 @@ export default (state = INIT_STATE, action) => {
                 comments: [],
                 hasLikedRecipe: null,
                 hasFavouritedRecipe: null,
-                favouritedRecipes: []
+                favouritedRecipes: [],
+                likeCount: null
             };
         case "SIGNUP_FAILED":
             console.log("signup failed");
@@ -69,7 +73,8 @@ export default (state = INIT_STATE, action) => {
             console.log("recipe liked");
             return {
                 ...state,
-                hasLikedRecipe: true
+                hasLikedRecipe: true,
+                likeCount: action.payload
             };
         case "HAS_LIKED_RECIPE":
             console.log("user has liked recipe");
@@ -87,7 +92,14 @@ export default (state = INIT_STATE, action) => {
             console.log("recipe unliked");
             return {
                 ...state,
-                hasLikedRecipe: false
+                hasLikedRecipe: false,
+                likeCount: action.payload
+            };
+        case "FETCH_LIKE_COUNT":
+            console.log(`${action.payload} likes`);
+            return {
+                ...state,
+                likeCount: action.payload
             };
         case "RECIPE_FAVOURITED":
             console.log("recipe favourited");
@@ -127,7 +139,8 @@ export default (state = INIT_STATE, action) => {
                 comments: [],
                 hasLikedRecipe: null,
                 hasFavouritedRecipe: null,
-                favouritedRecipes: []
+                favouritedRecipes: [],
+                likeCount: null
             };
         default:
             return state;

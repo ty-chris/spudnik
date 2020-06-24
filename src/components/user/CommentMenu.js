@@ -6,9 +6,12 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 
 // Components
-import CommentDialog from "./CommentDialog";
+import CommentEditDialog from "./CommentEditDialog";
 
 // Action creators
 import { editComment, deleteComment } from "../actions/userActions";
@@ -52,7 +55,7 @@ const CommentMenu = (props) => {
                 open={open}
                 onClose={handleClose}
             >
-                <CommentDialog
+                <CommentEditDialog
                     onClick={handleEdit}
                     editComment={props.editComment}
                     onUserAction={props.onUserAction}
@@ -60,7 +63,10 @@ const CommentMenu = (props) => {
                     commentId={props.commentId}
                 />
                 <MenuItem key="delete" onClick={handleDelete}>
-                    delete
+                    <ListItemIcon>
+                        <DeleteRoundedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="delete" />
                 </MenuItem>
             </Menu>
         </div>

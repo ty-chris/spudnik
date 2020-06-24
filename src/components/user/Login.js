@@ -62,9 +62,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = (props) => {
     // hooks equivalent of componentDidMount
+    // eslint-disable
     useEffect(() => {
         props.resetState();
     }, []);
+    // eslint-enable
 
     const classes = useStyles();
     const { handleSubmit, auth, error, signIn } = props;

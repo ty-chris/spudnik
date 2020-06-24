@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 
 // Theme
 import Button from "@material-ui/core/Button";
@@ -6,11 +7,11 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import MenuItem from "@material-ui/core/MenuItem";
+import CommentRoundedIcon from "@material-ui/icons/CommentRounded";
 
-const CommentDialog = (props) => {
+import { postComment, fetchComments } from "../actions/userActions";
+
+const CommentPostDialog = (props) => {
     const [open, setOpen] = React.useState(false);
     const [newComment, setComment] = React.useState("");
 
@@ -19,6 +20,7 @@ const CommentDialog = (props) => {
     };
 
     const handleClose = () => {
+        setComment("");
         setOpen(false);
     };
 
@@ -26,18 +28,27 @@ const CommentDialog = (props) => {
         setComment(event.target.value);
     };
 
-    const handleEdit = () => {
-        props.editComment(props.recipeId, props.commentId, newComment);
-        props.onUserAction();
+    const handlePost = () => {
+        const comment = {
+            body: newComment,
+            createdBy: props.username,
+            uid: props.uid
+        };
+        props.postComment(comment, props.recipeId);
+        props.fetchComments(props.recipeId);
         setOpen(false);
-        props.onClick();
     };
 
     return (
         <div>
-            <MenuItem key="edit" onClick={handleClickOpen}>
-                edit
-            </MenuItem>
+            <Button
+                size="small"
+                color="primary"
+                onClick={handleClickOpen}
+                startIcon={<CommentRoundedIcon />}
+            >
+                Comment
+            </Button>
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -59,8 +70,8 @@ const CommentDialog = (props) => {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button type="submit" onClick={handleEdit} color="primary">
-                        Edit
+                    <Button type="submit" onClick={handlePost} color="primary">
+                        Post
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -68,4 +79,4 @@ const CommentDialog = (props) => {
     );
 };
 
-export default CommentDialog;
+export default connect(null, { postComment, fetchComments })(CommentPostDialog);
