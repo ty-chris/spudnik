@@ -19,7 +19,7 @@ import {
     favARecipe,
     unfavARecipe,
     hasFavRecipe,
-    resetState
+    resetState,
 } from "../actions/userActions";
 
 import CommentList from "./CommentList";
@@ -39,7 +39,7 @@ class UserFeedback extends React.Component {
         if (this.props.uid) {
             const user = {
                 uid: this.props.uid,
-                username: this.props.profile.username
+                username: this.props.profile.username,
             };
             this.props.likeRecipe(
                 user,
@@ -89,7 +89,7 @@ class UserFeedback extends React.Component {
                 onClick={this.handleLike}
                 startIcon={<StarBorderRoundedIcon />}
             >
-                {likeCount == 0 ? "Like" : `${likeCount} ${likes}`}
+                {likeCount === 0 ? "Like" : `${likeCount} ${likes}`}
             </Button>
         );
     }
@@ -167,7 +167,7 @@ const mapStateToProps = (state) => {
     return {
         uid: state.firebase.auth.uid,
         profile: state.firebase.profile,
-        user: state.user
+        user: state.user,
     };
 };
 
@@ -179,5 +179,5 @@ export default connect(mapStateToProps, {
     favARecipe,
     unfavARecipe,
     hasFavRecipe,
-    resetState
+    resetState,
 })(UserFeedback);
