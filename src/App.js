@@ -11,6 +11,7 @@ import TempAppBar from "./components/layout/TempAppBar";
 import Favourites from "./components/user/Favourites";
 import About from "./components/About";
 import ScrollToTop from "./components/layout/ScrollToTop";
+import ForgetPassword from "./components/user/ForgetPassword";
 
 // Theme
 import { createMuiTheme } from "@material-ui/core/styles";
@@ -56,6 +57,10 @@ class App extends React.Component {
                             <Route path="/login" component={Login} />
                             <Route path="/signup" component={SignUp} />
                             <Route path="/favourites" component={Favourites} />
+                            <Route
+                                path="/password/reset"
+                                component={ForgetPassword}
+                            />
                         </Switch>
                         <Route
                             path="/recipes/submit"

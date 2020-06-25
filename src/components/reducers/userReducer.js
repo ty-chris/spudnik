@@ -54,6 +54,18 @@ export default (state = INIT_STATE, action) => {
                 ...state,
                 error: action.payload.message
             };
+        case "PASSWORD_RESET_SUCCESS":
+            console.log("password reset emailed sent");
+            return {
+                ...state,
+                error: "Please check your email for password reset link."
+            };
+        case "PASSWORD_RESET_FAILED":
+            console.log("password reset failed");
+            return {
+                ...state,
+                error: action.payload.message
+            };
         case "FETCH_COMMENTS":
             console.log("fetched comments");
             return {
