@@ -53,6 +53,19 @@ export const signUp = (newUser) => async (dispatch, getState, getFirebase) => {
     }
 };
 
+export const forgetPasword = (email) => (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
+    firebase
+        .auth()
+        .sendPasswordResetEmail(email)
+        .then(() => {
+            dispatch({ type: "PASSWORD_RESET_SUCCESS" });
+        })
+        .catch((err) => {
+            dispatch({ type: "PASSWORD_RESET_FAILED", payload: err });
+        });
+};
+
 // >>> comments <<<
 export const fetchComments = (recipeId) => (
     dispatch,

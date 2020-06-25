@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 
 // Action creator
-import { signIn, resetState } from "../actions/userActions";
+import { forgetPasword, resetState } from "../actions/userActions";
 
 // Theme
 import Grid from "@material-ui/core/Grid";
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Login = (props) => {
+const ForgetPassword = (props) => {
     // hooks equivalent of componentDidMount
     // eslint-disable
     useEffect(() => {
@@ -83,11 +83,20 @@ const Login = (props) => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Login
+                    Trouble Logging In?
+                </Typography>
+                <Typography
+                    component="span"
+                    variant="body2"
+                    align="center"
+                    color="textSecondary"
+                >
+                    Enter your email and we'll send you a link to reset your
+                    password.
                 </Typography>
                 <form
                     onSubmit={handleSubmit((data) => {
-                        signIn(data);
+                        props.forgetPasword(data.email);
                     })}
                 >
                     <Field
@@ -97,13 +106,6 @@ const Login = (props) => {
                         label="Email"
                         validate={[required, email]}
                     />
-                    <Field
-                        name="password"
-                        type="password"
-                        component={renderField}
-                        label="Password"
-                        validate={[required]}
-                    />
                     <Button
                         type="submit"
                         fullWidth
@@ -111,7 +113,7 @@ const Login = (props) => {
                         color="primary"
                         className={classes.button}
                     >
-                        Login
+                        Send Reset Email
                     </Button>
                     {error ? (
                         <Typography color="error" align="center">
@@ -120,13 +122,13 @@ const Login = (props) => {
                     ) : null}
                     <Grid container>
                         <Grid item xs>
-                            <Link to="/password/reset" variant="body2">
-                                Forgot password?
+                            <Link to="/signup" variant="body2">
+                                Create New Account
                             </Link>
                         </Grid>
                         <Grid item>
-                            <Link to="/signup" variant="body2">
-                                Don't have an account? Sign up here.
+                            <Link to="/login" variant="body2">
+                                Back to Login
                             </Link>
                         </Grid>
                     </Grid>
@@ -144,5 +146,5 @@ const mapStateToProps = (state) => {
 };
 
 export default reduxForm({
-    form: "login"
-})(connect(mapStateToProps, { signIn, resetState })(Login));
+    form: "forgetPassword"
+})(connect(mapStateToProps, { forgetPasword, resetState })(ForgetPassword));
