@@ -20,7 +20,7 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 
 import { withStyles } from "@material-ui/core/styles";
 
-import { createRecipe } from "../actions/recipeActions";
+import { submitRecipe } from "../actions/recipeActions";
 
 const useStyles = (theme) => ({
     root: {
@@ -46,7 +46,7 @@ const maxLength30 = maxLength(30);
 
 const minValue1 = minValue(1);
 
-class RecipeCreate extends React.Component {
+class SubmitRecipe extends React.Component {
     renderInput = ({
         input,
         label,
@@ -267,14 +267,14 @@ class RecipeCreate extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createRecipe: (newRecipe) => dispatch(createRecipe(newRecipe)),
+        submitRecipe: (newRecipe) => dispatch(submitRecipe(newRecipe)),
     };
 };
 
 export default compose(
     reduxForm({
-        form: "recipeCreate",
+        form: "SubmitRecipe",
     }),
     withStyles(useStyles),
     connect(null, mapDispatchToProps)
-)(RecipeCreate);
+)(SubmitRecipe);

@@ -2,8 +2,6 @@ import React from "react";
 import { Link, Route } from "react-router-dom";
 import { connect } from "react-redux";
 
-import RecipeDetails from "./RecipeDetails";
-
 // Theme
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -11,15 +9,16 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import EditRecipe from "./EditRecipe";
 
-const RecipeCard = ({ recipe }) => {
-    //console.log("current", recipe);
+const AdminRecipeCard = ({ recipe }) => {
+    console.log("current", recipe);
     return (
         // todo make cards same height/overflow description to 2 lines
         <div>
             {recipe ? (
                 <Link
-                    to={`/recipes/${recipe.id}`}
+                    to={`/admin/recipes/${recipe.id}`}
                     className="item"
                     style={{ textDecoration: "none" }}
                 >
@@ -52,8 +51,7 @@ const RecipeCard = ({ recipe }) => {
                     </Card>
                 </Link>
             ) : null}
-
-            <Route path={`/recipes/:recipeId`} component={RecipeDetails} />
+            <Route path={`/admin/recipes/:recipeId`} component={EditRecipe} />
         </div>
     );
 };
@@ -65,4 +63,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(RecipeCard);
+export default connect(mapStateToProps)(AdminRecipeCard);

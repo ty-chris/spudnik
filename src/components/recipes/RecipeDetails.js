@@ -74,18 +74,24 @@ class RecipeDetails extends React.Component {
             return null;
         }
 
-        let currAmount = this.props.recipe.amount;
+        let currAmount = [];
+
+        this.props.recipe.ingredients.forEach((ingredient) => {
+            currAmount.push(ingredient.amount);
+        });
+
+        console.log("currAmount", currAmount);
 
         if (
             this.state.numServes !== "" &&
-            this.state.numServes !== this.props.recipe.serves
+            this.state.numServes !== this.props.recipe.servings
         ) {
             currAmount = currAmount.map((amount) => {
                 var split = amount.split(" ");
 
                 if (!isNaN(split[0]) && split[0] !== "") {
                     var newAmount =
-                        (split[0] / this.props.recipe.serves) *
+                        (split[0] / this.props.recipe.servings) *
                         this.state.numServes;
                 } else {
                     return amount;
@@ -143,9 +149,9 @@ class RecipeDetails extends React.Component {
                                     Servings
                                 </InputLabel>
                                 <NativeSelect
-                                    defaultValue={this.props.recipe.serves}
+                                    defaultValue={this.props.recipe.servings}
                                     inputProps={{
-                                        name: "serves",
+                                        name: "servings",
                                         id: "number-serves",
                                     }}
                                     onChange={this.handleChangeServe}
@@ -185,7 +191,7 @@ class RecipeDetails extends React.Component {
                                                         component="th"
                                                         scope="row"
                                                     >
-                                                        {ingredient}
+                                                        {ingredient.ingredient}
                                                     </TableCell>
                                                     <TableCell>
                                                         {currAmount[index]}
@@ -230,8 +236,8 @@ const mapStateToProps = (state, ownProps) => {
     const recipes = state.recipes;
     const recipe = recipes.find(({ id }) => id === ownProps.match.params.id);
 
-    console.log("recipes", recipes);
-    console.log("detailed recipe", recipe);
+    //console.log("recipes", recipes);
+    //console.log("detailed recipe", recipe);
 
     return {
         recipes: recipes,

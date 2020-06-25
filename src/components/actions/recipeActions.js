@@ -24,7 +24,8 @@ export const getRecipesThunk = () => async (dispatch) => {
     dispatch({ type: "GET_RECIPES", payload: recipes });
 };
 
-export const createRecipe = (newRecipe) => (dispatch) => {
+// For user submitted recipes
+export const submitRecipe = (newRecipe) => (dispatch) => {
     // async call to database
     firebase
         .firestore()
@@ -34,12 +35,48 @@ export const createRecipe = (newRecipe) => (dispatch) => {
         })
         .then(() => {
             console.log("submitted recipe successfully!");
-            dispatch({ type: "CREATE_RECIPE", newRecipe });
+            dispatch({ type: "SUBMIT_RECIPE", newRecipe });
         })
         .catch((err) => {
-            dispatch({ type: "CREATE_RECIPE_ERROR" }, err);
+            dispatch({ type: "SUBMIT_RECIPE_ERROR" }, err);
         });
     /*.catch((error) => {
             console.log("something bad happened....", error);
         });*/
+};
+
+// ADMIN CRUD actions
+
+export const editRecipe = (updatedRecipe) => (dispatch) => {
+    //async call to database
+    firebase
+        .firestore()
+        .collection("recipes")
+        .doc(updatedRecipe.id)
+        .update(updatedRecipe)
+        .then(() => {
+            dispatch({ type: "EDIT_RECIPE", updatedRecipe });
+        })
+        .catch((err) => {
+            dispatch({ type: "EDIT_RECIPE_ERROR", err });
+        });
+};
+
+export const createRecipe = (recipe) => (dispatch) => {
+    recipe.id = recipe.name.replace(/\s+/g, "-").toLowerCase();
+
+    //async call to database
+    firebase
+        .firestore()
+        .collection("recipes")
+        .add({
+            ...recipe,
+        })
+        .then(() => {
+            console.log("submitted recipe successfully!");
+            dispatch({ type: "CREATE_RECIPE", recipe });
+        })
+        .catch((err) => {
+            dispatch({ type: "CREATE_RECIPE_ERROR" }, err);
+        });
 };

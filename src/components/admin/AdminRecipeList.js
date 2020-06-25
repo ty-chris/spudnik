@@ -6,9 +6,9 @@ import { getRecipesThunk } from "../actions/recipeActions";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import RecipeCard from "./RecipeCard";
+import AdminRecipeCard from "./AdminRecipeCard";
 
-class RecipeList extends React.Component {
+class AdminRecipeList extends React.Component {
     state = {
         searchString: "",
     };
@@ -44,6 +44,7 @@ class RecipeList extends React.Component {
             <div>
                 {(this.props.recipes && this.props.recipes.length) > 0 ? (
                     <div>
+                        <h1>Admin Recipe Page</h1>
                         <TextField
                             style={{ padding: 24 }}
                             id="searchInput"
@@ -65,7 +66,7 @@ class RecipeList extends React.Component {
                                     lg={4}
                                     xl={3}
                                 >
-                                    <RecipeCard recipe={currentRecipe} />
+                                    <AdminRecipeCard recipe={currentRecipe} />
                                 </Grid>
                             ))}
                         </Grid>
@@ -79,7 +80,6 @@ class RecipeList extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    //console.log("state from list", state);
     return {
         recipes: state.recipes,
     };
@@ -91,4 +91,4 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecipeList);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminRecipeList);
