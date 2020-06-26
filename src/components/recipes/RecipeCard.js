@@ -23,7 +23,7 @@ const RecipeCard = ({ recipe }) => {
                     className="item"
                     style={{ textDecoration: "none" }}
                 >
-                    <Card style={{ height: "auto" }}>
+                    <Card style={{ height: "100%" }}>
                         <CardActionArea>
                             {recipe.image ? (
                                 <CardMedia

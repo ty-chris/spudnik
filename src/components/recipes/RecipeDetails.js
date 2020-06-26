@@ -27,7 +27,7 @@ import UserFeedback from "../user/UserFeedback";
 
 const useStyles = (theme) => ({
     root: {
-        width: "100vw",
+        width: "80%",
         height: "auto",
         display: "flex",
         align: "center",
@@ -37,10 +37,7 @@ const useStyles = (theme) => ({
         position: "justify",
         padding: "20px",
     },
-    table: {
-        display: "flex",
-        margin: "auto",
-    },
+    table: {},
     card: {
         margin: "auto",
     },
@@ -82,6 +79,7 @@ class RecipeDetails extends React.Component {
 
         console.log("currAmount", currAmount);
 
+        // serving calculator logic
         if (
             this.state.numServes !== "" &&
             this.state.numServes !== this.props.recipe.servings
@@ -114,23 +112,30 @@ class RecipeDetails extends React.Component {
                         alt={this.props.recipe.name}
                         image={this.props.recipe.image}
                         title={this.props.recipe.name}
-                        height="600"
+                        height="100%"
                     />
                     {this.props.recipe.video ? (
-                        <ReactPlayer
-                            url={this.props.recipe.video}
-                            height="540px"
-                            width="960px"
-                            config={{
-                                youtube: {
-                                    playerVars: { controls: 1 },
-                                },
-                            }}
+                        <div
                             style={{
-                                margin: "auto",
-                                paddingTop: "20px",
+                                width: "auto",
+                                height: "auto",
+                                position: "relative",
+                                paddingTop: "5px",
                             }}
-                        />
+                        >
+                            <ReactPlayer
+                                url={this.props.recipe.video}
+                                height="45vw"
+                                width="100%"
+                                controls
+                                style={{
+                                    postion: "absolute",
+                                    margin: "auto",
+                                    top: 0,
+                                    left: 0,
+                                }}
+                            />
+                        </div>
                     ) : null}
                     <CardContent>
                         <Typography
@@ -170,39 +175,37 @@ class RecipeDetails extends React.Component {
                                 </FormHelperText>
                             </FormControl>
                         </Grid>
-                        <Box className="classes.table">
-                            <TableContainer component={Paper}>
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>
-                                                <h3>Ingredients</h3>
-                                            </TableCell>
-                                            <TableCell>
-                                                <h3>Amount</h3>
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {this.props.recipe.ingredients.map(
-                                            (ingredient, index) => (
-                                                <TableRow key={ingredient}>
-                                                    <TableCell
-                                                        component="th"
-                                                        scope="row"
-                                                    >
-                                                        {ingredient.ingredient}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {currAmount[index]}
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Box>
+                        <TableContainer component={Paper}>
+                            <Table className="classes.table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>
+                                            <h3>Ingredients</h3>
+                                        </TableCell>
+                                        <TableCell>
+                                            <h3>Amount</h3>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {this.props.recipe.ingredients.map(
+                                        (ingredient, index) => (
+                                            <TableRow key={ingredient}>
+                                                <TableCell
+                                                    component="th"
+                                                    scope="row"
+                                                >
+                                                    {ingredient.ingredient}
+                                                </TableCell>
+                                                <TableCell>
+                                                    {currAmount[index]}
+                                                </TableCell>
+                                            </TableRow>
+                                        )
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
                         <Box className={classes.directions}>
                             <Typography
                                 gutterBottom

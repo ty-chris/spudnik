@@ -56,6 +56,7 @@ class RecipeList extends React.Component {
 
         let currentList = this.props.recipes;
 
+        // Sorting
         if (this.state.sortMethod === "name") {
             currentList = currentList.sort((a, b) =>
                 a.name.localeCompare(b.name)
@@ -68,6 +69,7 @@ class RecipeList extends React.Component {
             currentList = this.props.recipes;
         }
 
+        // Search filter
         if (this.state.searchString !== "") {
             currentList = currentList.filter((recipe) => {
                 const name = recipe.name.toLowerCase();
@@ -116,11 +118,14 @@ class RecipeList extends React.Component {
                             container
                             spacing={2}
                             style={{ padding: 24, height: "100%" }}
+                            alignItems="stretch"
+                            display="flex"
                         >
                             {currentList.map((currentRecipe) => (
                                 <Grid
                                     key={currentRecipe.id}
                                     item
+                                    component="Card"
                                     xs={12}
                                     sm={6}
                                     lg={4}

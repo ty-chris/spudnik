@@ -15,6 +15,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Button from "@material-ui/core/Button";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
 //import FormControl from "@material-ui/core/FormControl";
 //import Select from "@material-ui/core/Select";
 
@@ -46,7 +49,15 @@ const maxLength30 = maxLength(30);
 
 const minValue1 = minValue(1);
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 class CreateRecipe extends React.Component {
+    state = {
+        open: false,
+    };
+
     renderInput = ({
         input,
         label,
@@ -189,10 +200,51 @@ class CreateRecipe extends React.Component {
         );
     };
 
+    handleClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        this.setState({
+            open: false,
+        });
+    };
+
     onSubmit = (formValues) => {
         console.log(formValues);
+        console.log(this.props);
         if (window.confirm("Are you sure?")) {
             this.props.createRecipe(formValues);
+        }
+
+        if (this.props.submitSucceeded) {
+            return (
+                <div>
+                    <Snackbar
+                        open={true}
+                        autoHideDuration={6000}
+                        onClose={this.handleClose}
+                    >
+                        <Alert onClose={this.handleClose} severity="success">
+                            Recipe created successfully!
+                        </Alert>
+                    </Snackbar>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <Snackbar
+                        open={true}
+                        autoHideDuration={6000}
+                        onClose={this.handleClose}
+                    >
+                        <Alert onClose={this.handleClose} severity="error">
+                            Recipe failed to create!
+                        </Alert>
+                    </Snackbar>
+                </div>
+            );
         }
     };
 
