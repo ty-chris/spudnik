@@ -63,14 +63,14 @@ export const editRecipe = (updatedRecipe) => (dispatch) => {
 };
 
 export const createRecipe = (recipe) => (dispatch) => {
-    recipe.id = recipe.name.replace(/\s+/g, "-").toLowerCase();
-
     //async call to database
     firebase
         .firestore()
         .collection("recipes")
         .add({
             ...recipe,
+            createdAt: new Date(),
+            id: recipe.name.replace(/\s+/g, "-").toLowerCase(),
         })
         .then(() => {
             console.log("submitted recipe successfully!");
