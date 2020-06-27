@@ -115,6 +115,7 @@ export const postComment = (comment, recipeId) => (
                 })
                 .then(() => {
                     dispatch({ type: "COMMENT_POSTED" });
+                    dispatch(fetchComments(recipeId));
                 });
         });
 };
@@ -140,6 +141,7 @@ export const editComment = (recipeId, commentId, newBody) => (
                 })
                 .then(() => {
                     dispatch({ type: "COMMENT_EDITED" });
+                    dispatch(fetchComments(recipeId));
                 });
         });
 };
@@ -161,6 +163,7 @@ export const deleteComment = (recipeId, commentId) => (
                 .delete()
                 .then(() => {
                     dispatch({ type: "COMMENT_DELETED" });
+                    dispatch(fetchComments(recipeId));
                 });
         });
 };

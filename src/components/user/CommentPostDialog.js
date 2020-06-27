@@ -16,11 +16,11 @@ const CommentPostDialog = (props) => {
     const [newComment, setComment] = React.useState("");
 
     const handleClickOpen = () => {
+        setComment("");
         setOpen(true);
     };
 
     const handleClose = () => {
-        setComment("");
         setOpen(false);
     };
 

@@ -16,6 +16,7 @@ const CommentEditDialog = (props) => {
     const [newComment, setComment] = React.useState("");
 
     const handleClickOpen = () => {
+        setComment(props.commentBody);
         props.onClick();
         setOpen(true);
     };

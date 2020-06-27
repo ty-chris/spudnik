@@ -61,6 +61,7 @@ const CommentMenu = (props) => {
                     onUserAction={props.onUserAction}
                     recipeId={props.recipeId}
                     commentId={props.commentId}
+                    commentBody={props.commentBody}
                 />
                 <MenuItem key="delete" onClick={handleDelete}>
                     <ListItemIcon>
