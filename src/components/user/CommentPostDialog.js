@@ -9,7 +9,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import CommentRoundedIcon from "@material-ui/icons/CommentRounded";
 
-import { postComment, fetchComments } from "../actions/userActions";
+import { postComment } from "../actions/userActions";
 
 const CommentPostDialog = (props) => {
     const [open, setOpen] = React.useState(false);
@@ -35,7 +35,6 @@ const CommentPostDialog = (props) => {
             uid: props.uid
         };
         props.postComment(comment, props.recipeId);
-        props.fetchComments(props.recipeId);
         setOpen(false);
     };
 
@@ -79,4 +78,4 @@ const CommentPostDialog = (props) => {
     );
 };
 
-export default connect(null, { postComment, fetchComments })(CommentPostDialog);
+export default connect(null, { postComment })(CommentPostDialog);

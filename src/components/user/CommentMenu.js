@@ -34,7 +34,6 @@ const CommentMenu = (props) => {
 
     const handleDelete = () => {
         props.deleteComment(props.recipeId, props.commentId);
-        props.onUserAction();
         setAnchorEl(null);
     };
 
@@ -58,7 +57,6 @@ const CommentMenu = (props) => {
                 <CommentEditDialog
                     onClick={handleEdit}
                     editComment={props.editComment}
-                    onUserAction={props.onUserAction}
                     recipeId={props.recipeId}
                     commentId={props.commentId}
                     commentBody={props.commentBody}

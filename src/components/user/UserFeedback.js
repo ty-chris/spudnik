@@ -19,7 +19,7 @@ import {
     favARecipe,
     unfavARecipe,
     hasFavRecipe,
-    resetState,
+    resetState
 } from "../actions/userActions";
 
 import CommentList from "./CommentList";
@@ -39,22 +39,14 @@ class UserFeedback extends React.Component {
         if (this.props.uid) {
             const user = {
                 uid: this.props.uid,
-                username: this.props.profile.username,
+                username: this.props.profile.username
             };
-            this.props.likeRecipe(
-                user,
-                this.props.recipeId,
-                this.props.user.likeCount
-            );
+            this.props.likeRecipe(user, this.props.recipeId);
         }
     };
 
     handleUnlike = () => {
-        this.props.unlikeRecipe(
-            this.props.uid,
-            this.props.recipeId,
-            this.props.user.likeCount
-        );
+        this.props.unlikeRecipe(this.props.uid, this.props.recipeId);
     };
 
     handleFav = () => {
@@ -167,7 +159,7 @@ const mapStateToProps = (state) => {
     return {
         uid: state.firebase.auth.uid,
         profile: state.firebase.profile,
-        user: state.user,
+        user: state.user
     };
 };
 
@@ -179,5 +171,5 @@ export default connect(mapStateToProps, {
     favARecipe,
     unfavARecipe,
     hasFavRecipe,
-    resetState,
+    resetState
 })(UserFeedback);

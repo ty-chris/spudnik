@@ -85,8 +85,7 @@ export default (state = INIT_STATE, action) => {
             console.log("recipe liked");
             return {
                 ...state,
-                hasLikedRecipe: true,
-                likeCount: action.payload
+                hasLikedRecipe: true
             };
         case "HAS_LIKED_RECIPE":
             console.log("user has liked recipe");
@@ -104,8 +103,7 @@ export default (state = INIT_STATE, action) => {
             console.log("recipe unliked");
             return {
                 ...state,
-                hasLikedRecipe: false,
-                likeCount: action.payload
+                hasLikedRecipe: false
             };
         case "FETCH_LIKE_COUNT":
             console.log(`${action.payload} likes`);

@@ -169,12 +169,13 @@ export const deleteComment = (recipeId, commentId) => (
 };
 
 // >>> likes <<<
-export const likeRecipe = (user, recipeId, likeCount) => (
+export const likeRecipe = (user, recipeId) => (
     dispatch,
     getState,
     getFirebase
 ) => {
     const firestore = getFirebase().firestore();
+    const increment = getFirebase().firestore.FieldValue.increment(1);
     firestore
         .collection("recipes")
         .where("id", "==", recipeId)
@@ -189,8 +190,9 @@ export const likeRecipe = (user, recipeId, likeCount) => (
                 });
 
             querySnapshot.forEach((doc) => {
-                doc.ref.update("likeCount", likeCount + 1).then(() => {
-                    dispatch({ type: "RECIPE_LIKED", payload: likeCount + 1 });
+                doc.ref.update({ likeCount: increment }).then(() => {
+                    dispatch({ type: "RECIPE_LIKED" });
+                    dispatch(fetchLikeCount(recipeId));
                 });
             });
         });
@@ -221,12 +223,13 @@ export const hasLikedRecipe = (userId, recipeId) => (
         });
 };
 
-export const unlikeRecipe = (userId, recipeId, likeCount) => (
+export const unlikeRecipe = (userId, recipeId) => (
     dispatch,
     getState,
     getFirebase
 ) => {
     const firestore = getFirebase().firestore();
+    const decrement = getFirebase().firestore.FieldValue.increment(-1);
     firestore
         .collection("recipes")
         .where("id", "==", recipeId)
@@ -238,11 +241,11 @@ export const unlikeRecipe = (userId, recipeId, likeCount) => (
                 .delete();
 
             querySnapshot.forEach((doc) => {
-                doc.ref.update("likeCount", likeCount - 1).then(() => {
+                doc.ref.update({ likeCount: decrement }).then(() => {
                     dispatch({
-                        type: "RECIPE_UNLIKED",
-                        payload: likeCount - 1
+                        type: "RECIPE_UNLIKED"
                     });
+                    dispatch(fetchLikeCount(recipeId));
                 });
             });
         });
@@ -261,7 +264,7 @@ export const fetchLikeCount = (recipeId) => (
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                likeCount = doc.data().likeCount;
+                likeCount = doc.data().likeCount ? doc.data().likeCount : 0;
             });
             dispatch({ type: "FETCH_LIKE_COUNT", payload: likeCount });
         });

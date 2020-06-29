@@ -69,7 +69,6 @@ const CommentDetails = (props) => {
                             recipeId={comment.recipeId}
                             commentId={comment.id}
                             commentBody={comment.body}
-                            onUserAction={props.onUserAction}
                         />
                     </ListItemSecondaryAction>
                 ) : null}

@@ -31,7 +31,6 @@ const CommentEditDialog = (props) => {
 
     const handleEdit = () => {
         props.editComment(props.recipeId, props.commentId, newComment);
-        props.onUserAction();
         setOpen(false);
     };
 
