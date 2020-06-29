@@ -15,6 +15,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Button from "@material-ui/core/Button";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import Divider from "@material-ui/core/Divider";
 //import FormControl from "@material-ui/core/FormControl";
 //import Select from "@material-ui/core/Select";
 
@@ -24,6 +25,12 @@ import { submitRecipe } from "../actions/recipeActions";
 
 const useStyles = (theme) => ({
     root: {
+        width: "80%",
+        height: "auto",
+        align: "center",
+        margin: "auto",
+    },
+    form: {
         "& .MuiTextField-root": {
             margin: theme.spacing(1),
             width: "35ch",
@@ -57,6 +64,7 @@ class SubmitRecipe extends React.Component {
             <TextField
                 label={label}
                 variant="outlined"
+                fullWidth
                 placeholder={label}
                 error={touched && invalid}
                 helperText={touched && error}
@@ -103,17 +111,10 @@ class SubmitRecipe extends React.Component {
             <ul>
                 <List>
                     <h2>Ingredients</h2>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => fields.push()}
-                    >
-                        Add ingredient
-                    </Button>
                 </List>
                 {fields.map((ingredient, index) => (
                     <List key={index}>
-                        <ListItem alignItems="flex-start">
+                        <ListItem alignItems="center">
                             <div>
                                 <Field
                                     name={`${ingredient}.ingredient`}
@@ -144,6 +145,13 @@ class SubmitRecipe extends React.Component {
                         </ListItem>
                     </List>
                 ))}
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => fields.push()}
+                >
+                    Add ingredient
+                </Button>
                 {error && <li className="error">{error}</li>}
             </ul>
         );
@@ -154,17 +162,10 @@ class SubmitRecipe extends React.Component {
             <ul>
                 <List>
                     <h2>Directions</h2>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => fields.push()}
-                    >
-                        Add direction
-                    </Button>
                 </List>
                 {fields.map((direction, index) => (
                     <List key={index} disablePadding>
-                        <ListItem alignItems="flex-start" width={1}>
+                        <ListItem alignItems="center" width={1}>
                             <Field
                                 name={direction}
                                 type="text"
@@ -184,6 +185,13 @@ class SubmitRecipe extends React.Component {
                         </ListItem>
                     </List>
                 ))}
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => fields.push()}
+                >
+                    Add direction
+                </Button>
                 {error && <li className="error">{error}</li>}
             </ul>
         );
@@ -200,67 +208,82 @@ class SubmitRecipe extends React.Component {
         const { classes } = this.props;
 
         return (
-            <Card className={classes.card}>
-                <CardContent>
-                    <Typography variant="h6" component="span" align="center">
-                        <h2>Create Recipe!</h2>
-                    </Typography>
-                </CardContent>
-                <Grid container alignItems="center">
-                    <form
-                        className={classes.root}
-                        onSubmit={this.props.handleSubmit(this.onSubmit)}
-                    >
-                        <div>
-                            <Field
-                                name="name"
-                                component={this.renderInput}
-                                label="Enter name of Recipe"
-                                validate={[required, maxLength30]}
-                            />
-                        </div>
-                        <div>
-                            <Field
-                                name="duration"
-                                component={this.renderInput}
-                                label="Enter time required"
-                                type="number"
-                                validate={[number, minValue1]}
-                            />
-                        </div>
-                        <div>
-                            <Field
-                                name="servings"
-                                component={this.renderInput}
-                                label="Enter number of Servings"
-                                type="number"
-                                validate={[number, minValue1]}
-                            />
-                        </div>
-                        <div>
-                            <FieldArray
-                                name="ingredients"
-                                component={this.renderIngredients}
-                            />
-                            <FieldArray
-                                name="directions"
-                                component={this.renderDirections}
-                            />
-                        </div>
-                        <div>
-                            <Button
-                                className="classes.button"
-                                variant="contained"
-                                color="primary"
-                                component="span"
-                                onClick={this.props.handleSubmit(this.onSubmit)}
+            <div className={classes.root}>
+                <Card className={classes.card}>
+                    <CardContent>
+                        <Typography
+                            variant="h6"
+                            component="span"
+                            align="center"
+                        >
+                            <h2>Submit a Recipe!</h2>
+                        </Typography>
+                    </CardContent>
+                    <Divider />
+                    <CardContent>
+                        <Grid container justify="center">
+                            <form
+                                className={classes.form}
+                                onSubmit={this.props.handleSubmit(
+                                    this.onSubmit
+                                )}
                             >
-                                Submit
-                            </Button>
-                        </div>
-                    </form>
-                </Grid>
-            </Card>
+                                <div>
+                                    <Field
+                                        name="name"
+                                        component={this.renderInput}
+                                        label="Enter name of Recipe"
+                                        validate={[required, maxLength30]}
+                                    />
+                                </div>
+                                <div>
+                                    <Field
+                                        name="duration"
+                                        component={this.renderInput}
+                                        label="Enter time required"
+                                        type="number"
+                                        validate={[number, minValue1]}
+                                    />
+                                </div>
+                                <div>
+                                    <Field
+                                        name="servings"
+                                        component={this.renderInput}
+                                        label="Enter number of Servings"
+                                        type="number"
+                                        validate={[number, minValue1]}
+                                    />
+                                    <Divider />
+                                </div>
+                                <div>
+                                    <FieldArray
+                                        name="ingredients"
+                                        component={this.renderIngredients}
+                                    />
+                                    <Divider />
+                                    <FieldArray
+                                        name="directions"
+                                        component={this.renderDirections}
+                                    />
+                                </div>
+                                <div>
+                                    <Button
+                                        className="classes.button"
+                                        variant="contained"
+                                        color="primary"
+                                        component="span"
+                                        onClick={this.props.handleSubmit(
+                                            this.onSubmit
+                                        )}
+                                    >
+                                        Submit
+                                    </Button>
+                                </div>
+                            </form>
+                        </Grid>
+                    </CardContent>
+                </Card>
+            </div>
         );
     }
 }
@@ -274,6 +297,10 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
     reduxForm({
         form: "SubmitRecipe",
+        initialValues: {
+            ingredients: [""],
+            directions: [""],
+        },
     }),
     withStyles(useStyles),
     connect(null, mapDispatchToProps)

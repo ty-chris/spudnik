@@ -17,6 +17,7 @@ import Button from "@material-ui/core/Button";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import Divider from "@material-ui/core/Divider";
 
 //import FormControl from "@material-ui/core/FormControl";
 //import Select from "@material-ui/core/Select";
@@ -114,13 +115,6 @@ class CreateRecipe extends React.Component {
             <ul>
                 <List>
                     <h2>Ingredients</h2>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => fields.push()}
-                    >
-                        Add ingredient
-                    </Button>
                 </List>
                 {fields.map((ingredient, index) => (
                     <List key={index}>
@@ -155,6 +149,13 @@ class CreateRecipe extends React.Component {
                         </ListItem>
                     </List>
                 ))}
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => fields.push()}
+                >
+                    Add ingredient
+                </Button>
                 {error && <li className="error">{error}</li>}
             </ul>
         );
@@ -165,13 +166,6 @@ class CreateRecipe extends React.Component {
             <ul>
                 <List>
                     <h2>Directions</h2>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => fields.push()}
-                    >
-                        Add direction
-                    </Button>
                 </List>
                 {fields.map((direction, index) => (
                     <List key={index} disablePadding>
@@ -195,6 +189,13 @@ class CreateRecipe extends React.Component {
                         </ListItem>
                     </List>
                 ))}
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => fields.push()}
+                >
+                    Add direction
+                </Button>
                 {error && <li className="error">{error}</li>}
             </ul>
         );
@@ -258,7 +259,7 @@ class CreateRecipe extends React.Component {
                         <h2>Create Recipe!</h2>
                     </Typography>
                 </CardContent>
-                <Grid container alignItems="center">
+                <Grid container justify="center">
                     <form
                         className={classes.root}
                         onSubmit={this.props.handleSubmit(this.onSubmit)}
@@ -288,16 +289,20 @@ class CreateRecipe extends React.Component {
                                 type="number"
                                 validate={[number, minValue1]}
                             />
+                            <Divider />
                         </div>
                         <div>
                             <FieldArray
                                 name="ingredients"
                                 component={this.renderIngredients}
                             />
+                            <Divider />
+
                             <FieldArray
                                 name="directions"
                                 component={this.renderDirections}
                             />
+                            <Divider />
                         </div>
                         <div>
                             <Field
@@ -349,6 +354,10 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
     reduxForm({
         form: "CreateRecipe",
+        initialValues: {
+            ingredients: [""],
+            directions: [""],
+        },
     }),
     withStyles(useStyles),
     connect(null, mapDispatchToProps)

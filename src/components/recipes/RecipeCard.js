@@ -15,7 +15,6 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 const RecipeCard = ({ recipe }) => {
     //console.log("current", recipe);
     return (
-        // todo make cards same height/overflow description to 2 lines
         <div>
             {recipe ? (
                 <Link

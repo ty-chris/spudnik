@@ -21,6 +21,7 @@ const useStyles = (theme) => ({
         paddingRight: 10,
     },
     formControl: {
+        paddingLeft: 20,
         minWidth: 120,
     },
 });
@@ -50,8 +51,6 @@ class RecipeList extends React.Component {
     };
 
     render() {
-        //console.log("recipes", this.props.recipes);
-        //console.log("search", this.state.currentDisplay);
         const { classes } = this.props;
 
         let currentList = this.props.recipes;
@@ -93,7 +92,10 @@ class RecipeList extends React.Component {
                                     onChange={this.onSearchInputChange}
                                 />
                                 <FormControl className={classes.formControl}>
-                                    <InputLabel htmlFor="sort-native-simple">
+                                    <InputLabel
+                                        htmlFor="sort-native-simple"
+                                        style={{ paddingLeft: 20 }}
+                                    >
                                         Sort By
                                     </InputLabel>
                                     <Select
@@ -105,7 +107,7 @@ class RecipeList extends React.Component {
                                         }}
                                     >
                                         <option value={""}>Default</option>
-                                        <option value={"name"}>A-Z</option>
+                                        <option value={"name"}>Name A-Z</option>
                                         <option value={"latest"}>Latest</option>
                                         <option value={"earliest"}>
                                             Earliest

@@ -3,6 +3,9 @@ export const recipesReducer = (state = [], action) => {
     switch (action.type) {
         case "GET_RECIPES":
             return action.payload;
+        case "GET_RECIPES_ERROR":
+            console.log("get recipes error", action.err);
+            return state;
         case "SUBMIT_RECIPE":
             return action.payload;
         case "SUBMIT_RECIPE_ERROR":

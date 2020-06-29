@@ -18,10 +18,11 @@ export const getRecipesThunk = () => async (dispatch) => {
             querySnapshot.docs.forEach((recipe) => {
                 recipes.push(recipe.data());
             });
+            recipes
+                ? dispatch({ type: "GET_RECIPES", payload: recipes })
+                : dispatch({ type: "GET_RECIPES_ERROR" });
         });
-
     //console.log("payload", recipes);
-    dispatch({ type: "GET_RECIPES", payload: recipes });
 };
 
 // For user submitted recipes

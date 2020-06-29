@@ -14,7 +14,6 @@ import EditRecipe from "./EditRecipe";
 const AdminRecipeCard = ({ recipe }) => {
     console.log("current", recipe);
     return (
-        // todo make cards same height/overflow description to 2 lines
         <div>
             {recipe ? (
                 <Link
