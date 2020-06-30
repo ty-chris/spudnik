@@ -84,12 +84,14 @@ export default function PersistentDrawerLeft() {
             </Toolbar>
             <Drawer
                 className={classes.drawer}
-                variant="persistent"
+                variant="temporary"
                 anchor="left"
                 open={open}
                 classes={{
                     paper: classes.drawerPaper,
                 }}
+                onEscapeKeyDown={handleDrawerClose}
+                onBackdropClick={handleDrawerClose}
             >
                 <div className={classes.drawerHeader}>
                     <IconButton onClick={handleDrawerClose}>

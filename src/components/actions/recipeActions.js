@@ -47,7 +47,6 @@ export const submitRecipe = (newRecipe) => (dispatch) => {
 };
 
 // ADMIN CRUD actions
-
 export const editRecipe = (updatedRecipe) => (dispatch) => {
     //async call to database
     firebase
