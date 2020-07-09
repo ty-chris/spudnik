@@ -4,8 +4,9 @@ export const signIn = (credentials) => (dispatch, getState, getFirebase) => {
     firebase
         .auth()
         .signInWithEmailAndPassword(credentials.email, credentials.password)
-        .then(() => {
+        .then((userCredential) => {
             dispatch({ type: "LOGIN_SUCCESS" });
+            dispatch(getAdminStatus(userCredential.user.uid));
         })
         .catch((err) => {
             dispatch({ type: "LOGIN_FAILED", payload: err });
@@ -63,6 +64,81 @@ export const forgetPasword = (email) => (dispatch, getState, getFirebase) => {
         })
         .catch((err) => {
             dispatch({ type: "PASSWORD_RESET_FAILED", payload: err });
+        });
+};
+
+export const getAdminStatus = (uid) => (dispatch, getState, getFirebase) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("users")
+        .doc(uid)
+        .get()
+        .then((documentSnapshot) => {
+            documentSnapshot.get("isAdmin")
+                ? dispatch({ type: "USER_IS_ADMIN" })
+                : dispatch({ type: "USER_IS_NOT_ADMIN" });
+        });
+};
+
+export const assignAsAdmin = (email) => (dispatch, getState, getFirebase) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("users")
+        .where("email", "==", email)
+        .get()
+        .then((querySnapshot) => {
+            if (querySnapshot.empty) {
+                dispatch({
+                    type: "ADMIN_ASSIGNMENT_FAILED",
+                    payload: {
+                        title: "Unsuccessful",
+                        content: `${email} does not exist`
+                    }
+                });
+            }
+
+            querySnapshot.forEach((doc) => {
+                doc.ref.update({ isAdmin: true }).then(() => {
+                    dispatch({
+                        type: "ADMIN_ASSIGNED",
+                        payload: {
+                            title: "Success",
+                            content: `${email} is now an admin`
+                        }
+                    });
+                });
+            });
+        });
+};
+
+export const unassignAsAdmin = (email) => (dispatch, getState, getFirebase) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("users")
+        .where("email", "==", email)
+        .get()
+        .then((querySnapshot) => {
+            if (querySnapshot.empty) {
+                dispatch({
+                    type: "ADMIN_UNASSIGNMENT_FAILED",
+                    payload: {
+                        title: "Unsuccessful",
+                        content: `${email} does not exist`
+                    }
+                });
+            }
+
+            querySnapshot.forEach((doc) => {
+                doc.ref.update({ isAdmin: false }).then(() => {
+                    dispatch({
+                        type: "ADMIN_UNASSIGNED",
+                        payload: {
+                            title: "Success",
+                            content: `${email} is no longer an admin`
+                        }
+                    });
+                });
+            });
         });
 };
 

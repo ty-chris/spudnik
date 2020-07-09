@@ -4,11 +4,19 @@ import "firebase/firestore"; // <- needed if using firestore
 import { firebaseReducer } from "react-redux-firebase";
 import { firestoreReducer } from "redux-firestore"; // <- needed if using firestore
 import { reducer as formReducer } from "redux-form";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 import { recipesReducer } from "./recipeReducer";
 import userReducer from "./userReducer";
 
-export default combineReducers({
+const persistConfig = {
+    key: "root",
+    storage,
+    whitelist: ["user"],
+};
+
+const rootReducer = combineReducers({
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     recipes: recipesReducer,
@@ -32,3 +40,5 @@ export default combineReducers({
         },
     }),
 });
+
+export default persistReducer(persistConfig, rootReducer);

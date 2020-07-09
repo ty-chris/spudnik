@@ -5,6 +5,8 @@ import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import { ReactReduxFirebaseProvider, getFirebase } from "react-redux-firebase";
 import { createFirestoreInstance } from "redux-firestore";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 
 import App from "./App";
 import reducer from "./components/reducers/";
@@ -16,6 +18,7 @@ const enhancers = composeEnhancers(
     applyMiddleware(thunk.withExtraArgument(getFirebase))
 );
 const store = createStore(reducer, enhancers);
+const persistor = persistStore(store);
 
 const rrfConfig = {
     userProfile: "users",
@@ -32,7 +35,9 @@ const rrfProps = {
 ReactDOM.render(
     <Provider store={store}>
         <ReactReduxFirebaseProvider {...rrfProps}>
-            <App />
+            <PersistGate persistor={persistor}>
+                <App />
+            </PersistGate>
         </ReactReduxFirebaseProvider>
     </Provider>,
     document.querySelector("#root")
