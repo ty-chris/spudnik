@@ -9,7 +9,14 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
 // actions
-import { signOut } from "../actions/userActions";
+import {
+    signOut,
+    assignAsAdmin,
+    unassignAsAdmin
+} from "../actions/userActions";
+
+// components
+import AdminAssignmentDialog from "../admin/AdminAssignmentDialog";
 
 const SignedInLinks = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -54,6 +61,20 @@ const SignedInLinks = (props) => {
                 onClose={handleClose}
             >
                 <MenuItem onClick={handleClose}>{props.username}</MenuItem>
+                {props.user.isAdmin ? (
+                    <React.Fragment>
+                        <AdminAssignmentDialog
+                            onClick={handleClose}
+                            action={props.assignAsAdmin}
+                            itemName={"Assign an Admin"}
+                        />
+                        <AdminAssignmentDialog
+                            onClick={handleClose}
+                            action={props.unassignAsAdmin}
+                            itemName={"Unassign an Admin"}
+                        />
+                    </React.Fragment>
+                ) : null}
                 <MenuItem
                     component={Link}
                     to="/favourites"
@@ -69,8 +90,13 @@ const SignedInLinks = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        username: state.firebase.profile.username
+        username: state.firebase.profile.username,
+        user: state.user
     };
 };
 
-export default connect(mapStateToProps, { signOut })(SignedInLinks);
+export default connect(mapStateToProps, {
+    signOut,
+    assignAsAdmin,
+    unassignAsAdmin
+})(SignedInLinks);

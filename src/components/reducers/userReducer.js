@@ -4,7 +4,9 @@ const INIT_STATE = {
     hasLikedRecipe: null,
     hasFavouritedRecipe: null,
     favouritedRecipes: [],
-    likeCount: null
+    likeCount: null,
+    isAdmin: null,
+    message: {}
 };
 
 export default (state = INIT_STATE, action) => {
@@ -35,7 +37,8 @@ export default (state = INIT_STATE, action) => {
                 hasLikedRecipe: null,
                 hasFavouritedRecipe: null,
                 favouritedRecipes: [],
-                likeCount: null
+                likeCount: null,
+                isAdmin: null
             };
         case "SIGNUP_SUCCESS":
             console.log("signup success");
@@ -65,6 +68,42 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 error: action.payload.message
+            };
+        case "USER_IS_ADMIN":
+            console.log("user is an admin");
+            return {
+                ...state,
+                isAdmin: true
+            };
+        case "USER_IS_NOT_ADMIN":
+            console.log("user is not an admin");
+            return {
+                ...state,
+                isAdmin: false
+            };
+        case "ADMIN_ASSIGNED":
+            console.log("admin assigned");
+            return {
+                ...state,
+                message: action.payload
+            };
+        case "ADMIN_ASSIGNMENT_FAILED":
+            console.log("unable to assign admin");
+            return {
+                ...state,
+                message: action.payload
+            };
+        case "ADMIN_UNASSIGNED":
+            console.log("admin unassigned");
+            return {
+                ...state,
+                message: action.payload
+            };
+        case "ADMIN_UNASSIGNMENT_FAILED":
+            console.log("unable to unassign admin");
+            return {
+                ...state,
+                message: action.payload
             };
         case "FETCH_COMMENTS":
             console.log("fetched comments");
