@@ -7,7 +7,7 @@ import SubmitRecipe from "./components/recipes/SubmitRecipe";
 import StickyFooter from "./components/layout/StickyFooter";
 import Login from "./components/user/Login";
 import SignUp from "./components/user/SignUp";
-import TempAppBar from "./components/layout/TempAppBar";
+import MainAppBar from "./components/layout/AppBar";
 import Favourites from "./components/user/Favourites";
 import About from "./components/About";
 import ScrollToTop from "./components/layout/ScrollToTop";
@@ -44,7 +44,7 @@ class App extends React.Component {
                 <ScrollToTop />
                 <div className="App">
                     <MuiThemeProvider theme={theme}>
-                        <TempAppBar />
+                        <MainAppBar />
                         <Switch>
                             <Route path="/" exact component={RecipeList} />
                             <Route

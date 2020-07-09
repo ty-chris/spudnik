@@ -41,9 +41,6 @@ export const submitRecipe = (newRecipe) => (dispatch) => {
         .catch((err) => {
             dispatch({ type: "SUBMIT_RECIPE_ERROR" }, err);
         });
-    /*.catch((error) => {
-            console.log("something bad happened....", error);
-        });*/
 };
 
 // ADMIN CRUD actions
@@ -55,7 +52,7 @@ export const editRecipe = (updatedRecipe) => (dispatch) => {
         .doc(updatedRecipe.id)
         .update(updatedRecipe)
         .then(() => {
-            dispatch({ type: "EDIT_RECIPE", updatedRecipe });
+            dispatch({ type: "EDIT_RECIPE", payload: updatedRecipe });
         })
         .catch((err) => {
             dispatch({ type: "EDIT_RECIPE_ERROR", err });
@@ -63,14 +60,17 @@ export const editRecipe = (updatedRecipe) => (dispatch) => {
 };
 
 export const createRecipe = (recipe) => (dispatch) => {
+    const recipeId = recipe.name.replace(/\s+/g, "-").toLowerCase();
+
     //async call to database
     firebase
         .firestore()
         .collection("recipes")
-        .add({
+        .doc(recipeId)
+        .set({
             ...recipe,
             createdAt: new Date(),
-            id: recipe.name.replace(/\s+/g, "-").toLowerCase(),
+            id: recipeId,
         })
         .then(() => {
             console.log("submitted recipe successfully!");

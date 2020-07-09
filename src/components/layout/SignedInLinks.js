@@ -43,12 +43,12 @@ const SignedInLinks = (props) => {
                 anchorEl={anchorEl}
                 anchorOrigin={{
                     vertical: "top",
-                    horizontal: "right"
+                    horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
                     vertical: "top",
-                    horizontal: "right"
+                    horizontal: "right",
                 }}
                 open={open}
                 onClose={handleClose}
@@ -69,7 +69,7 @@ const SignedInLinks = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        username: state.firebase.profile.username
+        username: state.firebase.profile.username,
     };
 };
 

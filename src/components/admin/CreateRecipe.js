@@ -28,13 +28,24 @@ import { createRecipe } from "../actions/recipeActions";
 
 const useStyles = (theme) => ({
     root: {
+        width: "100%",
+        height: "auto",
+        align: "center",
+        margin: "auto",
+        padding: "auto",
+    },
+    form: {
         "& .MuiTextField-root": {
             margin: theme.spacing(1),
-            width: "35ch",
         },
+        width: "80%",
+        align: "center",
+        margin: "auto",
+        padding: "auto",
     },
     card: { margin: "auto" },
-    button: { margin: "auto" },
+    buttonPadding: { margin: "auto", padding: "auto" },
+    buttonSpace: { padding: "10px" },
 });
 
 const number = (value) =>
@@ -70,6 +81,7 @@ class CreateRecipe extends React.Component {
                 label={label}
                 variant="outlined"
                 placeholder={label}
+                fullWidth
                 error={touched && invalid}
                 helperText={touched && error}
                 {...input}
@@ -111,14 +123,18 @@ class CreateRecipe extends React.Component {
                 };*/
 
     renderIngredients = ({ fields, meta: { error } }) => {
+        const { classes } = this.props;
+
         return (
-            <ul>
-                <List>
-                    <h2>Ingredients</h2>
-                </List>
+            <div>
+                <Grid container justify="center">
+                    <List>
+                        <h2>Ingredients</h2>
+                    </List>
+                </Grid>
                 {fields.map((ingredient, index) => (
                     <List key={index}>
-                        <ListItem alignItems="flex-start">
+                        <ListItem alignItems="center">
                             <div>
                                 <Field
                                     name={`${ingredient}.ingredient`}
@@ -128,7 +144,7 @@ class CreateRecipe extends React.Component {
                                     validate={[required]}
                                 />
                             </div>
-                            <div>
+                            <div style={{ paddingLeft: "10px" }}>
                                 <Field
                                     name={`${ingredient}.amount`}
                                     type="text"
@@ -149,27 +165,37 @@ class CreateRecipe extends React.Component {
                         </ListItem>
                     </List>
                 ))}
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => fields.push()}
+                <Grid
+                    className={classes.buttonSpace}
+                    container
+                    justify="center"
                 >
-                    Add ingredient
-                </Button>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => fields.push()}
+                    >
+                        Add ingredient
+                    </Button>
+                </Grid>
                 {error && <li className="error">{error}</li>}
-            </ul>
+            </div>
         );
     };
 
     renderDirections = ({ fields, meta: { error } }) => {
+        const { classes } = this.props;
+
         return (
-            <ul>
-                <List>
-                    <h2>Directions</h2>
-                </List>
+            <div>
+                <Grid container justify="center">
+                    <List>
+                        <h2>Directions</h2>
+                    </List>
+                </Grid>
                 {fields.map((direction, index) => (
-                    <List key={index} disablePadding>
-                        <ListItem alignItems="flex-start" width={1}>
+                    <List key={index}>
+                        <ListItem alignItems="center" width={1}>
                             <Field
                                 name={direction}
                                 type="text"
@@ -189,15 +215,21 @@ class CreateRecipe extends React.Component {
                         </ListItem>
                     </List>
                 ))}
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => fields.push()}
+                <Grid
+                    className={classes.buttonSpace}
+                    container
+                    justify="center"
                 >
-                    Add direction
-                </Button>
+                    <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => fields.push()}
+                    >
+                        Add direction
+                    </Button>
+                </Grid>
                 {error && <li className="error">{error}</li>}
-            </ul>
+            </div>
         );
     };
 
@@ -253,94 +285,142 @@ class CreateRecipe extends React.Component {
         const { classes } = this.props;
 
         return (
-            <Card className={classes.card}>
-                <CardContent>
-                    <Typography variant="h6" component="span" align="center">
-                        <h2>Create Recipe!</h2>
-                    </Typography>
-                </CardContent>
-                <Grid container justify="center">
-                    <form
-                        className={classes.root}
-                        onSubmit={this.props.handleSubmit(this.onSubmit)}
+            <div className={classes.root}>
+                <Card className={classes.card}>
+                    <CardContent>
+                        <Typography
+                            variant="h6"
+                            component="span"
+                            align="center"
+                        >
+                            <h2>Create Recipe! (For Admin)</h2>
+                        </Typography>
+                    </CardContent>
+                    <Grid
+                        container
+                        justify="center"
+                        direction={"column"}
+                        spacing={2}
                     >
-                        <div>
-                            <Field
-                                name="name"
-                                component={this.renderInput}
-                                label="Enter name of Recipe"
-                                validate={[required, maxLength30]}
-                            />
-                        </div>
-                        <div>
-                            <Field
-                                name="duration"
-                                component={this.renderInput}
-                                label="Enter time required"
-                                type="number"
-                                validate={[number, minValue1]}
-                            />
-                        </div>
-                        <div>
-                            <Field
-                                name="servings"
-                                component={this.renderInput}
-                                label="Enter number of Servings"
-                                type="number"
-                                validate={[number, minValue1]}
-                            />
-                            <Divider />
-                        </div>
-                        <div>
-                            <FieldArray
-                                name="ingredients"
-                                component={this.renderIngredients}
-                            />
-                            <Divider />
-
-                            <FieldArray
-                                name="directions"
-                                component={this.renderDirections}
-                            />
-                            <Divider />
-                        </div>
-                        <div>
-                            <Field
-                                name="image"
-                                component={this.renderInput}
-                                label="Enter image URL"
-                                validate={[required]}
-                            />
-                        </div>
-                        <div>
-                            <Field
-                                name="video"
-                                component={this.renderInput}
-                                label="Enter video URL(optional)"
-                            />
-                        </div>
-                        <div>
-                            <Field
-                                name="details"
-                                component={this.renderInput}
-                                label="Enter recipe details"
-                                validate={[required]}
-                            />
-                        </div>
-                        <div>
-                            <Button
-                                className="classes.button"
-                                variant="contained"
-                                color="primary"
-                                component="span"
-                                onClick={this.props.handleSubmit(this.onSubmit)}
-                            >
-                                Submit
-                            </Button>
-                        </div>
-                    </form>
-                </Grid>
-            </Card>
+                        <form
+                            className={classes.form}
+                            onSubmit={this.props.handleSubmit(this.onSubmit)}
+                        >
+                            <Grid container justify="center">
+                                <Grid item xs={12} sm={6}>
+                                    <Field
+                                        name="name"
+                                        component={this.renderInput}
+                                        label="Enter Name of Recipe"
+                                        validate={[required, maxLength30]}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Grid container justify="center">
+                                <Grid item xs={12} sm={6}>
+                                    <Field
+                                        name="duration"
+                                        component={this.renderInput}
+                                        label="Enter Time required in Minutes"
+                                        type="number"
+                                        validate={[number, minValue1]}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Grid container justify="center">
+                                <Grid item xs={12} sm={6}>
+                                    <Field
+                                        name="servings"
+                                        component={this.renderInput}
+                                        label="Enter Number of Servings"
+                                        type="number"
+                                        validate={[number, minValue1]}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Grid container justify="center">
+                                <Grid item xs={12} sm={8}>
+                                    <FieldArray
+                                        name="ingredients"
+                                        component={this.renderIngredients}
+                                    />
+                                    <Divider />
+                                </Grid>
+                            </Grid>
+                            <Grid container justify="center">
+                                <Grid item xs={12} sm={8}>
+                                    <FieldArray
+                                        name="directions"
+                                        component={this.renderDirections}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Grid container justify="center">
+                                <Grid item xs={12} sm={6}>
+                                    <Field
+                                        name="image"
+                                        component={this.renderInput}
+                                        label="Enter image URL"
+                                        validate={[required]}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Grid container justify="center">
+                                <Grid item xs={12} sm={6}>
+                                    <Field
+                                        name="video"
+                                        component={this.renderInput}
+                                        label="Enter video URL(optional)"
+                                    />
+                                </Grid>
+                            </Grid>
+                            <Grid container justify="center">
+                                <Grid item xs={12} sm={6}>
+                                    <Field
+                                        name="details"
+                                        component={this.renderInput}
+                                        label="Enter recipe details"
+                                        validate={[required]}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </form>
+                    </Grid>
+                    <Grid
+                        className={classes.buttonSpace}
+                        container
+                        justify="center"
+                    >
+                        <Button
+                            className={classes.buttonPadding}
+                            variant="contained"
+                            color="primary"
+                            component="span"
+                            onClick={this.props.handleSubmit(this.onSubmit)}
+                        >
+                            Submit
+                        </Button>
+                    </Grid>
+                    <div>
+                        {this.props.submitSucceeded ? (
+                            <div>
+                                <Snackbar
+                                    open={true}
+                                    autoHideDuration={6000}
+                                    onClose={this.handleClose}
+                                >
+                                    <Alert
+                                        onClose={this.handleClose}
+                                        severity="success"
+                                    >
+                                        Recipe submitted successfully!
+                                    </Alert>
+                                </Snackbar>
+                            </div>
+                        ) : null}
+                    </div>
+                </Card>
+            </div>
         );
     }
 }
@@ -358,6 +438,7 @@ export default compose(
             ingredients: [""],
             directions: [""],
         },
+        onSubmitSuccess: (result, dispatch, props) => {},
     }),
     withStyles(useStyles),
     connect(null, mapDispatchToProps)

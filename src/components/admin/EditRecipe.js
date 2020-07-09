@@ -1,8 +1,10 @@
 import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { Field, FieldArray, reduxForm } from "redux-form";
 import { editRecipe } from "../actions/recipeActions";
+import { getRecipesThunk } from "../actions/recipeActions";
 
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -18,6 +20,8 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Button from "@material-ui/core/Button";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Divider from "@material-ui/core/Divider";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import { withStyles } from "@material-ui/core/styles";
 
 const number = (value) =>
@@ -35,9 +39,16 @@ const useStyles = (theme) => ({
     card: { margin: "auto" },
 });
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 class EditRecipe extends React.Component {
     componentDidMount() {
         this.props.initialize(this.props.recipe); // here add this line to initialize the form
+        if (!this.props.recipe) {
+            this.props.getRecipesThunk();
+        }
     }
 
     renderInput = ({
@@ -119,6 +130,7 @@ class EditRecipe extends React.Component {
     };
 
     renderDirections = ({ fields, meta: { error } }) => {
+        console.log(fields);
         return (
             <ul>
                 <List>
@@ -169,10 +181,15 @@ class EditRecipe extends React.Component {
     };
 
     onSubmit = (formValues) => {
-        console.log(formValues);
+        //console.log(formValues);
+
         if (window.confirm("Are you sure?")) {
             this.props.editRecipe(formValues);
         }
+
+        setTimeout(() => {
+            this.props.history.push("/admin/");
+        }, 1500);
     };
 
     render() {
@@ -276,6 +293,24 @@ class EditRecipe extends React.Component {
                                 Submit
                             </Button>
                         </div>
+                        <div>
+                            {this.props.submitSucceeded ? (
+                                <div>
+                                    <Snackbar
+                                        open={true}
+                                        autoHideDuration={6000}
+                                        onClose={this.handleClose}
+                                    >
+                                        <Alert
+                                            onClose={this.handleClose}
+                                            severity="success"
+                                        >
+                                            Recipe edited successfully!
+                                        </Alert>
+                                    </Snackbar>
+                                </div>
+                            ) : null}
+                        </div>
                     </form>
                 </Grid>
             </Card>
@@ -285,13 +320,19 @@ class EditRecipe extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        getRecipesThunk: () => dispatch(getRecipesThunk()),
         editRecipe: (editedRecipe) => dispatch(editRecipe(editedRecipe)),
     };
 };
 
 const mapStateToProps = (state, ownProps) => {
+    let recipe = null;
+
     const recipes = state.recipes;
-    const recipe = recipes.find(({ id }) => id === ownProps.match.params.id);
+
+    if (Array.isArray(recipes)) {
+        recipe = recipes.find(({ id }) => id === ownProps.match.params.id);
+    }
 
     return {
         recipes: recipes,
@@ -303,8 +344,8 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
     reduxForm({
         form: "EditRecipe",
-        enableReinitialize: true,
     }),
     withStyles(useStyles),
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps, mapDispatchToProps),
+    withRouter
 )(EditRecipe);

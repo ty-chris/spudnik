@@ -13,5 +13,22 @@ export default combineReducers({
     firestore: firestoreReducer,
     recipes: recipesReducer,
     user: userReducer,
-    form: formReducer,
+    form: formReducer.plugin({
+        EditRecipe: (state, action) => {
+            switch (action.type) {
+                case "EDIT_RECIPE":
+                    return undefined;
+                default:
+                    return state;
+            }
+        },
+        CreateRecipe: (state, action) => {
+            switch (action.type) {
+                case "CREATE_RECIPE":
+                    return undefined;
+                default:
+                    return state;
+            }
+        },
+    }),
 });
