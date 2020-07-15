@@ -8,15 +8,22 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import CommentRoundedIcon from "@material-ui/icons/CommentRounded";
+import Rating from "@material-ui/lab/Rating";
+import Typography from "@material-ui/core/Typography";
 
+// Action creators
 import { postComment } from "../actions/userActions";
+
+import SimpleSnackbar from "./SimpleSnackbar";
 
 const CommentPostDialog = (props) => {
     const [open, setOpen] = React.useState(false);
     const [newComment, setComment] = React.useState("");
+    const [value, setValue] = React.useState(0);
 
     const handleClickOpen = () => {
         setComment("");
+        setValue(0);
         setOpen(true);
     };
 
@@ -32,9 +39,11 @@ const CommentPostDialog = (props) => {
         const comment = {
             body: newComment,
             createdBy: props.username,
-            uid: props.uid
+            uid: props.uid,
+            value: value
         };
         props.postComment(comment, props.recipeId);
+        props.onPost();
         setOpen(false);
     };
 
@@ -54,6 +63,16 @@ const CommentPostDialog = (props) => {
                 aria-labelledby="form-dialog-title"
             >
                 <DialogContent>
+                    <Typography component="legend">
+                        Rate this Recipe!
+                    </Typography>
+                    <Rating
+                        name="simple-controlled"
+                        value={value}
+                        onChange={(event, newValue) => {
+                            setValue(newValue);
+                        }}
+                    />
                     <TextField
                         autoFocus
                         margin="dense"
@@ -63,6 +82,7 @@ const CommentPostDialog = (props) => {
                         fullWidth
                         onChange={handleChange}
                         value={newComment}
+                        multiline
                     />
                 </DialogContent>
                 <DialogActions>

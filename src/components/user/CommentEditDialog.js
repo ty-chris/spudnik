@@ -10,13 +10,17 @@ import MenuItem from "@material-ui/core/MenuItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import EditRoundedIcon from "@material-ui/icons/EditRounded";
+import Rating from "@material-ui/lab/Rating";
+import Typography from "@material-ui/core/Typography";
 
 const CommentEditDialog = (props) => {
     const [open, setOpen] = React.useState(false);
     const [newComment, setComment] = React.useState("");
+    const [value, setValue] = React.useState(0);
 
     const handleClickOpen = () => {
         setComment(props.commentBody);
+        setValue(props.commentRating);
         props.onClick();
         setOpen(true);
     };
@@ -30,7 +34,8 @@ const CommentEditDialog = (props) => {
     };
 
     const handleEdit = () => {
-        props.editComment(props.recipeId, props.commentId, newComment);
+        props.editComment(props.recipeId, props.commentId, newComment, value);
+        props.onEdit();
         setOpen(false);
     };
 
@@ -48,6 +53,16 @@ const CommentEditDialog = (props) => {
                 aria-labelledby="form-dialog-title"
             >
                 <DialogContent>
+                    <Typography component="legend">
+                        Rate this Recipe!
+                    </Typography>
+                    <Rating
+                        name="simple-controlled"
+                        value={value}
+                        onChange={(event, newValue) => {
+                            setValue(newValue);
+                        }}
+                    />
                     <TextField
                         autoFocus
                         margin="dense"
@@ -57,6 +72,7 @@ const CommentEditDialog = (props) => {
                         fullWidth
                         onChange={handleChange}
                         value={newComment}
+                        multiline
                     />
                 </DialogContent>
                 <DialogActions>

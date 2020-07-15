@@ -187,7 +187,8 @@ export const postComment = (comment, recipeId) => (
                     uid: comment.uid,
                     createdAt: new Date(),
                     edited: false,
-                    recipeId: recipeId
+                    recipeId: recipeId,
+                    rating: comment.value
                 })
                 .then(() => {
                     dispatch({ type: "COMMENT_POSTED" });
@@ -196,7 +197,7 @@ export const postComment = (comment, recipeId) => (
         });
 };
 
-export const editComment = (recipeId, commentId, newBody) => (
+export const editComment = (recipeId, commentId, newBody, newValue) => (
     dispatch,
     getState,
     getFirebase
@@ -213,7 +214,8 @@ export const editComment = (recipeId, commentId, newBody) => (
                 .update({
                     body: newBody,
                     edited: true,
-                    createdAt: new Date()
+                    createdAt: new Date(),
+                    rating: newValue
                 })
                 .then(() => {
                     dispatch({ type: "COMMENT_EDITED" });

@@ -12,6 +12,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import Rating from "@material-ui/lab/Rating";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const CommentDetails = (props) => {
     const classes = useStyles();
     const { comment } = props;
+    const createdAt = new Date(comment.createdAt.seconds * 1000);
 
     return (
         <React.Fragment>
@@ -53,15 +55,22 @@ const CommentDetails = (props) => {
                                 className={classes.inline}
                                 color="textSecondary"
                             >
-                                {` ${moment(
-                                    comment.createdAt.toDate()
-                                ).fromNow()} ${
+                                {` ${moment(createdAt).fromNow()} ${
                                     comment.edited ? "(edited)" : ""
                                 }`}
                             </Typography>
                         </React.Fragment>
                     }
-                    secondary={comment.body}
+                    secondary={
+                        <React.Fragment>
+                            <Rating
+                                readOnly
+                                value={comment.rating}
+                                size="small"
+                            />
+                            <Typography>{comment.body}</Typography>
+                        </React.Fragment>
+                    }
                 />
                 {props.uid === comment.uid ? (
                     <ListItemSecondaryAction>
@@ -69,6 +78,9 @@ const CommentDetails = (props) => {
                             recipeId={comment.recipeId}
                             commentId={comment.id}
                             commentBody={comment.body}
+                            commentRating={comment.rating}
+                            onEdit={props.onEdit}
+                            onDelete={props.onDelete}
                         />
                     </ListItemSecondaryAction>
                 ) : null}

@@ -24,8 +24,15 @@ import {
 
 import CommentList from "./CommentList";
 import CommentPostDialog from "./CommentPostDialog";
+import SimpleSnackbar from "./SimpleSnackbar";
 
 class UserFeedback extends React.Component {
+    state = {
+        posted: false,
+        edited: false,
+        deleted: false
+    };
+
     componentDidMount() {
         this.props.hasLikedRecipe(this.props.uid, this.props.recipeId);
         this.props.hasFavRecipe(this.props.uid, this.props.recipeId);
@@ -57,11 +64,23 @@ class UserFeedback extends React.Component {
         this.props.unfavARecipe(this.props.uid, this.props.recipeId);
     };
 
+    handlePost = () => {
+        this.setState({ posted: true });
+    };
+
+    handleEdit = () => {
+        this.setState({ edited: true });
+    };
+
+    handleDelete = () => {
+        this.setState({ deleted: true });
+    };
+
     renderLikeButton() {
-        const likeCount = !this.props.user.likeCount
-            ? 0
-            : this.props.user.likeCount;
-        const likes = likeCount > 1 ? "likes" : "like";
+        // const likeCount = !this.props.user.likeCount
+        //     ? 0
+        //     : this.props.user.likeCount;
+        // const likes = likeCount > 1 ? "likes" : "like";
         if (this.props.user.hasLikedRecipe) {
             return (
                 <Button
@@ -70,7 +89,7 @@ class UserFeedback extends React.Component {
                     onClick={this.handleUnlike}
                     startIcon={<StarRoundedIcon />}
                 >
-                    {`${likeCount} ${likes}`}
+                    Unlike
                 </Button>
             );
         }
@@ -81,7 +100,7 @@ class UserFeedback extends React.Component {
                 onClick={this.handleLike}
                 startIcon={<StarBorderRoundedIcon />}
             >
-                {likeCount === 0 ? "Like" : `${likeCount} ${likes}`}
+                Like
             </Button>
         );
     }
@@ -117,6 +136,7 @@ class UserFeedback extends React.Component {
                 recipeId={this.props.recipeId}
                 uid={this.props.uid}
                 username={this.props.profile.username}
+                onPost={this.handlePost}
             />
         );
     }
@@ -135,6 +155,36 @@ class UserFeedback extends React.Component {
         );
     }
 
+    renderSnackbar() {
+        if (this.state.posted) {
+            this.setState({ posted: false });
+            return (
+                <SimpleSnackbar
+                    message={"Comment has been posted!"}
+                    open={true}
+                />
+            );
+        } else if (this.state.edited) {
+            this.setState({ edited: false });
+            return (
+                <SimpleSnackbar
+                    message={"Comment has been edited!"}
+                    open={true}
+                />
+            );
+        } else if (this.state.deleted) {
+            this.setState({ deleted: false });
+            return (
+                <SimpleSnackbar
+                    message={"Comment has been deleted!"}
+                    open={true}
+                />
+            );
+        } else {
+            return;
+        }
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -148,8 +198,13 @@ class UserFeedback extends React.Component {
                     <CardActions>{this.renderLoginButton()}</CardActions>
                 )}
                 <CardContent>
-                    <CommentList recipeId={this.props.recipeId} />
+                    <CommentList
+                        recipeId={this.props.recipeId}
+                        onEdit={this.handleEdit}
+                        onDelete={this.handleDelete}
+                    />
                 </CardContent>
+                {this.renderSnackbar()}
             </React.Fragment>
         );
     }
