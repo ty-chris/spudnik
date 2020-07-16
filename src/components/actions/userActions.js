@@ -246,6 +246,28 @@ export const deleteComment = (recipeId, commentId) => (
         });
 };
 
+export const adminDeleteComment = (recipeId, commentId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("recipes")
+        .where("id", "==", recipeId)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs[0].ref
+                .collection("comments")
+                .doc(commentId)
+                .update({ deletedByAdmin: true })
+                .then(() => {
+                    dispatch({ type: "COMMENT_DELETED_BY_ADMIN" });
+                    dispatch(fetchComments(recipeId));
+                });
+        });
+};
+
 // >>> likes <<<
 export const likeRecipe = (user, recipeId) => (
     dispatch,
