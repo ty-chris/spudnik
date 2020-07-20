@@ -406,12 +406,14 @@ export const unfavARecipe = (userId, recipeId) => (
         .then((querySnapshot) => {
             querySnapshot.docs[0].ref.delete().then(() => {
                 dispatch({ type: "RECIPE_UNFAVOURITED" });
+                dispatch(fetchFav(userId));
             });
         });
 };
 
 export const fetchFav = (userId) => (dispatch, getState, getFirebase) => {
     const recipeIds = [];
+    const favRecipes = [];
     const firestore = getFirebase().firestore();
     firestore
         .collection("users")
@@ -422,7 +424,30 @@ export const fetchFav = (userId) => (dispatch, getState, getFirebase) => {
             querySnapshot.docs.forEach((doc) => {
                 recipeIds.push(doc.get("id"));
             });
-            dispatch({ type: "FETCH_FAVOURITES", payload: recipeIds });
+
+            recipeIds.forEach((recipeId) => {
+                firestore
+                    .collection("recipes")
+                    .where("id", "==", recipeId)
+                    .get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            const data = doc.data();
+                            const recipe = {
+                                name: data.name,
+                                image: data.image,
+                                id: data.id
+                            };
+                            favRecipes.push(recipe);
+                        });
+                    });
+            });
+
+            if (recipeIds.length == 0) {
+                dispatch({ type: "FETCH_FAVOURITES", payload: [0] });
+            } else {
+                dispatch({ type: "FETCH_FAVOURITES", payload: favRecipes });
+            }
         });
 };
 
