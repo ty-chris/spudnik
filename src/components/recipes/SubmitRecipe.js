@@ -4,26 +4,22 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { withRouter } from "react-router-dom";
 
-import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Button from "@material-ui/core/Button";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import Divider from "@material-ui/core/Divider";
-//import FormControl from "@material-ui/core/FormControl";
-//import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
 import { submitRecipe } from "../actions/recipeActions";
+import {
+    renderInput,
+    renderIngredients,
+    renderDirections,
+} from "../recipes/RenderRecipeForm";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -65,173 +61,10 @@ const maxLength30 = maxLength(30);
 const minValue1 = minValue(1);
 
 class SubmitRecipe extends React.Component {
-    renderInput = ({
-        input,
-        label,
-        meta: { touched, invalid, error },
-        ...custom
-    }) => {
-        return (
-            <TextField
-                label={label}
-                variant="outlined"
-                fullWidth
-                placeholder={label}
-                error={touched && invalid}
-                helperText={touched && error}
-                {...input}
-                {...custom}
-            />
-        );
-    };
-
-    renderFormHelper = ({ touched, error }) => {
-        if (!(touched && error)) {
-            return;
-        } else {
-            return <FormHelperText>{touched && error}</FormHelperText>;
-        }
-    };
-
-    /*renderSelectField = ({
-        input,
-        label,
-        meta: { touched, error },
-        children,
-        ...custom
-    }) => {
-        return (
-            <FormControl error={touched & error}>
-                <Select
-                    native
-                    {...input}
-                    {...custom}
-                    inputProps={{
-                        name: "servings",
-                    }}
-                >
-                    {children}
-                </Select>
-                {this.renderFormHelper({ touched, error })}
-            </FormControl>
-        );
-    };*/
-
-    renderIngredients = ({ fields, meta: { error } }) => {
-        const { classes } = this.props;
-
-        return (
-            <div>
-                <Grid container justify="center">
-                    <List>
-                        <h2>Ingredients</h2>
-                    </List>
-                </Grid>
-                {fields.map((ingredient, index) => (
-                    <List key={index}>
-                        <ListItem alignItems="center">
-                            <div>
-                                <Field
-                                    name={`${ingredient}.ingredient`}
-                                    type="text"
-                                    component={this.renderInput}
-                                    label={`Ingredient #${index + 1}`}
-                                    validate={[required]}
-                                />
-                            </div>
-                            <div style={{ paddingLeft: "10px" }}>
-                                <Field
-                                    name={`${ingredient}.amount`}
-                                    type="text"
-                                    component={this.renderInput}
-                                    label={`Amount of Ingredient #${index + 1}`}
-                                    validate={[required]}
-                                />
-                            </div>
-                            <ListItemSecondaryAction>
-                                <IconButton
-                                    onClick={() => fields.remove(index)}
-                                    edge="end"
-                                    aria-label="delete"
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    </List>
-                ))}
-                <Grid
-                    className={classes.buttonSpace}
-                    container
-                    justify="center"
-                >
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => fields.push()}
-                    >
-                        Add ingredient
-                    </Button>
-                </Grid>
-                {error && <li className="error">{error}</li>}
-            </div>
-        );
-    };
-
-    renderDirections = ({ fields, meta: { error } }) => {
-        const { classes } = this.props;
-
-        return (
-            <div>
-                <Grid container justify="center">
-                    <List>
-                        <h2>Directions</h2>
-                    </List>
-                </Grid>
-                {fields.map((direction, index) => (
-                    <List key={index}>
-                        <ListItem alignItems="center" width={1}>
-                            <Field
-                                name={direction}
-                                type="text"
-                                component={this.renderInput}
-                                label={`Direction #${index + 1}`}
-                                validate={[required]}
-                            />
-                            <ListItemSecondaryAction>
-                                <IconButton
-                                    onClick={() => fields.remove(index)}
-                                    edge="end"
-                                    aria-label="delete"
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                    </List>
-                ))}
-                <Grid
-                    className={classes.buttonSpace}
-                    container
-                    justify="center"
-                >
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => fields.push()}
-                    >
-                        Add direction
-                    </Button>
-                </Grid>
-                {error && <li className="error">{error}</li>}
-            </div>
-        );
-    };
-
     onSubmit = (formValues) => {
         //console.log(formValues);
         if (window.confirm("Are you sure?")) {
-            this.props.createRecipe(formValues);
+            this.props.submitRecipe(formValues);
         }
 
         setTimeout(() => {
@@ -265,20 +98,20 @@ class SubmitRecipe extends React.Component {
                             onSubmit={this.props.handleSubmit(this.onSubmit)}
                         >
                             <Grid container justify="center">
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} sm={4}>
                                     <Field
                                         name="name"
-                                        component={this.renderInput}
+                                        component={renderInput}
                                         label="Enter Name of Recipe"
                                         validate={[required, maxLength30]}
                                     />
                                 </Grid>
                             </Grid>
                             <Grid container justify="center">
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} sm={4}>
                                     <Field
                                         name="duration"
-                                        component={this.renderInput}
+                                        component={renderInput}
                                         label="Enter Time required in Minutes"
                                         type="number"
                                         validate={[number, minValue1]}
@@ -286,10 +119,10 @@ class SubmitRecipe extends React.Component {
                                 </Grid>
                             </Grid>
                             <Grid container justify="center">
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} sm={4}>
                                     <Field
                                         name="servings"
-                                        component={this.renderInput}
+                                        component={renderInput}
                                         label="Enter Number of Servings"
                                         type="number"
                                         validate={[number, minValue1]}
@@ -297,47 +130,47 @@ class SubmitRecipe extends React.Component {
                                 </Grid>
                             </Grid>
                             <Grid container justify="center">
-                                <Grid item xs={12} sm={8}>
+                                <Grid item xs={12} sm={6}>
                                     <FieldArray
                                         name="ingredients"
-                                        component={this.renderIngredients}
+                                        component={renderIngredients}
                                     />
                                     <Divider />
                                 </Grid>
                             </Grid>
                             <Grid container justify="center">
-                                <Grid item xs={12} sm={8}>
+                                <Grid item xs={12} sm={6}>
                                     <FieldArray
                                         name="directions"
-                                        component={this.renderDirections}
+                                        component={renderDirections}
                                     />
                                 </Grid>
                             </Grid>
                             <Grid container justify="center">
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} sm={4}>
                                     <Field
                                         name="image"
-                                        component={this.renderInput}
-                                        label="Enter image URL"
-                                        validate={[required]}
+                                        component={renderInput}
+                                        label="Enter image URL(optional)"
                                     />
                                 </Grid>
                             </Grid>
                             <Grid container justify="center">
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} sm={4}>
                                     <Field
                                         name="video"
-                                        component={this.renderInput}
+                                        component={renderInput}
                                         label="Enter video URL(optional)"
                                     />
                                 </Grid>
                             </Grid>
                             <Grid container justify="center">
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} sm={4}>
                                     <Field
                                         name="details"
-                                        component={this.renderInput}
+                                        component={renderInput}
                                         label="Enter recipe details"
+                                        multiline
                                         validate={[required]}
                                     />
                                 </Grid>

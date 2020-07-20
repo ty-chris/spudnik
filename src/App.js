@@ -21,6 +21,8 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import AdminRecipeList from "./components/admin/AdminRecipeList";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import CreateRecipe from "./components/admin/CreateRecipe";
+import SubmissionApproval from "./components/admin/SubmissionApprovalList";
+import SubmissionEditRecipe from "./components/admin/SubmissionEditRecipe";
 
 const theme = createMuiTheme({
     palette: {
@@ -83,6 +85,15 @@ class App extends React.Component {
                         <Route
                             path="/admin/recipes/:id"
                             component={EditRecipe}
+                        />
+                        <Route
+                            exact
+                            path="/admin/submissions"
+                            component={SubmissionApproval}
+                        />
+                        <Route
+                            path="/admin/submissions/:id"
+                            component={SubmissionEditRecipe}
                         />
                     </MuiThemeProvider>
                 </div>

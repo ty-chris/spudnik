@@ -23,6 +23,15 @@ const AdminDashboard = () => {
                     To Admin CreateRecipe
                 </Link>
             </Button>
+            <Button color="primary">
+                <Link
+                    to={`/admin/submissions`}
+                    className="item"
+                    style={{ textDecoration: "none", color: "inherit" }}
+                >
+                    To User Submissions
+                </Link>
+            </Button>
         </div>
     );
 };

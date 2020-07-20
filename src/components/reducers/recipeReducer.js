@@ -4,7 +4,7 @@ export const recipesReducer = (state = [], action) => {
         case "GET_RECIPES":
             return action.payload;
         case "GET_RECIPES_ERROR":
-            console.log("get recipes error", action.err);
+            //console.log("get recipes error", action.err);
             return state;
         case "SUBMIT_RECIPE":
             return action.payload;
@@ -14,12 +14,27 @@ export const recipesReducer = (state = [], action) => {
         case "CREATE_RECIPE":
             return action.payload;
         case "CREATE_RECIPE_ERROR":
-            console.log("create recipe error", action.err);
+            //console.log("create recipe error", action.err);
             return state;
         case "EDIT_RECIPE":
             return action.payload;
         case "EDIT_RECIPE_ERROR":
-            console.log("edit recipe error", action.err);
+            //console.log("edit recipe error", action.err);
+            return state;
+        default:
+            return state;
+    }
+};
+
+export const submittedReducer = (state = [], action) => {
+    switch (action.type) {
+        case "GET_SUBMITTED":
+            return action.payload;
+        case "GET_SUBMITTED_ERROR":
+            return state;
+        case "EDIT_SUBMITTED_RECIPE":
+            return action.payload;
+        case "EDIT_SUBMITTED_RECIPE_ERROR":
             return state;
         default:
             return state;

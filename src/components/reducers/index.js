@@ -7,7 +7,7 @@ import { reducer as formReducer } from "redux-form";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-import { recipesReducer } from "./recipeReducer";
+import { recipesReducer, submittedReducer } from "./recipeReducer";
 import userReducer from "./userReducer";
 
 const persistConfig = {
@@ -39,6 +39,7 @@ const rootReducer = combineReducers({
             }
         },
     }),
+    submittedRecipes: submittedReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

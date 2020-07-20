@@ -25,17 +25,54 @@ export const getRecipesThunk = () => async (dispatch) => {
     //console.log("payload", recipes);
 };
 
+export const getSubmittedRecipes = () => async (dispatch) => {
+    const submittedRecipes = [];
+
+    await firebase
+        .firestore()
+        .collection("submittedRecipes")
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs.forEach((recipe) => {
+                submittedRecipes.push(recipe.data());
+            });
+            submittedRecipes
+                ? dispatch({ type: "GET_SUBMITTED", payload: submittedRecipes })
+                : dispatch({ type: "GET_SUBMITTED_ERROR" });
+        });
+};
+
+export const editSubmittedRecipe = (updatedRecipe) => (dispatch) => {
+    //async call to database
+    firebase
+        .firestore()
+        .collection("submittedRecipes")
+        .doc(updatedRecipe.id)
+        .update(updatedRecipe)
+        .then(() => {
+            dispatch({ type: "EDIT_SUBMITTED_RECIPE", payload: updatedRecipe });
+        })
+        .catch((err) => {
+            dispatch({ type: "EDIT_SUBMITTED_RECIPE_ERROR", err });
+        });
+};
+
 // For user submitted recipes
 export const submitRecipe = (newRecipe) => (dispatch) => {
+    const recipeId = newRecipe.name.replace(/\s+/g, "-").toLowerCase();
+
     // async call to database
     firebase
         .firestore()
         .collection("submittedRecipes")
-        .add({
+        .doc(recipeId)
+        .set({
             ...newRecipe,
+            createdAt: new Date(),
+            id: recipeId,
         })
         .then(() => {
-            console.log("submitted recipe successfully!");
+            //console.log("submitted recipe successfully!");
             dispatch({ type: "SUBMIT_RECIPE", newRecipe });
         })
         .catch((err) => {
@@ -73,7 +110,7 @@ export const createRecipe = (recipe) => (dispatch) => {
             id: recipeId,
         })
         .then(() => {
-            console.log("submitted recipe successfully!");
+            //console.log("submitted recipe successfully!");
             dispatch({ type: "CREATE_RECIPE", recipe });
         })
         .catch((err) => {

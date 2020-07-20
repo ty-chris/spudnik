@@ -3,8 +3,10 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Field, FieldArray, reduxForm } from "redux-form";
-import { editRecipe } from "../actions/recipeActions";
-import { getRecipesThunk } from "../actions/recipeActions";
+import {
+    editSubmittedRecipe,
+    getSubmittedRecipes,
+} from "../actions/recipeActions";
 import {
     renderInput,
     renderIngredients,
@@ -40,11 +42,11 @@ function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-class EditRecipe extends React.Component {
+class SubmissionEditRecipe extends React.Component {
     componentDidMount() {
-        this.props.initialize(this.props.recipe); // here add this line to initialize the form
-        if (!this.props.recipe) {
-            this.props.getRecipesThunk();
+        this.props.initialize(this.props.submittedRecipe); // here add this line to initialize the form
+        if (!this.props.submittedRecipe) {
+            this.props.getSubmittedRecipes();
         }
     }
 
@@ -60,7 +62,6 @@ class EditRecipe extends React.Component {
 
     onSubmit = (formValues) => {
         //console.log(formValues);
-
         if (window.confirm("Are you sure?")) {
             this.props.editRecipe(formValues);
         }
@@ -72,8 +73,9 @@ class EditRecipe extends React.Component {
 
     render() {
         const { classes } = this.props;
+        console.log(this.props);
 
-        if (!this.props.recipe) {
+        if (!this.props.submittedRecipe) {
             return null;
         }
 
@@ -81,7 +83,7 @@ class EditRecipe extends React.Component {
             <Card className={classes.card}>
                 <CardContent>
                     <Typography variant="h6" component="span" align="center">
-                        <h2>Edit {this.props.recipe.name} Recipe</h2>
+                        <h2>Edit {this.props.submittedRecipe.name} Recipe</h2>
                     </Typography>
                 </CardContent>
                 <Grid container justify="center">
@@ -161,7 +163,7 @@ class EditRecipe extends React.Component {
                                 component="span"
                                 onClick={this.props.handleSubmit(this.onSubmit)}
                             >
-                                Submit
+                                Save Submitted Recipe
                             </Button>
                         </div>
                         <div>
@@ -176,7 +178,8 @@ class EditRecipe extends React.Component {
                                             onClose={this.handleClose}
                                             severity="success"
                                         >
-                                            Recipe edited successfully!
+                                            Submitted recipe edited
+                                            successfully!
                                         </Alert>
                                     </Snackbar>
                                 </div>
@@ -191,32 +194,33 @@ class EditRecipe extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getRecipesThunk: () => dispatch(getRecipesThunk()),
-        editRecipe: (editedRecipe) => dispatch(editRecipe(editedRecipe)),
+        getSubmittedRecipes: () => dispatch(getSubmittedRecipes()),
+        editSubmittedRecipe: (editedRecipe) =>
+            dispatch(editSubmittedRecipe(editedRecipe)),
     };
 };
 
 const mapStateToProps = (state, ownProps) => {
     let recipe = null;
 
-    const recipes = state.recipes;
+    const recipes = state.submittedRecipes;
 
     if (Array.isArray(recipes)) {
         recipe = recipes.find(({ id }) => id === ownProps.match.params.id);
     }
 
     return {
-        recipes: recipes,
-        recipe: recipe,
+        submittedRecipes: recipes,
+        submittedRecipe: recipe,
         intitialValues: recipe,
     };
 };
 
 export default compose(
     reduxForm({
-        form: "EditRecipe",
+        form: "SubmissionEditRecipe",
     }),
     withStyles(useStyles),
     connect(mapStateToProps, mapDispatchToProps),
     withRouter
-)(EditRecipe);
+)(SubmissionEditRecipe);
