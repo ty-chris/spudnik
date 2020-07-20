@@ -187,7 +187,8 @@ export const postComment = (comment, recipeId) => (
                     uid: comment.uid,
                     createdAt: new Date(),
                     edited: false,
-                    recipeId: recipeId
+                    recipeId: recipeId,
+                    rating: comment.value
                 })
                 .then(() => {
                     dispatch({ type: "COMMENT_POSTED" });
@@ -196,7 +197,7 @@ export const postComment = (comment, recipeId) => (
         });
 };
 
-export const editComment = (recipeId, commentId, newBody) => (
+export const editComment = (recipeId, commentId, newBody, newValue) => (
     dispatch,
     getState,
     getFirebase
@@ -213,7 +214,8 @@ export const editComment = (recipeId, commentId, newBody) => (
                 .update({
                     body: newBody,
                     edited: true,
-                    createdAt: new Date()
+                    createdAt: new Date(),
+                    rating: newValue
                 })
                 .then(() => {
                     dispatch({ type: "COMMENT_EDITED" });
@@ -239,6 +241,28 @@ export const deleteComment = (recipeId, commentId) => (
                 .delete()
                 .then(() => {
                     dispatch({ type: "COMMENT_DELETED" });
+                    dispatch(fetchComments(recipeId));
+                });
+        });
+};
+
+export const adminDeleteComment = (recipeId, commentId) => (
+    dispatch,
+    getState,
+    getFirebase
+) => {
+    const firestore = getFirebase().firestore();
+    firestore
+        .collection("recipes")
+        .where("id", "==", recipeId)
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.docs[0].ref
+                .collection("comments")
+                .doc(commentId)
+                .update({ deletedByAdmin: true })
+                .then(() => {
+                    dispatch({ type: "COMMENT_DELETED_BY_ADMIN" });
                     dispatch(fetchComments(recipeId));
                 });
         });
@@ -382,12 +406,14 @@ export const unfavARecipe = (userId, recipeId) => (
         .then((querySnapshot) => {
             querySnapshot.docs[0].ref.delete().then(() => {
                 dispatch({ type: "RECIPE_UNFAVOURITED" });
+                dispatch(fetchFav(userId));
             });
         });
 };
 
 export const fetchFav = (userId) => (dispatch, getState, getFirebase) => {
     const recipeIds = [];
+    const favRecipes = [];
     const firestore = getFirebase().firestore();
     firestore
         .collection("users")
@@ -398,7 +424,30 @@ export const fetchFav = (userId) => (dispatch, getState, getFirebase) => {
             querySnapshot.docs.forEach((doc) => {
                 recipeIds.push(doc.get("id"));
             });
-            dispatch({ type: "FETCH_FAVOURITES", payload: recipeIds });
+
+            recipeIds.forEach((recipeId) => {
+                firestore
+                    .collection("recipes")
+                    .where("id", "==", recipeId)
+                    .get()
+                    .then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            const data = doc.data();
+                            const recipe = {
+                                name: data.name,
+                                image: data.image,
+                                id: data.id
+                            };
+                            favRecipes.push(recipe);
+                        });
+                    });
+            });
+
+            if (recipeIds.length == 0) {
+                dispatch({ type: "FETCH_FAVOURITES", payload: [0] });
+            } else {
+                dispatch({ type: "FETCH_FAVOURITES", payload: favRecipes });
+            }
         });
 };
 

@@ -120,6 +120,9 @@ export default (state = INIT_STATE, action) => {
         case "COMMENT_DELETED":
             console.log("comment deleted");
             return state;
+        case "COMMENT_DELETED_BY_ADMIN":
+            console.log("comment deleted by admin");
+            return state;
         case "RECIPE_LIKED":
             console.log("recipe liked");
             return {

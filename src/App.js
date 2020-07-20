@@ -29,14 +29,14 @@ const theme = createMuiTheme({
         primary: {
             main: "#00bcd4",
             light: "#88ffff",
-            dark: "#009faf",
+            dark: "#009faf"
         },
         secondary: {
             main: "#ec407a",
             light: "#ff77a9",
-            dark: "#b4004e",
-        },
-    },
+            dark: "#b4004e"
+        }
+    }
 });
 
 class App extends React.Component {
