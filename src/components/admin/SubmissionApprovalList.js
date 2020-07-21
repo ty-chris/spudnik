@@ -28,6 +28,11 @@ class SubmissionApproval extends React.Component {
     }
 
     render() {
+        //Admin status check
+        if (!this.props.user.isAdmin) {
+            return null;
+        }
+
         return (
             <div>
                 {(this.props.submittedRecipes &&
@@ -105,6 +110,7 @@ const mapStateToProps = (state) => {
     console.log("state from list", state);
     return {
         submittedRecipes: state.submittedRecipes,
+        user: state.user,
     };
 };
 

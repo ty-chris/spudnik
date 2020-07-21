@@ -44,7 +44,7 @@ const useStyles = (theme) => ({
     },
     card: { margin: "auto" },
     buttonPadding: { margin: "auto", padding: "auto" },
-    buttonSpace: { padding: "10px" },
+    buttonSpace: { padding: "20px" },
 });
 
 const number = (value) =>
@@ -57,8 +57,10 @@ const maxLength = (max) => (value) =>
         ? `Must be ${max} characters or less`
         : undefined;
 const maxLength30 = maxLength(30);
-
 const minValue1 = minValue(1);
+
+// Setting padding betweem fields
+const fieldPadding = "5px";
 
 class SubmitRecipe extends React.Component {
     onSubmit = (formValues) => {
@@ -97,7 +99,11 @@ class SubmitRecipe extends React.Component {
                             className={classes.form}
                             onSubmit={this.props.handleSubmit(this.onSubmit)}
                         >
-                            <Grid container justify="center">
+                            <Grid
+                                container
+                                justify="center"
+                                style={{ padding: "10px" }}
+                            >
                                 <Grid item xs={12} sm={4}>
                                     <Field
                                         name="name"
@@ -107,7 +113,11 @@ class SubmitRecipe extends React.Component {
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container justify="center">
+                            <Grid
+                                container
+                                justify="center"
+                                style={{ padding: { fieldPadding } }}
+                            >
                                 <Grid item xs={12} sm={4}>
                                     <Field
                                         name="duration"
@@ -118,7 +128,11 @@ class SubmitRecipe extends React.Component {
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container justify="center">
+                            <Grid
+                                container
+                                justify="center"
+                                style={{ padding: { fieldPadding } }}
+                            >
                                 <Grid item xs={12} sm={4}>
                                     <Field
                                         name="servings"
@@ -129,7 +143,11 @@ class SubmitRecipe extends React.Component {
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container justify="center">
+                            <Grid
+                                container
+                                justify="center"
+                                //style={{ padding: { fieldPadding } }}
+                            >
                                 <Grid item xs={12} sm={6}>
                                     <FieldArray
                                         name="ingredients"
@@ -138,7 +156,11 @@ class SubmitRecipe extends React.Component {
                                     <Divider />
                                 </Grid>
                             </Grid>
-                            <Grid container justify="center">
+                            <Grid
+                                container
+                                justify="center"
+                                //style={{ padding: { fieldPadding } }}
+                            >
                                 <Grid item xs={12} sm={6}>
                                     <FieldArray
                                         name="directions"
@@ -146,7 +168,11 @@ class SubmitRecipe extends React.Component {
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container justify="center">
+                            <Grid
+                                container
+                                justify="center"
+                                style={{ padding: { fieldPadding } }}
+                            >
                                 <Grid item xs={12} sm={4}>
                                     <Field
                                         name="image"
@@ -155,7 +181,11 @@ class SubmitRecipe extends React.Component {
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container justify="center">
+                            <Grid
+                                container
+                                justify="center"
+                                style={{ padding: "10px" }}
+                            >
                                 <Grid item xs={12} sm={4}>
                                     <Field
                                         name="video"
@@ -164,7 +194,11 @@ class SubmitRecipe extends React.Component {
                                     />
                                 </Grid>
                             </Grid>
-                            <Grid container justify="center">
+                            <Grid
+                                container
+                                justify="center"
+                                style={{ padding: "10px" }}
+                            >
                                 <Grid item xs={12} sm={4}>
                                     <Field
                                         name="details"

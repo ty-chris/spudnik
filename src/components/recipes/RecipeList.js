@@ -60,6 +60,10 @@ class RecipeList extends React.Component {
             currentList = currentList.sort((a, b) =>
                 a.name.localeCompare(b.name)
             );
+        } else if (this.state.sortMethod === "reverseName") {
+            currentList = currentList
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .reverse();
         } else if (this.state.sortMethod === "latest") {
             currentList = currentList.sort((a, b) => b.createdAt - a.createdAt);
         } else if (this.state.sortMethod === "earliest") {
@@ -106,11 +110,17 @@ class RecipeList extends React.Component {
                                             id: "sort-method-helper",
                                         }}
                                     >
-                                        <option value={""}>Default</option>
-                                        <option value={"name"}>Name A-Z</option>
-                                        <option value={"latest"}>Latest</option>
+                                        <option value={"name"}>
+                                            Name, A-Z
+                                        </option>
+                                        <option value={"reverseName"}>
+                                            Name, Z-A
+                                        </option>
+                                        <option value={"latest"}>
+                                            Time, Newest
+                                        </option>
                                         <option value={"earliest"}>
-                                            Earliest
+                                            Time, Oldest
                                         </option>
                                     </Select>
                                 </FormControl>

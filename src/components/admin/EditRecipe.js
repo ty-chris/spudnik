@@ -73,7 +73,7 @@ class EditRecipe extends React.Component {
     render() {
         const { classes } = this.props;
 
-        if (!this.props.recipe) {
+        if (!this.props.recipe || !this.props.user.isAdmin) {
             return null;
         }
 
@@ -153,7 +153,11 @@ class EditRecipe extends React.Component {
                                 validate={[required]}
                             />
                         </div>
-                        <div>
+                        <Grid
+                            container
+                            justify="center"
+                            style={{ padding: "20px" }}
+                        >
                             <Button
                                 className="classes.button"
                                 variant="contained"
@@ -163,7 +167,7 @@ class EditRecipe extends React.Component {
                             >
                                 Submit
                             </Button>
-                        </div>
+                        </Grid>
                         <div>
                             {this.props.submitSucceeded ? (
                                 <div>
@@ -209,6 +213,7 @@ const mapStateToProps = (state, ownProps) => {
         recipes: recipes,
         recipe: recipe,
         intitialValues: recipe,
+        user: state.user,
     };
 };
 

@@ -29,6 +29,10 @@ class AdminRecipeList extends React.Component {
         //console.log("recipes", this.props.recipes);
         //console.log("search", this.state.currentDisplay);
 
+        if (!this.props.user.isAdmin) {
+            return null;
+        }
+
         let currentList = this.props.recipes;
 
         if (this.state.searchString !== "") {
@@ -82,6 +86,7 @@ class AdminRecipeList extends React.Component {
 const mapStateToProps = (state) => {
     return {
         recipes: state.recipes,
+        user: state.user,
     };
 };
 

@@ -114,6 +114,10 @@ class CreateRecipe extends React.Component {
     };
 
     render() {
+        if (!this.props.user.isAdmin) {
+            return null;
+        }
+
         const { classes } = this.props;
 
         return (
@@ -263,6 +267,12 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
+const mapStateToProps = (state) => {
+    return {
+        user: state.user,
+    };
+};
+
 export default compose(
     reduxForm({
         form: "CreateRecipe",
@@ -272,5 +282,5 @@ export default compose(
         },
     }),
     withStyles(useStyles),
-    connect(null, mapDispatchToProps)
+    connect(mapStateToProps, mapDispatchToProps)
 )(CreateRecipe);

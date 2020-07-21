@@ -27,7 +27,7 @@ import UserFeedback from "../user/UserFeedback";
 
 const useStyles = (theme) => ({
     root: {
-        width: "80%",
+        width: "100%",
         height: "auto",
         display: "flex",
         align: "center",
@@ -44,6 +44,17 @@ const useStyles = (theme) => ({
     formControl: {
         position: "flex",
         minWidth: 100,
+    },
+    wrapper: {
+        position: "relative",
+        paddingTop: "56.25%",
+    },
+    player: {
+        position: "absolute",
+        top: 5,
+        left: 0,
+        width: "100%",
+        height: "100%",
     },
 });
 
@@ -107,138 +118,151 @@ class RecipeDetails extends React.Component {
             <div>
                 {this.props.recipe ? (
                     <div className={classes.root}>
-                        <Card className={classes.card}>
-                            <CardMedia
-                                className={classes.media}
-                                component="img"
-                                alt={this.props.recipe.name}
-                                image={this.props.recipe.image}
-                                title={this.props.recipe.name}
-                                height="100%"
-                            />
-                            {this.props.recipe.video ? (
-                                <div
-                                    style={{
-                                        width: "auto",
-                                        height: "auto",
-                                        position: "relative",
-                                        paddingTop: "5px",
-                                    }}
-                                >
-                                    <ReactPlayer
-                                        url={this.props.recipe.video}
-                                        height="45vw"
-                                        width="100%"
-                                        controls
-                                        style={{
-                                            postion: "absolute",
-                                            margin: "auto",
-                                            top: 0,
-                                            left: 0,
-                                        }}
+                        <Grid container justify="center">
+                            <Grid item xs={12} sm={8} md={6} lg={4}>
+                                <Card className={classes.card}>
+                                    <CardMedia
+                                        className={classes.media}
+                                        component="img"
+                                        alt={this.props.recipe.name}
+                                        image={this.props.recipe.image}
+                                        title={this.props.recipe.name}
+                                        height="100%"
                                     />
-                                </div>
-                            ) : null}
-                            <CardContent>
-                                <Typography
-                                    variant="h6"
-                                    component="span"
-                                    align="center"
-                                >
-                                    <h2>{this.props.recipe.name}</h2>
-                                    <p>
-                                        Cook Time: {this.props.recipe.duration}{" "}
-                                        Minutes
-                                    </p>
-                                </Typography>
-                                <Grid container justify="center">
-                                    <FormControl
-                                        className={classes.formControl}
-                                    >
-                                        <InputLabel htmlFor="number-serves">
-                                            Servings
-                                        </InputLabel>
-                                        <NativeSelect
-                                            defaultValue={
-                                                this.props.recipe.servings
-                                            }
-                                            inputProps={{
-                                                name: "servings",
-                                                id: "number-serves",
-                                            }}
-                                            onChange={this.handleChangeServe}
+                                    {this.props.recipe.video ? (
+                                        <div className={classes.wrapper}>
+                                            <ReactPlayer
+                                                className={classes.player}
+                                                url={this.props.recipe.video}
+                                                height="100%"
+                                                width="100%"
+                                                controls
+                                            />
+                                        </div>
+                                    ) : null}
+                                    <CardContent>
+                                        <Typography
+                                            variant="h6"
+                                            component="span"
+                                            align="center"
                                         >
-                                            <option value={1}>1</option>
-                                            <option value={2}>2</option>
-                                            <option value={3}>3</option>
-                                            <option value={4}>4</option>
-                                            <option value={5}>5</option>
-                                            <option value={6}>6</option>
-                                            <option value={7}>7</option>
-                                            <option value={8}>8</option>
-                                        </NativeSelect>
-                                        <FormHelperText>
-                                            Input number of servings
-                                        </FormHelperText>
-                                    </FormControl>
-                                </Grid>
-                                <TableContainer component={Paper}>
-                                    <Table className="classes.table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>
-                                                    <h3>Ingredients</h3>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <h3>Amount</h3>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {this.props.recipe.ingredients.map(
-                                                (ingredient, index) => (
-                                                    <TableRow key={ingredient}>
-                                                        <TableCell
-                                                            component="th"
-                                                            scope="row"
-                                                        >
-                                                            {
-                                                                ingredient.ingredient
-                                                            }
+                                            <h2>{this.props.recipe.name}</h2>
+                                            <p>
+                                                Cook Time:{" "}
+                                                {this.props.recipe.duration}{" "}
+                                                Minutes
+                                            </p>
+                                        </Typography>
+                                        <Grid container justify="center">
+                                            <FormControl
+                                                className={classes.formControl}
+                                            >
+                                                <InputLabel htmlFor="number-serves">
+                                                    Servings
+                                                </InputLabel>
+                                                <NativeSelect
+                                                    defaultValue={
+                                                        this.props.recipe
+                                                            .servings
+                                                    }
+                                                    inputProps={{
+                                                        name: "servings",
+                                                        id: "number-serves",
+                                                    }}
+                                                    onChange={
+                                                        this.handleChangeServe
+                                                    }
+                                                >
+                                                    <option value={1}>1</option>
+                                                    <option value={2}>2</option>
+                                                    <option value={3}>3</option>
+                                                    <option value={4}>4</option>
+                                                    <option value={5}>5</option>
+                                                    <option value={6}>6</option>
+                                                    <option value={7}>7</option>
+                                                    <option value={8}>8</option>
+                                                    <option value={9}>9</option>
+                                                    <option value={10}>
+                                                        10
+                                                    </option>
+                                                    <option value={11}>
+                                                        11
+                                                    </option>
+                                                    <option value={12}>
+                                                        12
+                                                    </option>
+                                                </NativeSelect>
+                                                <FormHelperText>
+                                                    Input number of servings
+                                                </FormHelperText>
+                                            </FormControl>
+                                        </Grid>
+                                        <TableContainer component={Paper}>
+                                            <Table className="classes.table">
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell>
+                                                            <h3>Ingredients</h3>
                                                         </TableCell>
                                                         <TableCell>
-                                                            {currAmount[index]}
+                                                            <h3>Amount</h3>
                                                         </TableCell>
                                                     </TableRow>
-                                                )
-                                            )}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                                <Box className={classes.directions}>
-                                    <Typography
-                                        gutterBottom
-                                        align="left"
-                                        variant="body1"
-                                        color="textSecondary"
-                                        component="span"
-                                    >
-                                        <h2>Directions:</h2>
-                                        {this.props.recipe.directions.map(
-                                            (direction, index) => (
-                                                <li key={index}>
-                                                    {index + 1}. {direction}
-                                                </li>
-                                            )
-                                        )}
-                                    </Typography>
-                                </Box>
-                            </CardContent>
-                            <UserFeedback
-                                recipeId={this.props.recipe.id}
-                                className={classes.userFeedback}
-                            />
-                        </Card>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {this.props.recipe.ingredients.map(
+                                                        (ingredient, index) => (
+                                                            <TableRow
+                                                                key={ingredient}
+                                                            >
+                                                                <TableCell
+                                                                    component="th"
+                                                                    scope="row"
+                                                                >
+                                                                    {
+                                                                        ingredient.ingredient
+                                                                    }
+                                                                </TableCell>
+                                                                <TableCell>
+                                                                    {
+                                                                        currAmount[
+                                                                            index
+                                                                        ]
+                                                                    }
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        )
+                                                    )}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                        <Box className={classes.directions}>
+                                            <Typography
+                                                gutterBottom
+                                                align="left"
+                                                variant="body1"
+                                                color="textSecondary"
+                                                component="span"
+                                            >
+                                                <h2>Directions:</h2>
+                                                {this.props.recipe.directions.map(
+                                                    (direction, index) => (
+                                                        <li key={index}>
+                                                            {index + 1}.{" "}
+                                                            {direction}
+                                                        </li>
+                                                    )
+                                                )}
+                                            </Typography>
+                                        </Box>
+                                    </CardContent>
+                                    <UserFeedback
+                                        recipeId={this.props.recipe.id}
+                                        className={classes.userFeedback}
+                                    />
+                                </Card>
+                            </Grid>
+                        </Grid>
                     </div>
                 ) : null}
             </div>

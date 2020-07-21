@@ -73,6 +73,13 @@ const SignedInLinks = (props) => {
                             action={props.unassignAsAdmin}
                             itemName={"Unassign an Admin"}
                         />
+                        <MenuItem
+                            component={Link}
+                            to="/admin/"
+                            onClick={handleClose}
+                        >
+                            Admin console
+                        </MenuItem>
                     </React.Fragment>
                 ) : null}
                 <MenuItem

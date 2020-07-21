@@ -73,7 +73,7 @@ export const renderIngredients = ({ fields, meta: { error } }) => {
                     </ListItem>
                 </List>
             ))}
-            <Grid container justify="center">
+            <Grid container justify="center" style={{ paddingBottom: "20px" }}>
                 <Button
                     variant="outlined"
                     color="primary"
@@ -117,7 +117,7 @@ export const renderDirections = ({ fields, meta: { error } }) => {
                     </ListItem>
                 </List>
             ))}
-            <Grid container justify="center">
+            <Grid container justify="center" style={{ paddingBottom: "20px" }}>
                 <Button
                     variant="outlined"
                     color="primary"
