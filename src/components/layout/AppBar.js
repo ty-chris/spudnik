@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
 
 // Components
 import Drawer from "./Drawer";
@@ -17,14 +18,14 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
     },
+    appbar: {},
     title: {
         flexGrow: 1,
         textAlign: "center",
-        display: "none",
+        //display: "none",
         [theme.breakpoints.up("sm")]: {
             display: "block",
         },
-        margin: "auto",
     },
     adminOptions: {
         marginLeft: theme.spacing(1),
@@ -42,18 +43,31 @@ function MainAppBar(props) {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar className={classes.appbar} position="static">
                 <Toolbar>
                     <Drawer />
-                    <Typography className={classes.title} variant="h6" noWrap>
-                        <Link
-                            to={`/`}
-                            className="item"
-                            style={{ textDecoration: "none", color: "inherit" }}
+                    <Grid
+                        container
+                        justify="center"
+                        style={{ paddingLeft: "60px" }}
+                    >
+                        <Typography
+                            className={classes.title}
+                            variant="h6"
+                            noWrap
                         >
-                            TheMunchingChef
-                        </Link>
-                    </Typography>
+                            <Link
+                                to={`/`}
+                                className="item"
+                                style={{
+                                    textDecoration: "none",
+                                    color: "inherit",
+                                }}
+                            >
+                                TheMunchingChef
+                            </Link>
+                        </Typography>
+                    </Grid>
                     <div style={{ marginLeft: "auto", marginRight: "0" }}>
                         {links}
                     </div>

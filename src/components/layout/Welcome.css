@@ -1,0 +1,10 @@
+#welcome {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 100px;
+}
+
+#welcome .container {
+    height: 60vh;
+}

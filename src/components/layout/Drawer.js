@@ -129,7 +129,7 @@ export default function PersistentDrawerLeft() {
                         to="/recipes/submit"
                         onClick={handleDrawerClose}
                     >
-                        Submit a Recipe!
+                        <ListItemText>Submit a Recipe!</ListItemText>
                     </ListItem>
                     <ListItem
                         button

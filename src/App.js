@@ -23,20 +23,21 @@ import AdminDashboard from "./components/admin/AdminDashboard";
 import CreateRecipe from "./components/admin/CreateRecipe";
 import SubmissionApproval from "./components/admin/SubmissionApprovalList";
 import SubmissionEditRecipe from "./components/admin/SubmissionEditRecipe";
+import LandingPage from "./components/layout/LandingPage";
 
 const theme = createMuiTheme({
     palette: {
         primary: {
             main: "#00bcd4",
             light: "#88ffff",
-            dark: "#009faf"
+            dark: "#009faf",
         },
         secondary: {
             main: "#ec407a",
             light: "#ff77a9",
-            dark: "#b4004e"
-        }
-    }
+            dark: "#b4004e",
+        },
+    },
 });
 
 class App extends React.Component {
@@ -48,7 +49,7 @@ class App extends React.Component {
                     <MuiThemeProvider theme={theme}>
                         <MainAppBar />
                         <Switch>
-                            <Route path="/" exact component={RecipeList} />
+                            <Route path="/" exact component={LandingPage} />
                             <Route
                                 path="/recipes"
                                 exact

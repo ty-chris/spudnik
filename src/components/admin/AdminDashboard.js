@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
         margin: "auto",
         width: "100%",
         height: "auto",
+        minHeight: "60vh",
     },
     button: {
         margin: "auto",
@@ -40,66 +41,79 @@ const AdminDashboard = (props) => {
             {props.user.isAdmin ? (
                 <div className={classes.root}>
                     <Grid container justify="center">
-                        <Paper className={classes.paper}>
-                            <Typography align="center">
-                                <h2>Admin Dashboard</h2>
-                            </Typography>
-                            <Grid
-                                container
-                                justify="center"
-                                style={{ padding: "20px" }}
-                            >
-                                <Button
-                                    className={classes.button}
-                                    variant="contained"
-                                    filled
-                                    color="secondary"
+                        <Grid item xs={12} sm={8} md={6} lg={4}>
+                            <Paper className={classes.paper}>
+                                <Typography
+                                    align="center"
+                                    style={{ paddingTop: "5px" }}
                                 >
-                                    <Link
-                                        to={`/admin/recipes`}
-                                        className="item"
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "inherit",
-                                        }}
-                                    >
-                                        To Admin RecipeList
-                                    </Link>
-                                </Button>
-                                <Button
-                                    className={classes.button}
-                                    variant="contained"
-                                    color="secondary"
+                                    <h2>Admin Dashboard</h2>
+                                </Typography>
+                                <Grid
+                                    container
+                                    direction="column"
+                                    justify="center"
+                                    alignItems="center"
+                                    spacing={4}
                                 >
-                                    <Link
-                                        to={`/admin/create-recipe`}
-                                        className="item"
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "inherit",
-                                        }}
-                                    >
-                                        To Admin CreateRecipe
-                                    </Link>
-                                </Button>
-                                <Button
-                                    className={classes.button}
-                                    variant="contained"
-                                    color="secondary"
-                                >
-                                    <Link
-                                        to={`/admin/submissions`}
-                                        className="item"
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "inherit",
-                                        }}
-                                    >
-                                        To User Submissions
-                                    </Link>
-                                </Button>
-                            </Grid>
-                        </Paper>
+                                    <Grid item>
+                                        <Button
+                                            className={classes.button}
+                                            variant="contained"
+                                            filled
+                                            color="secondary"
+                                        >
+                                            <Link
+                                                to={`/admin/recipes`}
+                                                className="item"
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: "inherit",
+                                                }}
+                                            >
+                                                To Admin RecipeList
+                                            </Link>
+                                        </Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button
+                                            className={classes.button}
+                                            variant="contained"
+                                            color="secondary"
+                                        >
+                                            <Link
+                                                to={`/admin/create-recipe`}
+                                                className="item"
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: "inherit",
+                                                }}
+                                            >
+                                                To Admin CreateRecipe
+                                            </Link>
+                                        </Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button
+                                            className={classes.button}
+                                            variant="contained"
+                                            color="secondary"
+                                        >
+                                            <Link
+                                                to={`/admin/submissions`}
+                                                className="item"
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: "inherit",
+                                                }}
+                                            >
+                                                To User Submissions
+                                            </Link>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Paper>
+                        </Grid>
                     </Grid>
                 </div>
             ) : null}
