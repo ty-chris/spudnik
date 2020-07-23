@@ -55,7 +55,6 @@ class RecipeList extends React.Component {
 
         let currentList = this.props.recipes;
 
-        // Sorting
         if (this.state.sortMethod === "name") {
             currentList = currentList.sort((a, b) =>
                 a.name.localeCompare(b.name)
@@ -68,6 +67,10 @@ class RecipeList extends React.Component {
             currentList = currentList.sort((a, b) => b.createdAt - a.createdAt);
         } else if (this.state.sortMethod === "earliest") {
             currentList = currentList.sort((a, b) => a.createdAt - b.createdAt);
+        } else if (this.state.sortMethod === "mostPopular") {
+            currentList = currentList.sort((a, b) => b.likeCount - a.likeCount);
+        } else if (this.state.sortMethod === "leastPopular") {
+            currentList = currentList.sort((a, b) => a.likeCount - b.likeCount);
         } else {
             currentList = this.props.recipes;
         }
@@ -88,42 +91,52 @@ class RecipeList extends React.Component {
                     <div>
                         <div>
                             <form className={classes.root}>
-                                <TextField
-                                    className={classes.textField}
-                                    id="searchInput"
-                                    placeholder="Search for Recipes"
-                                    margin="normal"
-                                    onChange={this.onSearchInputChange}
-                                />
-                                <FormControl className={classes.formControl}>
-                                    <InputLabel
-                                        htmlFor="sort-native-simple"
-                                        style={{ paddingLeft: 20 }}
+                                <Grid container justify="center">
+                                    <TextField
+                                        className={classes.textField}
+                                        id="searchInput"
+                                        placeholder="Search for Recipes"
+                                        margin="normal"
+                                        onChange={this.onSearchInputChange}
+                                    />
+                                    <FormControl
+                                        className={classes.formControl}
                                     >
-                                        Sort By
-                                    </InputLabel>
-                                    <Select
-                                        value={this.state.sortMethod}
-                                        onChange={this.onSortMethodChange}
-                                        inputProps={{
-                                            name: "sortMethod",
-                                            id: "sort-method-helper",
-                                        }}
-                                    >
-                                        <option value={"name"}>
-                                            Name, A-Z
-                                        </option>
-                                        <option value={"reverseName"}>
-                                            Name, Z-A
-                                        </option>
-                                        <option value={"latest"}>
-                                            Time, Newest
-                                        </option>
-                                        <option value={"earliest"}>
-                                            Time, Oldest
-                                        </option>
-                                    </Select>
-                                </FormControl>
+                                        <InputLabel
+                                            htmlFor="sort-native-simple"
+                                            style={{ paddingLeft: 20 }}
+                                        >
+                                            Sort By
+                                        </InputLabel>
+                                        <Select
+                                            value={this.state.sortMethod}
+                                            onChange={this.onSortMethodChange}
+                                            inputProps={{
+                                                name: "sortMethod",
+                                                id: "sort-method-helper",
+                                            }}
+                                        >
+                                            <option value={"name"}>
+                                                Name, A-Z
+                                            </option>
+                                            <option value={"reverseName"}>
+                                                Name, Z-A
+                                            </option>
+                                            <option value={"latest"}>
+                                                Time, Newest first
+                                            </option>
+                                            <option value={"earliest"}>
+                                                Time, Oldest first
+                                            </option>
+                                            <option value={"mostPopular"}>
+                                                Popularity, Highest first
+                                            </option>
+                                            <option value={"leastPopular"}>
+                                                Popularity, Lowest first
+                                            </option>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
                             </form>
                         </div>
                         <Grid

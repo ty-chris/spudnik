@@ -12,6 +12,8 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import InstagramIcon from "@material-ui/icons/Twitter";
 import Welcome from "./Welcome";
+import LatestRecipes from "./LatestRecipes";
+import PopularRecipes from "./PopularRecipes";
 
 const useStyles = (theme) => ({});
 
@@ -28,6 +30,8 @@ class LandingPage extends React.Component {
                 {(this.props.recipes && this.props.recipes.length) > 0 ? (
                     <div>
                         <Welcome />
+                        <LatestRecipes recipes={this.props.recipes} />
+                        <PopularRecipes recipes={this.props.recipes} />
                     </div>
                 ) : null}
             </div>

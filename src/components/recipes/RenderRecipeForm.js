@@ -43,33 +43,35 @@ export const renderIngredients = ({ fields, meta: { error } }) => {
             {fields.map((ingredient, index) => (
                 <List key={index}>
                     <ListItem alignItems="center">
-                        <div>
-                            <Field
-                                name={`${ingredient}.ingredient`}
-                                type="text"
-                                component={renderInput}
-                                label={`Ingredient #${index + 1}`}
-                                validate={[required]}
-                            />
-                        </div>
-                        <div style={{ paddingLeft: "10px" }}>
-                            <Field
-                                name={`${ingredient}.amount`}
-                                type="text"
-                                component={renderInput}
-                                label={`Amount of Ingredient #${index + 1}`}
-                                validate={[required]}
-                            />
-                        </div>
-                        <ListItemSecondaryAction>
-                            <IconButton
-                                onClick={() => fields.remove(index)}
-                                edge="end"
-                                aria-label="delete"
-                            >
-                                <DeleteIcon />
-                            </IconButton>
-                        </ListItemSecondaryAction>
+                        <Grid container justify="center">
+                            <div>
+                                <Field
+                                    name={`${ingredient}.ingredient`}
+                                    type="text"
+                                    component={renderInput}
+                                    label={`Ingredient #${index + 1}`}
+                                    validate={[required]}
+                                />
+                            </div>
+                            <div style={{ paddingLeft: "10px" }}>
+                                <Field
+                                    name={`${ingredient}.amount`}
+                                    type="text"
+                                    component={renderInput}
+                                    label={`Amount of Ingredient #${index + 1}`}
+                                    validate={[required]}
+                                />
+                            </div>
+                            <ListItemSecondaryAction>
+                                <IconButton
+                                    onClick={() => fields.remove(index)}
+                                    edge="end"
+                                    aria-label="delete"
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
+                        </Grid>
                     </ListItem>
                 </List>
             ))}

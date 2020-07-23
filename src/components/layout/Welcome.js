@@ -13,20 +13,25 @@ const useStyles = makeStyles((theme) => ({
         position: "absolute",
         width: "100%",
         color: "#FFFFFF",
+        whiteSpace: "nowrap",
     },
     button: {
         position: "relative",
         paddingRight: "20px",
         paddingLeft: "20px",
     },
+    buttonGroup: {
+        margin: "auto",
+    },
     wrapper: {
         position: "relative",
         width: "40%",
         margin: "auto",
-        paddingTop: "20vh",
+        paddingTop: "10%",
     },
     logo: {
         maxWidth: "200px",
+        margin: "auto",
     },
 }));
 
@@ -71,8 +76,9 @@ const Welcome = () => {
                             <Grid
                                 className={classes.buttonGroup}
                                 container
-                                justify="space-between"
-                                alignItems="flex-start"
+                                justify="center"
+                                alignItems="center"
+                                direction="column"
                             >
                                 <Button
                                     className={classes.button}
@@ -91,23 +97,25 @@ const Welcome = () => {
                                         View our Recipes!
                                     </Link>
                                 </Button>
-                                <Button
-                                    className={classes.button}
-                                    variant="contained"
-                                    filled
-                                    color="primary"
-                                >
-                                    <Link
-                                        to={`/recipes/submit`}
-                                        className="item"
-                                        style={{
-                                            textDecoration: "none",
-                                            color: "inherit",
-                                        }}
+                                <div style={{ paddingTop: "10px" }}>
+                                    <Button
+                                        className={classes.button}
+                                        variant="contained"
+                                        filled
+                                        color="primary"
                                     >
-                                        Contribute Recipe!
-                                    </Link>
-                                </Button>
+                                        <Link
+                                            to={`/recipes/submit`}
+                                            className="item"
+                                            style={{
+                                                textDecoration: "none",
+                                                color: "inherit",
+                                            }}
+                                        >
+                                            Contribute Recipe!
+                                        </Link>
+                                    </Button>
+                                </div>
                             </Grid>
                         </Grid>
                     </Grid>
