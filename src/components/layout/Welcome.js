@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         position: "relative",
         width: "40%",
         margin: "auto",
-        paddingTop: "10%",
+        paddingTop: "5%",
     },
     logo: {
         maxWidth: "200px",
@@ -47,7 +47,7 @@ const Welcome = () => {
                 <div className={classes.wrapper}>
                     <Grid
                         container
-                        justify="flex-start"
+                        justify="center"
                         spacing={8}
                         direction="column"
                     >

@@ -71,25 +71,7 @@ const AdminDashboard = (props) => {
                                                     color: "inherit",
                                                 }}
                                             >
-                                                To Admin RecipeList
-                                            </Link>
-                                        </Button>
-                                    </Grid>
-                                    <Grid item>
-                                        <Button
-                                            className={classes.button}
-                                            variant="contained"
-                                            color="secondary"
-                                        >
-                                            <Link
-                                                to={`/admin/create-recipe`}
-                                                className="item"
-                                                style={{
-                                                    textDecoration: "none",
-                                                    color: "inherit",
-                                                }}
-                                            >
-                                                To Admin CreateRecipe
+                                                To Admin Recipe Controls
                                             </Link>
                                         </Button>
                                     </Grid>

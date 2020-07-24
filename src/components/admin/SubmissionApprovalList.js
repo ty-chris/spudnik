@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 //import { compose } from "redux";
 //import { makeStyles } from "@material-ui/core/styles";
@@ -19,18 +19,43 @@ import EditIcon from "@material-ui/icons/Edit";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import TextField from "@material-ui/core/TextField";
 
-import { getSubmittedRecipes } from "../actions/recipeActions";
+import {
+    getSubmittedRecipes,
+    deleteSubmittedRecipe,
+} from "../actions/recipeActions";
 
 class SubmissionApproval extends React.Component {
+    state = {
+        searchString: "",
+    };
+
     componentDidMount() {
         this.props.getSubmittedRecipes();
     }
+
+    onSearchInputChange = (event) => {
+        this.setState({
+            searchString: event.target.value,
+        });
+    };
 
     render() {
         //Admin status check
         if (!this.props.user.isAdmin) {
             return null;
+        }
+
+        let currentList = this.props.submittedRecipes;
+
+        if (this.state.searchString !== "") {
+            currentList = currentList.filter((recipe) => {
+                const name = recipe.name.toLowerCase();
+                const filter = this.state.searchString.toLowerCase();
+
+                return name.includes(filter);
+            });
         }
 
         return (
@@ -46,8 +71,17 @@ class SubmissionApproval extends React.Component {
                             >
                                 <h2>User Submitted Recipes</h2>
                             </Typography>
+                            <Grid container justify="center">
+                                <TextField
+                                    style={{ padding: 24 }}
+                                    id="searchInput"
+                                    placeholder="Search for Recipes"
+                                    margin="normal"
+                                    onChange={this.onSearchInputChange}
+                                />
+                            </Grid>
                             <List dense>
-                                {this.props.submittedRecipes.map((recipe) => {
+                                {currentList.map((recipe) => {
                                     //console.log(recipe.name);
                                     return (
                                         <div>
@@ -80,6 +114,25 @@ class SubmissionApproval extends React.Component {
                                                     <IconButton
                                                         edge="end"
                                                         aria-label="delete"
+                                                        onClick={() => {
+                                                            if (
+                                                                window.confirm(
+                                                                    "Are you sure you want to delete?"
+                                                                )
+                                                            ) {
+                                                                this.props.deleteSubmittedRecipe(
+                                                                    recipe
+                                                                );
+                                                                setTimeout(
+                                                                    () => {
+                                                                        window.location.reload(
+                                                                            false
+                                                                        );
+                                                                    },
+                                                                    1000
+                                                                );
+                                                            }
+                                                        }}
                                                     >
                                                         <DeleteIcon />
                                                     </IconButton>
@@ -117,6 +170,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getSubmittedRecipes: () => dispatch(getSubmittedRecipes()),
+        deleteSubmittedRecipe: (recipe) =>
+            dispatch(deleteSubmittedRecipe(recipe)),
     };
 };
 

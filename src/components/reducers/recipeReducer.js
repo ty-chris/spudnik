@@ -21,6 +21,11 @@ export const recipesReducer = (state = [], action) => {
         case "EDIT_RECIPE_ERROR":
             //console.log("edit recipe error", action.err);
             return state;
+        case "DELETE_RECIPE":
+            return state;
+        case "DELETE_RECIPE_ERROR":
+            //console.log("delete recipe error", action.err)
+            return state;
         default:
             return state;
     }
@@ -35,6 +40,10 @@ export const submittedReducer = (state = [], action) => {
         case "EDIT_SUBMITTED_RECIPE":
             return action.payload;
         case "EDIT_SUBMITTED_RECIPE_ERROR":
+            return state;
+        case "DELETE_SUBMITTED_RECIPE":
+            return action.payload;
+        case "DELETE_SUBMITTED_RECIPE_ERROR":
             return state;
         default:
             return state;

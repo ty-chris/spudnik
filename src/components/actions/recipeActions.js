@@ -57,6 +57,21 @@ export const editSubmittedRecipe = (updatedRecipe) => (dispatch) => {
         });
 };
 
+export const deleteSubmittedRecipe = (recipe) => (dispatch) => {
+    //async call to database
+    firebase
+        .firestore()
+        .collection("submittedRecipes")
+        .doc(recipe.id)
+        .delete()
+        .then(() => {
+            dispatch({ type: "DELETE_SUBMITTED_RECIPE", payload: recipe });
+        })
+        .catch((err) => {
+            dispatch({ type: "DELETE_SUBMITTED_RECIPE_ERROR", err });
+        });
+};
+
 // For user submitted recipes
 export const submitRecipe = (newRecipe) => (dispatch) => {
     const recipeId = newRecipe.name.replace(/\s+/g, "-").toLowerCase();
@@ -93,6 +108,21 @@ export const editRecipe = (updatedRecipe) => (dispatch) => {
         })
         .catch((err) => {
             dispatch({ type: "EDIT_RECIPE_ERROR", err });
+        });
+};
+
+export const deleteRecipe = (recipe) => (dispatch) => {
+    //async call to database
+    firebase
+        .firestore()
+        .collection("recipes")
+        .doc(recipe.id)
+        .delete()
+        .then(() => {
+            dispatch({ type: "DELETE_RECIPE" });
+        })
+        .catch((err) => {
+            dispatch({ type: "DELETE_RECIPE_ERROR", err });
         });
 };
 

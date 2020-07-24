@@ -71,8 +71,6 @@ class RecipeList extends React.Component {
             currentList = currentList.sort((a, b) => b.likeCount - a.likeCount);
         } else if (this.state.sortMethod === "leastPopular") {
             currentList = currentList.sort((a, b) => a.likeCount - b.likeCount);
-        } else {
-            currentList = this.props.recipes;
         }
 
         // Search filter

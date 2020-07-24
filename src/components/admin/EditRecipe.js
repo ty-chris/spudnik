@@ -165,7 +165,7 @@ class EditRecipe extends React.Component {
                                 component="span"
                                 onClick={this.props.handleSubmit(this.onSubmit)}
                             >
-                                Submit
+                                Save Edited Recipe
                             </Button>
                         </Grid>
                         <div>
