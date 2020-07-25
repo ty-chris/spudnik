@@ -6,14 +6,21 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import MenuItem from "@material-ui/core/MenuItem";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    button: {
+        margin: "auto"
+    }
+}));
 
 const AdminAssignmentDialog = (props) => {
+    const classes = useStyles();
+
     const [open, setOpen] = React.useState(false);
     const [email, setEmail] = React.useState("");
 
     const handleClickOpen = () => {
-        props.onClick();
         setOpen(true);
     };
 
@@ -32,9 +39,15 @@ const AdminAssignmentDialog = (props) => {
 
     return (
         <div>
-            <MenuItem key={props.itemName} onClick={handleClickOpen}>
+            <Button
+                onClick={handleClickOpen}
+                className={classes.button}
+                variant="contained"
+                filled
+                color="secondary"
+            >
                 {props.itemName}
-            </MenuItem>
+            </Button>
             <Dialog
                 open={open}
                 onClose={handleClose}
