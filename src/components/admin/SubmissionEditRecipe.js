@@ -67,7 +67,7 @@ class SubmissionEditRecipe extends React.Component {
         }
 
         setTimeout(() => {
-            this.props.history.push("/admin/");
+            this.props.history.push("/admin/submissions");
         }, 1500);
     };
 

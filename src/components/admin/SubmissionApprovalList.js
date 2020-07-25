@@ -169,6 +169,14 @@ class SubmissionApproval extends React.Component {
                                                                     this.props.deleteSubmittedRecipe(
                                                                         recipe
                                                                     );
+                                                                    setTimeout(
+                                                                        () => {
+                                                                            window.location.reload(
+                                                                                false
+                                                                            );
+                                                                        },
+                                                                        1000
+                                                                    );
                                                                 }
                                                             } else {
                                                                 return (
