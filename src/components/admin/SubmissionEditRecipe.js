@@ -63,7 +63,7 @@ class SubmissionEditRecipe extends React.Component {
     onSubmit = (formValues) => {
         //console.log(formValues);
         if (window.confirm("Are you sure?")) {
-            this.props.editRecipe(formValues);
+            this.props.editSubmittedRecipe(formValues);
         }
 
         setTimeout(() => {

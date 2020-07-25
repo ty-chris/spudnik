@@ -46,7 +46,7 @@ export const signUp = (newUser) => async (dispatch, getState, getFirebase) => {
             .set({
                 username: newUser.username,
                 email: newUser.email,
-                createdAt: new Date()
+                createdAt: new Date(),
             })
             .then(() => {
                 dispatch({ type: "SIGNUP_SUCCESS" });
@@ -92,8 +92,8 @@ export const assignAsAdmin = (email) => (dispatch, getState, getFirebase) => {
                     type: "ADMIN_ASSIGNMENT_FAILED",
                     payload: {
                         title: "Unsuccessful",
-                        content: `${email} does not exist`
-                    }
+                        content: `${email} does not exist`,
+                    },
                 });
             }
 
@@ -103,8 +103,8 @@ export const assignAsAdmin = (email) => (dispatch, getState, getFirebase) => {
                         type: "ADMIN_ASSIGNED",
                         payload: {
                             title: "Success",
-                            content: `${email} is now an admin`
-                        }
+                            content: `${email} is now an admin`,
+                        },
                     });
                 });
             });
@@ -123,8 +123,8 @@ export const unassignAsAdmin = (email) => (dispatch, getState, getFirebase) => {
                     type: "ADMIN_UNASSIGNMENT_FAILED",
                     payload: {
                         title: "Unsuccessful",
-                        content: `${email} does not exist`
-                    }
+                        content: `${email} does not exist`,
+                    },
                 });
             }
 
@@ -134,8 +134,8 @@ export const unassignAsAdmin = (email) => (dispatch, getState, getFirebase) => {
                         type: "ADMIN_UNASSIGNED",
                         payload: {
                             title: "Success",
-                            content: `${email} is no longer an admin`
-                        }
+                            content: `${email} is no longer an admin`,
+                        },
                     });
                 });
             });
@@ -188,7 +188,7 @@ export const postComment = (comment, recipeId) => (
                     createdAt: new Date(),
                     edited: false,
                     recipeId: recipeId,
-                    rating: comment.value
+                    rating: comment.value,
                 })
                 .then(() => {
                     dispatch({ type: "COMMENT_POSTED" });
@@ -215,7 +215,7 @@ export const editComment = (recipeId, commentId, newBody, newValue) => (
                     body: newBody,
                     edited: true,
                     createdAt: new Date(),
-                    rating: newValue
+                    rating: newValue,
                 })
                 .then(() => {
                     dispatch({ type: "COMMENT_EDITED" });
@@ -286,7 +286,7 @@ export const likeRecipe = (user, recipeId) => (
                 .doc(`${user.uid}`)
                 .set({
                     createdBy: user.username,
-                    createdAt: new Date()
+                    createdAt: new Date(),
                 });
 
             querySnapshot.forEach((doc) => {
@@ -343,7 +343,7 @@ export const unlikeRecipe = (userId, recipeId) => (
             querySnapshot.forEach((doc) => {
                 doc.ref.update({ likeCount: decrement }).then(() => {
                     dispatch({
-                        type: "RECIPE_UNLIKED"
+                        type: "RECIPE_UNLIKED",
                     });
                     dispatch(fetchLikeCount(recipeId));
                 });
@@ -384,7 +384,7 @@ export const favARecipe = (userId, recipeId) => (
         .doc(recipeId)
         .set({
             id: recipeId,
-            createdAt: new Date()
+            createdAt: new Date(),
         })
         .then(() => {
             dispatch({ type: "RECIPE_FAVOURITED" });
@@ -436,14 +436,14 @@ export const fetchFav = (userId) => (dispatch, getState, getFirebase) => {
                             const recipe = {
                                 name: data.name,
                                 image: data.image,
-                                id: data.id
+                                id: data.id,
                             };
                             favRecipes.push(recipe);
                         });
                     });
             });
 
-            if (recipeIds.length == 0) {
+            if (recipeIds.length === 0) {
                 dispatch({ type: "FETCH_FAVOURITES", payload: [0] });
             } else {
                 dispatch({ type: "FETCH_FAVOURITES", payload: favRecipes });
@@ -475,6 +475,6 @@ export const hasFavRecipe = (userId, recipeId) => (
 // >>> others <<<
 export const resetState = () => {
     return {
-        type: "RESET_STATE"
+        type: "RESET_STATE",
     };
 };

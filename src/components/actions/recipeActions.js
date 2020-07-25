@@ -48,7 +48,7 @@ export const editSubmittedRecipe = (updatedRecipe) => (dispatch) => {
         .firestore()
         .collection("submittedRecipes")
         .doc(updatedRecipe.id)
-        .update(updatedRecipe)
+        .set({ ...updatedRecipe, edited: true })
         .then(() => {
             dispatch({ type: "EDIT_SUBMITTED_RECIPE", payload: updatedRecipe });
         })
@@ -69,6 +69,24 @@ export const deleteSubmittedRecipe = (recipe) => (dispatch) => {
         })
         .catch((err) => {
             dispatch({ type: "DELETE_SUBMITTED_RECIPE_ERROR", err });
+        });
+};
+
+export const approveSubmittedRecipe = (recipe) => (dispatch) => {
+    //async call to database
+    firebase
+        .firestore()
+        .collection("recipes")
+        .doc(recipe.id)
+        .set({
+            ...recipe,
+            createdAt: new Date(),
+        })
+        .then(() => {
+            dispatch({ type: "APPROVE_SUBMITTED_RECIPE", recipe });
+        })
+        .catch((err) => {
+            dispatch({ type: "APPROVE_SUBMITTED_RECIPE_ERROR", err });
         });
 };
 

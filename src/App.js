@@ -9,7 +9,6 @@ import Login from "./components/user/Login";
 import SignUp from "./components/user/SignUp";
 import MainAppBar from "./components/layout/AppBar";
 import Favourites from "./components/user/Favourites";
-import About from "./components/About";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import EditRecipe from "./components/admin/EditRecipe";
 import ForgetPassword from "./components/user/ForgetPassword";
@@ -60,7 +59,6 @@ class App extends React.Component {
                                 component={RecipeDetails}
                             />
 
-                            <Route path="/about" component={About} />
                             <Route path="/login" component={Login} />
                             <Route path="/signup" component={SignUp} />
                             <Route path="/favourites" component={Favourites} />

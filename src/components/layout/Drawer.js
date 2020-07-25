@@ -131,14 +131,6 @@ export default function PersistentDrawerLeft() {
                     >
                         <ListItemText>Submit a Recipe!</ListItemText>
                     </ListItem>
-                    <ListItem
-                        button
-                        component={Link}
-                        to="/about"
-                        onClick={handleDrawerClose}
-                    >
-                        <ListItemText>About us</ListItemText>
-                    </ListItem>
                 </List>
             </Drawer>
             <main

@@ -45,6 +45,10 @@ export const submittedReducer = (state = [], action) => {
             return action.payload;
         case "DELETE_SUBMITTED_RECIPE_ERROR":
             return state;
+        case "APPROVE_SUBMITTED_RECIPE":
+            return action.payload;
+        case "APPROVE_SUBMITTED_RECIPE_ERROR":
+            return state;
         default:
             return state;
     }

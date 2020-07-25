@@ -27,7 +27,10 @@ const useStyles = makeStyles((theme) => ({
         position: "relative",
         width: "40%",
         margin: "auto",
-        paddingTop: "5%",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        display: "flex",
     },
     logo: {
         maxWidth: "200px",

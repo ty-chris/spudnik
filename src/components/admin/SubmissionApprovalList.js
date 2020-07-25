@@ -20,11 +20,18 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import TextField from "@material-ui/core/TextField";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 import {
     getSubmittedRecipes,
     deleteSubmittedRecipe,
+    approveSubmittedRecipe,
 } from "../actions/recipeActions";
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 class SubmissionApproval extends React.Component {
     state = {
@@ -38,6 +45,16 @@ class SubmissionApproval extends React.Component {
     onSearchInputChange = (event) => {
         this.setState({
             searchString: event.target.value,
+        });
+    };
+
+    handleClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        this.setState({
+            open: false,
         });
     };
 
@@ -139,6 +156,54 @@ class SubmissionApproval extends React.Component {
                                                     <IconButton
                                                         edge="end"
                                                         aria-label="approve"
+                                                        onClick={() => {
+                                                            if (recipe.edited) {
+                                                                if (
+                                                                    window.confirm(
+                                                                        "Are you sure you want to publish?"
+                                                                    )
+                                                                ) {
+                                                                    this.props.approveSubmittedRecipe(
+                                                                        recipe
+                                                                    );
+                                                                    this.props.deleteSubmittedRecipe(
+                                                                        recipe
+                                                                    );
+                                                                }
+                                                            } else {
+                                                                return (
+                                                                    <Snackbar
+                                                                        open={
+                                                                            true
+                                                                        }
+                                                                        autoHideDuration={
+                                                                            6000
+                                                                        }
+                                                                        onClose={
+                                                                            this
+                                                                                .handleClose
+                                                                        }
+                                                                    >
+                                                                        <Alert
+                                                                            onClose={
+                                                                                this
+                                                                                    .handleClose
+                                                                            }
+                                                                            severity="error"
+                                                                        >
+                                                                            Please
+                                                                            ensure
+                                                                            you
+                                                                            have
+                                                                            checked
+                                                                            the
+                                                                            submitted
+                                                                            recipe!
+                                                                        </Alert>
+                                                                    </Snackbar>
+                                                                );
+                                                            }
+                                                        }}
                                                     >
                                                         <CheckBoxIcon />
                                                     </IconButton>
@@ -152,7 +217,19 @@ class SubmissionApproval extends React.Component {
                         </Grid>
                     </Grid>
                 ) : (
-                    <LinearProgress color="secondary" />
+                    <div>
+                        {this.props.submittedRecipes.length === 0 ? (
+                            <Typography
+                                variant="h6"
+                                component="span"
+                                align="center"
+                            >
+                                <h2>No User Submitted Recipes</h2>
+                            </Typography>
+                        ) : (
+                            <LinearProgress color="secondary" />
+                        )}
+                    </div>
                 )}
             </div>
         );
@@ -172,6 +249,8 @@ const mapDispatchToProps = (dispatch) => {
         getSubmittedRecipes: () => dispatch(getSubmittedRecipes()),
         deleteSubmittedRecipe: (recipe) =>
             dispatch(deleteSubmittedRecipe(recipe)),
+        approveSubmittedRecipe: (recipe) =>
+            dispatch(approveSubmittedRecipe(recipe)),
     };
 };
 

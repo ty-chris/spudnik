@@ -14,8 +14,6 @@ import Typography from "@material-ui/core/Typography";
 // Action creators
 import { postComment } from "../actions/userActions";
 
-import SimpleSnackbar from "./SimpleSnackbar";
-
 const CommentPostDialog = (props) => {
     const [open, setOpen] = React.useState(false);
     const [newComment, setComment] = React.useState("");
@@ -40,7 +38,7 @@ const CommentPostDialog = (props) => {
             body: newComment,
             createdBy: props.username,
             uid: props.uid,
-            value: value
+            value: value,
         };
         props.postComment(comment, props.recipeId);
         props.onPost();

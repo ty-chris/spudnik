@@ -45,19 +45,19 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(8),
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main
+        backgroundColor: theme.palette.secondary.main,
     },
     form: {
         width: "100%",
-        backgroundColor: theme.palette.secondary.main
+        backgroundColor: theme.palette.secondary.main,
     },
     button: {
-        margin: theme.spacing(3, 0, 2)
-    }
+        margin: theme.spacing(3, 0, 2),
+    },
 }));
 
 const ForgetPassword = (props) => {
@@ -69,7 +69,7 @@ const ForgetPassword = (props) => {
     // eslint-enable
 
     const classes = useStyles();
-    const { handleSubmit, auth, error, signIn } = props;
+    const { handleSubmit, auth, error } = props;
 
     if (auth.uid) {
         return <Redirect to="/" />;
@@ -141,10 +141,10 @@ const ForgetPassword = (props) => {
 const mapStateToProps = (state) => {
     return {
         auth: state.firebase.auth,
-        error: state.user.error
+        error: state.user.error,
     };
 };
 
 export default reduxForm({
-    form: "forgetPassword"
+    form: "forgetPassword",
 })(connect(mapStateToProps, { forgetPasword, resetState })(ForgetPassword));

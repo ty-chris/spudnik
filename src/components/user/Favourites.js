@@ -22,26 +22,26 @@ import { fetchFav, unfavARecipe } from "../actions/userActions";
 const styles = (theme) => ({
     heroContent: {
         backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(8, 0, 6)
+        padding: theme.spacing(8, 0, 6),
     },
     heroButtons: {
-        marginTop: theme.spacing(4)
+        marginTop: theme.spacing(4),
     },
     cardGrid: {
         paddingTop: theme.spacing(8),
-        paddingBottom: theme.spacing(8)
+        paddingBottom: theme.spacing(8),
     },
     card: {
         height: "100%",
         display: "flex",
-        flexDirection: "column"
+        flexDirection: "column",
     },
     cardMedia: {
-        paddingTop: "56.25%" // 16:9
+        paddingTop: "56.25%", // 16:9
     },
     cardContent: {
-        flexGrow: 1
-    }
+        flexGrow: 1,
+    },
 });
 
 class Favourites extends React.Component {
@@ -62,7 +62,7 @@ class Favourites extends React.Component {
     renderRecipes() {
         const { classes } = this.props;
 
-        if (this.props.recipes.length == 0) {
+        if (this.props.recipes.length === 0) {
             return null;
         }
 
@@ -115,9 +115,9 @@ class Favourites extends React.Component {
 
         const { classes } = this.props;
 
-        if (this.props.recipes.length == 0) {
+        if (this.props.recipes.length === 0) {
             return <LinearProgress color="secondary" />;
-        } else if (this.props.recipes[0] == 0) {
+        } else if (this.props.recipes[0] === 0) {
             return (
                 <React.Fragment>
                     {/* Hero unit */}
@@ -180,7 +180,7 @@ class Favourites extends React.Component {
 const mapStateToProps = (state) => {
     return {
         uid: state.firebase.auth.uid,
-        recipes: state.user.favouritedRecipes
+        recipes: state.user.favouritedRecipes,
     };
 };
 
