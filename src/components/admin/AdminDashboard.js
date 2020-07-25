@@ -9,23 +9,28 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
+import AdminAssignmentDialog from "../admin/AdminAssignmentDialog";
+
+// action creators
+import { assignAsAdmin, unassignAsAdmin } from "../actions/userActions";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         width: "100%",
         height: "auto",
         align: "center",
         margin: "auto",
-        padding: "auto",
+        padding: "auto"
     },
     paper: {
         margin: "auto",
         width: "100%",
         height: "auto",
-        minHeight: "60vh",
+        minHeight: "60vh"
     },
     button: {
-        margin: "auto",
-    },
+        margin: "auto"
+    }
 }));
 
 const AdminDashboard = (props) => {
@@ -68,7 +73,7 @@ const AdminDashboard = (props) => {
                                                 className="item"
                                                 style={{
                                                     textDecoration: "none",
-                                                    color: "inherit",
+                                                    color: "inherit"
                                                 }}
                                             >
                                                 To Admin Recipe Controls
@@ -86,12 +91,24 @@ const AdminDashboard = (props) => {
                                                 className="item"
                                                 style={{
                                                     textDecoration: "none",
-                                                    color: "inherit",
+                                                    color: "inherit"
                                                 }}
                                             >
                                                 To User Submissions
                                             </Link>
                                         </Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <AdminAssignmentDialog
+                                            action={props.assignAsAdmin}
+                                            itemName={"Assign an Admin"}
+                                        />
+                                    </Grid>
+                                    <Grid item>
+                                        <AdminAssignmentDialog
+                                            action={props.unassignAsAdmin}
+                                            itemName={"Unassign an Admin"}
+                                        />
                                     </Grid>
                                 </Grid>
                             </Paper>
@@ -106,8 +123,10 @@ const AdminDashboard = (props) => {
 const mapStateToProps = (state) => {
     return {
         username: state.firebase.profile.username,
-        user: state.user,
+        user: state.user
     };
 };
 
-export default connect(mapStateToProps)(AdminDashboard);
+export default connect(mapStateToProps, { assignAsAdmin, unassignAsAdmin })(
+    AdminDashboard
+);
