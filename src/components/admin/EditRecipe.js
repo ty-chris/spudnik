@@ -66,7 +66,7 @@ class EditRecipe extends React.Component {
         }
 
         setTimeout(() => {
-            this.props.history.push("/admin/");
+            this.props.history.push("/admin/recipes");
         }, 1500);
     };
 

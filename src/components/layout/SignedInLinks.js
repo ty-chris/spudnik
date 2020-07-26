@@ -12,11 +12,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import {
     signOut,
     assignAsAdmin,
-    unassignAsAdmin
+    unassignAsAdmin,
 } from "../actions/userActions";
-
-// components
-import AdminAssignmentDialog from "../admin/AdminAssignmentDialog";
 
 const SignedInLinks = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -50,12 +47,12 @@ const SignedInLinks = (props) => {
                 anchorEl={anchorEl}
                 anchorOrigin={{
                     vertical: "top",
-                    horizontal: "right"
+                    horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
                     vertical: "top",
-                    horizontal: "right"
+                    horizontal: "right",
                 }}
                 open={open}
                 onClose={handleClose}
@@ -88,12 +85,12 @@ const SignedInLinks = (props) => {
 const mapStateToProps = (state) => {
     return {
         username: state.firebase.profile.username,
-        user: state.user
+        user: state.user,
     };
 };
 
 export default connect(mapStateToProps, {
     signOut,
     assignAsAdmin,
-    unassignAsAdmin
+    unassignAsAdmin,
 })(SignedInLinks);
