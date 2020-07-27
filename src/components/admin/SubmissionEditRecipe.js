@@ -36,6 +36,15 @@ const maxLength30 = maxLength(30);
 const minValue1 = minValue(1);
 const useStyles = (theme) => ({
     card: { margin: "auto" },
+    root: {
+        "& .MuiTextField-root": {
+            margin: theme.spacing(1),
+        },
+        width: "80%",
+        align: "center",
+        margin: "auto",
+        padding: "auto",
+    },
 });
 
 function Alert(props) {
@@ -96,70 +105,85 @@ class SubmissionEditRecipe extends React.Component {
                         className={classes.root}
                         onSubmit={this.props.handleSubmit(this.onSubmit)}
                     >
-                        <div>
-                            <Field
-                                name="name"
-                                component={renderInput}
-                                label="Enter name of Recipe"
-                                validate={[required, maxLength30]}
-                            />
-                        </div>
-                        <div>
-                            <Field
-                                name="duration"
-                                component={renderInput}
-                                label="Enter time required"
-                                type="number"
-                                validate={[number, minValue1]}
-                            />
-                        </div>
-                        <div>
-                            <Field
-                                name="servings"
-                                component={renderInput}
-                                label="Enter number of Servings"
-                                type="number"
-                                validate={[number, minValue1]}
-                            />
-                            <Divider />
-                        </div>
-                        <div>
-                            <FieldArray
-                                name="ingredients"
-                                component={renderIngredients}
-                            />
-                            <Divider />
-
-                            <FieldArray
-                                name="directions"
-                                component={renderDirections}
-                            />
-                            <Divider />
-                        </div>
-                        <div>
-                            <Field
-                                name="image"
-                                component={renderInput}
-                                label="Enter image URL"
-                                validate={[required]}
-                            />
-                        </div>
-                        <div>
-                            <Field
-                                name="video"
-                                component={renderInput}
-                                label="Enter video URL(optional)"
-                            />
-                        </div>
-                        <div>
-                            <Field
-                                name="details"
-                                component={renderInput}
-                                multiline
-                                label="Enter recipe details"
-                                validate={[required]}
-                            />
-                        </div>
+                        <Grid container justify="center">
+                            <Grid item xs={12} sm={6}>
+                                <Field
+                                    name="name"
+                                    component={renderInput}
+                                    label="Enter Name of Recipe"
+                                    validate={[required, maxLength30]}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container justify="center">
+                            <Grid item xs={12} sm={6}>
+                                <Field
+                                    name="duration"
+                                    component={renderInput}
+                                    label="Enter Time required in Minutes"
+                                    type="number"
+                                    validate={[number, minValue1]}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container justify="center">
+                            <Grid item xs={12} sm={6}>
+                                <Field
+                                    name="servings"
+                                    component={renderInput}
+                                    label="Enter Number of Servings"
+                                    type="number"
+                                    validate={[number, minValue1]}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container justify="center">
+                            <Grid item xs={12} sm={8}>
+                                <FieldArray
+                                    name="ingredients"
+                                    component={renderIngredients}
+                                />
+                                <Divider />
+                            </Grid>
+                        </Grid>
+                        <Grid container justify="center">
+                            <Grid item xs={12} sm={8}>
+                                <FieldArray
+                                    name="directions"
+                                    component={renderDirections}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container justify="center">
+                            <Grid item xs={12} sm={6}>
+                                <Field
+                                    name="image"
+                                    component={renderInput}
+                                    label="Enter image URL"
+                                    validate={[required]}
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container justify="center">
+                            <Grid item xs={12} sm={6}>
+                                <Field
+                                    name="video"
+                                    component={renderInput}
+                                    label="Enter video URL(optional)"
+                                />
+                            </Grid>
+                        </Grid>
+                        <Grid container justify="center">
+                            <Grid item xs={12} sm={6}>
+                                <Field
+                                    name="details"
+                                    component={renderInput}
+                                    label="Enter recipe details"
+                                    validate={[required]}
+                                    multiline
+                                />
+                            </Grid>
+                        </Grid>
                         <Grid
                             container
                             justify="center"

@@ -80,6 +80,9 @@ class CreateRecipe extends React.Component {
         console.log(this.props);
         if (window.confirm("Are you sure?")) {
             this.props.createRecipe(formValues);
+            setTimeout(() => {
+                this.props.history.push("/admin/recipes");
+            }, 1500);
         }
 
         if (this.props.submitSucceeded) {
@@ -217,6 +220,7 @@ class CreateRecipe extends React.Component {
                                         component={renderInput}
                                         label="Enter recipe details"
                                         validate={[required]}
+                                        multiline
                                     />
                                 </Grid>
                             </Grid>
